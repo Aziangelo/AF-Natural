@@ -8,9 +8,6 @@ Supports Android, iOS, and Windows
 
 ## Installation
 
-Installation Tutorial By Devren.
-
-
 > [!NOTE]
 > Shaders are not officially supported on Minecraft Bedrock. The following are unofficial ways to load shaders.
 
@@ -27,15 +24,18 @@ Installation Tutorial By Devren.
 1. Install [Patched Minecraft App](https://devendrn.github.io/renderdragon-shaders/shaders/installation/android#using-patch-app)
 2. Import the resource pack and activate it in global resources.
 
-## Building
+## Experimental Customization
 
-**Windows:**
-1. Setup build environment: `.\setup.bat`
-2. Compile material src files: `.\build.bat`
+**Android:**
 
-**Linux:**
-1. Setup build environment: `./setup.sh`
-2. Compile material src files: `./build.sh`  
+Requirements:
+- Download Termux.
+- Download MT manager.
+
+
+Get the clone of this repository: `https://github.com/Aziangelo/AFnatural.git`
+2. Setup build environment: `./setup.sh`
+3. Compile material src files: `./build.sh`  
 
 **Available parameters for the build script:**
 | Option | Parameter description |
