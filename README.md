@@ -6,6 +6,7 @@ Supports Android, iOS, and Windows
 ![Screenshots](azifyss/ss1.jpg "AziFy Natural v1.0")
 ![Screenshot2](azifyss/ss2.jpg "AziFy Natural v1.0")
 
+
 ## Installation
 
 > [!NOTE]
@@ -23,6 +24,8 @@ Supports Android, iOS, and Windows
 **Android:**
 1. Install [Patched Minecraft App](https://devendrn.github.io/renderdragon-shaders/shaders/installation/android#using-patch-app)
 2. Import the resource pack and activate it in global resources.
+
+
 
 ## Experimental Customization
 
