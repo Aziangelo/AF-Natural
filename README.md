@@ -32,10 +32,30 @@ Requirements:
 - Download Termux.
 - Download MT manager.
 
+**STEP 1:**
+- Open Termux and run `pkg install openjdk-17 git`
+- Get the clone of this repository: `https://github.com/Aziangelo/AFnatural.git`
+- Setup build environment: `./setup.sh`
+- run `cd AFnatural`
 
-Get the clone of this repository: `https://github.com/Aziangelo/AFnatural.git`
-2. Setup build environment: `./setup.sh`
-3. Compile material src files: `./build.sh`  
+**STEP 2:**
+- Open MT manager.
+- Click the menu and then click the `3dots (...)`
+- Click `Add local storage`
+- Find termux and click on it then click `use this folder`
+
+**STEP 3:**
+- Now Open termux folder and open `AFnatural/include/azifyN`
+- Open `shader_inputs.glsl`
+- Now you can edit there and customize however you want.
+
+**STEP 4:**
+- After FINISHED.
+- build the shader using `./build.sh`
+- if you wanted to build only terrain for Android and Windows run
+```./build.sh -m RenderChunk```
+If you want to compile RenderChunk.bin
+
 
 **Available parameters for the build script:**
 | Option | Parameter description |
@@ -44,29 +64,4 @@ Get the clone of this repository: `https://github.com/Aziangelo/AFnatural.git`
 | -m | Materials to compile (if unspecified, builds all material files) |
 | -t | Number of threads to use for compilation (default is CPU core count) |
 
-For example, to build only terrain for Android and Windows, use:
-```
-.\build.bat -p Windows Android -m RenderChunk
-```
 Compiled material.bin files will be inside `build/<platform>/`
-
-### Pack
-To build the final pack, including all subpacks, use `pack.sh`. If you are on Windows, use a bash shell like Git Bash to run this script file. (Make sure to use the -w tag when you are running the script from a Windows machine) 
-
-**Linux:**
-```
-./pack.sh -v 15.0
-```
-**Windows:**
-```
-./pack.sh -w -v 15.0 -p Windows
-./pack.sh -w -v 15.0 -p Android
-```
-The final pack files will be inside `build/<platform>/temp/`. 
-
-## Development
-
-Clangd can be used to get code completion and error checks for source files inside include/newb. Fake bgfx header and clangd config are provided for the same.
-- **Neovim** (NvChad): Install clangd LSP from Mason.
-- **VSCode**: Install [vscode-clangd](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd) extension.
-
