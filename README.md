@@ -3,9 +3,8 @@
 
 Supports Android, iOS, and Windows
 
-![Screenshot1]
-(azifyss/ss1.jpg "Newb X Legacy 15b2, MCBE 1.20.12")
-![Screenshot2](azifyss/ss2.jpg "Newb X Legacy 15b2, MCBE 1.20.12")
+![Screenshots](azifyss/ss1.jpg "AziFy Natural v1.0")
+![Screenshot2](azifyss/ss2.jpg "AziFy Natural v1.0")
 
 ## Installation
 
