@@ -1,12 +1,12 @@
-# AziFy Natural SHADER
+# AziFy Natural Shader
 > A Shader for Minecraft.
 
-Supports Android, iOS, and Windows
+**Supports Android, iOS, and Windows**
 
-![Screenshots](azifyss/ss1.jpg "AziFy Natural v1.0")
-![Screenshot2](azifyss/ss2.jpg "AziFy Natural v1.0")
+![Screenshots](azifyss/ss1.jpg "AziFy Truly Default v1.0")
+![Screenshot2](azifyss/ss2.jpg "AziFy Truly Default v1.0")
 
-
+&nbsp;
 ## Installation
 
 > [!NOTE]
@@ -25,10 +25,9 @@ Supports Android, iOS, and Windows
 1. Install [Patched Minecraft App](https://devendrn.github.io/renderdragon-shaders/shaders/installation/android#using-patch-app)
 2. Import the resource pack and activate it in global resources.
 
-
-
-## Experimental Customization
-
+&nbsp;
+## How To Customize?
+> This is an **Experimental Customization**
 **Android:**
 
 Requirements:
@@ -37,9 +36,9 @@ Requirements:
 
 **STEP 1:**
 - Open Termux and run `pkg install openjdk-17 git`
-- Get the clone of this repository: ``https://github.com/Aziangelo/<NameOfThisRepo>.git``
+- Get the clone of this repository: `https://github.com/Aziangelo/<REPONAME>.git`
 - Setup build environment: `./setup.sh`
-- run `cd <NameOfThisRepository>`
+- run `cd <REPONAME>`
 
 **STEP 2:**
 - Open MT manager.
@@ -48,7 +47,7 @@ Requirements:
 - Find termux and click on it then click `use this folder`
 
 **STEP 3:**
-- Now Open termux folder and open `<NameOfThisRepo>/include/azify`
+- Now Open termux folder and open `AFnatural/include/azify`
 - Open `shader_inputs.glsl`
 - Now you can edit there and customize however you want.
 
@@ -59,6 +58,7 @@ Requirements:
 ```./build.sh -m RenderChunk```
 If you want to compile RenderChunk.bin
 
+&nbsp;
 
 **Available parameters for the build script:**
 | Option | Parameter description |
