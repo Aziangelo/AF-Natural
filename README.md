@@ -1,4 +1,4 @@
-## AziFy Natural v1.0
+## AziFy Natural
 > A Shader for Minecraft.
 
 Supports Android, iOS, and Windows
