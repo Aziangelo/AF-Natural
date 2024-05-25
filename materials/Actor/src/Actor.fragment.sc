@@ -25,8 +25,8 @@ uniform mat4 Bones[8];
 SAMPLER2D(s_MatTexture, 0);
 SAMPLER2D(s_MatTexture1, 1);
 
-#include <azifyN/utils/functions.glsl>
-#include <azifyN/shader_inputs.glsl>
+#include <azify/utils/functions.glsl>
+#include <azify/shader_inputs.glsl>
 
 void main() {
 #if DEPTH_ONLY

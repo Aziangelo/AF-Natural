@@ -11,8 +11,8 @@ SAMPLER2D(s_MatTexture, 0);
 SAMPLER2D(s_SeasonsTexture, 1);
 SAMPLER2D(s_LightMapTexture, 2);
 
-#include <azifyN/utils/functions.glsl>
-#include <azifyN/shader_inputs.glsl>
+#include <azify/utils/functions.glsl>
+#include <azify/shader_inputs.glsl>
 
 void main() {
     vec4 diffuse;

@@ -11,8 +11,8 @@ uniform vec4 FogAndDistanceControl;
 uniform vec4 ViewPositionAndTime;
 uniform float RenderDistance;
 
-#include <azifyN/utils/functions.glsl>
-#include <azifyN/shader_inputs.glsl>
+#include <azify/utils/functions.glsl>
+#include <azify/shader_inputs.glsl>
 
 void main() {
 #if defined(OPAQUE)

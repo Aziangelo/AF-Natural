@@ -28,8 +28,8 @@ uniform vec4 HudOpacity;
 uniform vec4 UVAnimation;
 uniform mat4 Bones[8];
 
-#include <azifyN/utils/functions.glsl>
-#include <azifyN/shader_inputs.glsl>
+#include <azify/utils/functions.glsl>
+#include <azify/shader_inputs.glsl>
 
 void main() {
     mat4 World = u_model[0];

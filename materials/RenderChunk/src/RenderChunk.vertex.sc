@@ -12,8 +12,8 @@ uniform vec4 Viev_wpositionAndTime;
 uniform vec4 FogColor;
 uniform float RenderDistance;
 
-#include <azifyN/utils/functions.glsl>
-#include <azifyN/shader_inputs.glsl>
+#include <azify/utils/functions.glsl>
+#include <azify/shader_inputs.glsl>
 
 void main() {
     mat4 model;
