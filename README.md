@@ -1,4 +1,4 @@
-## AziFy Natural SHADER
+# AziFy Natural SHADER
 > A Shader for Minecraft.
 
 Supports Android, iOS, and Windows
