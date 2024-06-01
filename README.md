@@ -8,9 +8,9 @@ Supports Android, iOS, and Windows
 ![Screenshot2](azifyss/afnss3.jpg "v1.0")
 ![Screenshot2](azifyss/afnss4.jpg "v1.0")
 
-
+&nbsp;
+&nbsp;
 ## Installation
-
 > [!NOTE]
 > Shaders are not officially supported on Minecraft Bedrock. The following are unofficial ways to load shaders.
 
