@@ -1,85 +1,154 @@
-# AziFy: Natural
-The AziFy Natural Shader, enhances the classic vanilla look of Minecraft. It will tries to  focus on delivering ultra-realistic visuals.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AziFy: Natural</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        .note {
+            background-color: #ffeb3b;
+            padding: 10px;
+            border-left: 6px solid #ff9800;
+            margin-bottom: 20px;
+        }
+        .installation, .customization, .download {
+            margin-bottom: 40px;
+        }
+        pre {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
 
-Supports Android, iOS, and Windows
+<h1>AziFy: Natural</h1>
+<p>The AziFy Natural Shader enhances the classic vanilla look of Minecraft. It focuses on delivering ultra-realistic visuals.</p>
 
-![Screenshots](azifyss/afnss1.jpg "v1.0")
-![Screenshot2](azifyss/afnss2.jpg "v1.0")
-![Screenshot2](azifyss/afnss3.jpg "v1.0")
-![Screenshot2](azifyss/afnss4.jpg "v1.0")
+<p>Supports Android, iOS, and Windows</p>
 
-&nbsp;
-&nbsp;
-## Installation
-> [!NOTE]
-> Shaders are not officially supported on Minecraft Bedrock. The following are unofficial ways to load shaders.
+<div>
+    <img src="azifyss/afnss1.jpg" alt="v1.0">
+    <img src="azifyss/afnss2.jpg" alt="v1.0">
+    <img src="azifyss/afnss3.jpg" alt="v1.0">
+    <img src="azifyss/afnss4.jpg" alt="v1.0">
+</div>
 
-**Linux:** [mcpelauncher-manifest](https://github.com/minecraft-linux/mcpelauncher-ui-manifest)
-1. Extract material.bin files from shader mcpack / build materials manually
-2. Move these files to data root `mcpelauncher/versions/1.20.x/assets/renderer/materials/`. (Make sure to backup all files in this folder first)
-3. Import the resource pack and activate it in global resources.
+<div class="installation">
+    <h2>Installation</h2>
+    <div class="note">
+        <p>Shaders are not officially supported on Minecraft Bedrock. The following are unofficial ways to load shaders.</p>
+    </div>
+    
+    <h3>Linux:</h3>
+    <ol>
+        <li>Extract material.bin files from shader mcpack / build materials manually</li>
+        <li>Move these files to data root <code>mcpelauncher/versions/1.20.x/assets/renderer/materials/</code>. (Make sure to backup all files in this folder first)</li>
+        <li>Import the resource pack and activate it in global resources.</li>
+    </ol>
+    <p><a href="https://github.com/minecraft-linux/mcpelauncher-ui-manifest">mcpelauncher-manifest</a></p>
 
-**Windows:**
-1. Use [BetterRenderDragon](https://github.com/ddf8196/BetterRenderDragon) to enable MaterialBinLoader.
-2. Import the resource pack and activate it in global resources.
+    <h3>Windows:</h3>
+    <ol>
+        <li>Use <a href="https://github.com/ddf8196/BetterRenderDragon">BetterRenderDragon</a> to enable MaterialBinLoader.</li>
+        <li>Import the resource pack and activate it in global resources.</li>
+    </ol>
 
-**Android:**
-1. Install [Patched Minecraft App](https://devendrn.github.io/renderdragon-shaders/shaders/installation/android#using-patch-app)
-2. Import the resource pack and activate it in global resources.
+    <h3>Android:</h3>
+    <ol>
+        <li>Install <a href="https://devendrn.github.io/renderdragon-shaders/shaders/installation/android#using-patch-app">Patched Minecraft App</a></li>
+        <li>Import the resource pack and activate it in global resources.</li>
+    </ol>
+</div>
 
+<div class="customization">
+    <h2>Experimental Customization</h2>
+    
+    <h3>Android:</h3>
+    
+    <h4>Requirements:</h4>
+    <ul>
+        <li>Download Termux.</li>
+        <li>Download MT manager.</li>
+    </ul>
 
+    <h4>STEP 1:</h4>
+    <pre>pkg install openjdk-17 git</pre>
+    <pre>git clone https://github.com/Aziangelo/<NameOfThisRepo>.git</pre>
+    <pre>./setup.sh</pre>
+    <pre>cd <NameOfThisRepository></pre>
 
-## Experimental Customization
+    <h4>STEP 2:</h4>
+    <ul>
+        <li>Open MT manager.</li>
+        <li>Click the menu and then click the 3 dots (...).</li>
+        <li>Click "Add local storage".</li>
+        <li>Find termux and click on it then click "use this folder".</li>
+    </ul>
 
-**Android:**
+    <h4>STEP 3:</h4>
+    <ul>
+        <li>Now Open termux folder and open <code>&lt;NameOfThisRepo&gt;/include/azifyN</code></li>
+        <li>Open <code>shader_inputs.glsl</code></li>
+        <li>Now you can edit there and customize however you want.</li>
+    </ul>
 
-Requirements:
-- Download Termux.
-- Download MT manager.
+    <h4>STEP 4:</h4>
+    <ul>
+        <li>After FINISHED, build the shader using <pre>./build.sh</pre></li>
+        <li>If you wanted to build only terrain for Android and Windows run</li>
+        <pre>./build.sh -m RenderChunk</pre>
+    </ul>
 
-**STEP 1:**
-- Open Termux and run `pkg install openjdk-17 git`
-- Get the clone of this repository: ``https://github.com/Aziangelo/<NameOfThisRepo>.git``
-- Setup build environment: `./setup.sh`
-- run `cd <NameOfThisRepository>`
+    <p>If you want to compile RenderChunk.bin:</p>
 
-**STEP 2:**
-- Open MT manager.
-- Click the menu and then click the `3dots (...)`
-- Click `Add local storage`
-- Find termux and click on it then click `use this folder`
+    <h4>Available parameters for the build script:</h4>
+    <table>
+        <tr>
+            <th>Option</th>
+            <th>Parameter description</th>
+        </tr>
+        <tr>
+            <td>-p</td>
+            <td>Target platforms (Android, Windows, iOS, Merged)</td>
+        </tr>
+        <tr>
+            <td>-m</td>
+            <td>Materials to compile (if unspecified, builds all material files)</td>
+        </tr>
+        <tr>
+            <td>-t</td>
+            <td>Number of threads to use for compilation (default is CPU core count)</td>
+        </tr>
+    </table>
+    <p>Compiled material.bin files will be inside <code>build/&lt;platform&gt;/</code></p>
+</div>
 
-**STEP 3:**
-- Now Open termux folder and open `<NameOfThisRepo>/include/azifyN`
-- Open `shader_inputs.glsl`
-- Now you can edit there and customize however you want.
+<div class="download">
+    <h2>DOWNLOAD:</h2>
+    <div class="note">
+        <p>This Download Section Supports me. Thank You!</p>
+    </div>
+    
+    <p><a href="https://example.com"><strong>v1.0 - ANDROID</strong></a></p>
+    <p><a href="https://example.com"><strong>v1.0 - iOS</strong></a></p>
+    <p><a href="https://example.com"><strong>v1.0 - WINDOWS</strong></a></p>
+</div>
 
-**STEP 4:**
-- After FINISHED.
-- build the shader using `./build.sh`
-- if you wanted to build only terrain for Android and Windows run
-```./build.sh -m RenderChunk```
-If you want to compile RenderChunk.bin
-
-
-**Available parameters for the build script:**
-| Option | Parameter description |
-| :-: | :- |
-| -p | Target platforms (Android, Windows, iOS, Merged) |
-| -m | Materials to compile (if unspecified, builds all material files) |
-| -t | Number of threads to use for compilation (default is CPU core count) |
-
-Compiled material.bin files will be inside `build/<platform>/`
-
-&nbsp;
-&nbsp;
-## DOWNLOAD:
-> [!NOTE]
-> This Download Section Supports me. Thank You!
-
-&nbsp;
-> **[v1.0 - ANDROID](https://example.com)**
-
-> **[v1.0 - iOS](https://example.com)**
-
-> **[v1.0 - WINDOWS](https://example.com)**
+</body>
+</html>
