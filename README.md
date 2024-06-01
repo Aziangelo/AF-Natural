@@ -1,19 +1,16 @@
-<<<<<<< HEAD
-# AziFy Natural SHADER
-> A Shader for Minecraft.
-=======
 # AziFy: Natural
-The AziFy Natural Shader, enhances the classic vanilla look of Minecraft. It focuses on delivering ultra-realistic visuals.
->>>>>>> 878c13c0b26fc55269c52780f9b48dfa916dc593
+The AziFy Natural Shader, enhances the classic vanilla look of Minecraft. It will tries to  focus on delivering ultra-realistic visuals.
 
 Supports Android, iOS, and Windows
 
-![Screenshots](azifyss/ss1.jpg "AziFy Natural v1.0")
-![Screenshot2](azifyss/ss2.jpg "AziFy Natural v1.0")
+![Screenshots](azifyss/afnss1.jpg "v1.0")
+![Screenshot2](azifyss/afnss2.jpg "v1.0")
+![Screenshot2](azifyss/afnss3.jpg "v1.0")
+![Screenshot2](azifyss/afnss4.jpg "v1.0")
 
-
+&nbsp;
+&nbsp;
 ## Installation
-
 > [!NOTE]
 > Shaders are not officially supported on Minecraft Bedrock. The following are unofficial ways to load shaders.
 
@@ -73,3 +70,17 @@ If you want to compile RenderChunk.bin
 | -t | Number of threads to use for compilation (default is CPU core count) |
 
 Compiled material.bin files will be inside `build/<platform>/`
+
+&nbsp;
+&nbsp;
+## DOWNLOAD:
+> [!NOTE]
+> This Download Section Supports me. Thank You!
+
+&nbsp;
+> **[v1.0 - ANDROID](https://example.com)**
+
+> **[v1.0 - iOS](https://example.com)**
+
+> **[v1.0 - WINDOWS](https://example.com)**
+
