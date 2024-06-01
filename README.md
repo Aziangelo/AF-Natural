@@ -1,8 +1,5 @@
-# AziFy Natural SHADER
-> A Shader for Minecraft.
-=======
 # AziFy: Natural
-The AziFy Natural Shader, enhances the classic vanilla look of Minecraft. It focuses on delivering ultra-realistic visuals.
+The AziFy Natural Shader, enhances the classic vanilla look of Minecraft. It will tries to  focus on delivering ultra-realistic visuals.
 
 Supports Android, iOS, and Windows
 
