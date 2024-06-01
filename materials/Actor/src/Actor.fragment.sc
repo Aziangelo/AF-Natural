@@ -78,7 +78,7 @@ void main() {
 
 
  vec3 norml = normalize(cross(dFdx(v_cpos), dFdy(v_cpos)));
- mediump vec3 dirlitCC;
+ vec3 dirlitCC;
  float dp1 = max(abs(norml.z), -norml.y);
  float dp2 = abs(norml.x);
 #if defined(ALPHA_TEST)
@@ -100,16 +100,16 @@ dirlitCC.rgb = (colorFactor1*colorFactor2);
 */
 } else {
 // Shadows
-mediump vec3 ccmix1 = mix(mDS_DAYc*1.5, mDS_NIGHTc*3.5, AFnight);
+vec3 ccmix1 = mix(mDS_DAYc*1.2, mDS_NIGHTc*1.5, AFnight);
 ccmix1 = mix(ccmix1, mDS_DUSKc, AFdusk);
-ccmix1 = mix(ccmix1, mix(mDS_RAINc, mDS_RAINc*1.3, AFnight), AFrain);
+ccmix1 = mix(ccmix1, mix(mDS_RAINc, mDS_RAINc, AFnight), AFrain);
 // Highlights
-mediump vec3 ccmix2 = mix(mDL_DAYc, mDL_NIGHTc, AFnight);
+vec3 ccmix2 = mix(mDL_DAYc, mDL_NIGHTc, AFnight);
 ccmix2 = mix(ccmix2, mDL_DUSKc, AFdusk);
 ccmix2 = mix(ccmix2, mix(mDL_RAINc, mDL_RAINc, AFnight), AFrain);
 
-mediump vec3 colorFactor1 = mix(vec3(1.0), ccmix1, dp1);
-mediump vec3 colorFactor2 = mix(vec3(1.0), ccmix2, dp2);
+vec3 colorFactor1 = mix(vec3(1.0), ccmix1, dp1);
+vec3 colorFactor2 = mix(vec3(1.0), ccmix2, dp2);
 
 dirlitCC = (colorFactor1 * colorFactor2);
 albedo.rgb *= dirlitCC;

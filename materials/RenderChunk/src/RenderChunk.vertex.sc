@@ -60,30 +60,30 @@ void main() {
     };
 #endif
 
- mediump float cve1 = smoothstep(0.92, 0.89, a_texcoord1.y);
- mediump float cve2 = smoothstep(0.68, 0.05, a_texcoord1.y);
+ float cve1 = smoothstep(0.92, 0.89, a_texcoord1.y);
+ float cve2 = smoothstep(0.68, 0.05, a_texcoord1.y);
  vec3 shadC = (vec3(0.8, 0.93, 1.0)*0.85);
- mediump vec4 shadowCC;
-shadowCC.xyz = mix(mix(vec3(1.0), shadC, cve1 * (1.0-cve2)), vec3(1.0, 0.93, 0.9), pow(a_texcoord1.x, 3.5));
- mediump float cve0 = pow(1.0 - a_texcoord1.y, 1.2);
- mediump vec3 mainCC;
+ vec4 shadowCC;
+shadowCC.rgb = mix(mix(vec3(1.0), shadC, cve1 * (1.0-cve2)), vec3(1.0, 0.93, 0.9), pow(a_texcoord1.x, 3.5));
+ float cve0 = pow(1.0 - a_texcoord1.y, 1.2);
+ vec3 mainCC;
 mainCC = mix(DAYc, DUSKc, AFdusk);
 mainCC = mix(mainCC, NIGHTc, AFnight);
 mainCC = mix(mainCC, RAINc, AFrain);
 mainCC = mix(mainCC, CAVEc, cve0);
 mainCC = mix(mainCC, vec3(1.0), pow(a_texcoord1.x, 3.5));
- mediump vec4 lightCC;
- mediump vec3 torchcc = mix(vec3(0.1), vec3(0.6), AFdusk * AFnight);
+ vec4 lightCC;
+ vec3 torchcc = mix(vec3(0.1), vec3(0.6), AFdusk * AFnight);
 torchcc = mix(torchcc, vec3(0.46), smoothstep(0.88, 0.35, a_texcoord1.y));
-lightCC.xyz = (torchcc * pow(a_texcoord1.x, 3.5));
- mediump vec4 Azify;
-Azify.xyz = (mainCC.xyz * shadowCC.xyz + lightCC.xyz);
+lightCC.rgb = (torchcc * pow(a_texcoord1.x, 3.5));
+ vec4 Azify;
+Azify.rgb = (mainCC.rgb * shadowCC.rgb + lightCC.rgb);
 
 
- mediump vec3 v_skypos = (worldPos.xyz + vec3(0.0, 0.128, 0.0));
- mediump vec3 v_viewpos = normalize(v_skypos);
+ vec3 v_skypos = (worldPos.xyz + vec3(0.0, 0.128, 0.0));
+ vec3 v_viewpos = normalize(v_skypos);
 v_viewpos.y = (v_viewpos.y - 0.0128);
- mediump float v_pos = min(v_viewpos.y, 0.005);
+ float v_pos = min(v_viewpos.y, 0.005);
 v_viewpos.y = max(v_viewpos.y, 0.0);
  vec3 scc_01 = vec3(0.17,0.42,0.6);
  vec3 scc_02 = vec3(0.1,0.23,0.4);
@@ -97,27 +97,27 @@ v_viewpos.y = max(v_viewpos.y, 0.0);
  vec3 scc_10 = vec3(0.6,0.4,0.3);
  vec3 scc_11 = (vec3(0.1,0.3,0.5) * 0.2);
  vec3 scc_12 = vec3(0.2);
- mediump vec3 albedo1;
+ vec3 albedo1;
 albedo1 = mix(scc_01, scc_02, AFdusk);
 albedo1 = mix(albedo1, scc_03, AFnight);
 albedo1 = mix(albedo1, scc_04, AFrain);
- mediump vec3 albedo2;
+ vec3 albedo2;
 albedo2 = mix(scc_05, scc_06, AFdusk);
 albedo2 = mix(albedo2, scc_07, AFnight);
 albedo2 = mix(albedo2, scc_08, AFrain);
- mediump vec3 albedo3;
+ vec3 albedo3;
 albedo3 = mix(scc_09, scc_10, AFdusk);
 albedo3 = mix(albedo3, scc_11, AFnight);
 albedo3 = mix(albedo3, scc_12, AFrain);
- mediump vec3 albedo4;
+ vec3 albedo4;
 albedo4 = vec3(0.0);
 albedo4 += (albedo2 * exp(-v_viewpos.y * 4.0));
 albedo4 += (albedo1 * (1.0 - exp(-v_viewpos.y * 10.0)));
 albedo4 = mix(albedo4, albedo3, (1.0 - exp(v_pos * 8.0)));
 
 
-    mediump vec4 horizon;
-    horizon.xyz = albedo4;
+    vec4 horizon;
+    horizon.rgb = albedo4;
     v_texcoord0 = a_texcoord0;
     v_lightmapUV = a_texcoord1;
     v_color0 = color;
