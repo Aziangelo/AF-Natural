@@ -2,7 +2,7 @@ $input a_color0, a_position, a_texcoord0, a_texcoord1
 #ifdef INSTANCING
     $input i_data0, i_data1, i_data2
 #endif
-$output v_color0, v_fog, v_texcoord0, v_lightmapUV, v_colors, v_skyMie, v_cpos, v_wpos, v_color1
+$output v_color0, v_fog, v_texcoord0, v_lightmapUV, v_colors, v_skyMie, v_cpos, v_wpos, v_color1, v_RainFloorReflect
 
 #include <bgfx_shader.sh>
 
@@ -34,18 +34,7 @@ void main() {
     worldPos.y -= (600.0 * pow(RenderChunkFogAlpha.x,3.0));
     worldPos.y += bI * bX;
 #endif
-#ifdef RENDER_AS_BILLBOARDS
-    worldPos += vec3(0.5, 0.5, 0.5);
-    vec3 viewDir = normalize(worldPos - Viev_wpositionAndTime.xyz);
-    vec3 boardPlane = normalize(vec3(viewDir.z, 0.0, -viewDir.x));
-    worldPos = (worldPos -
-        ((((viewDir.yzx * boardPlane.zxy) - (viewDir.zxy * boardPlane.yzx)) *
-        (a_color0.z - 0.5)) +
-        (boardPlane * (a_color0.x - 0.5))));
-    color = vec4(1.0, 1.0, 1.0, 1.0);
-#else
     color = a_color0;
-#endif
 
     vec3 modelCamPos = (Viev_wpositionAndTime.xyz - worldPos);
     float camDis = length(modelCamPos);
@@ -116,16 +105,24 @@ albedo4 += (albedo1 * (1.0 - exp(-v_viewpos.y * 10.0)));
 albedo4 = mix(albedo4, albedo3, (1.0 - exp(v_pos * 8.0)));
 
 
+  vec3 a_pos = normalize(-worldPos.xyz);
+  float smtr1 = smoothstep(0.5, 0.0, a_pos.y);
+  float fogDist = mix(0.0, mix(0.0, 0.7, smtr1), AFrain * a_texcoord1.y);
+  vec4 azifyColor1;
+  azifyColor1.rgb = albedo4;
+  azifyColor1.a = fogDist;
+
     vec4 horizon;
     horizon.rgb = albedo4;
     v_texcoord0 = a_texcoord0;
     v_lightmapUV = a_texcoord1;
-    v_color0 = color;
+    v_color0 = a_color0;
     v_fog = fogColor;
     v_colors = Azify;
     v_skyMie = horizon;
     v_cpos = a_position;
     v_wpos = worldPos.xyz;
     v_color1 = a_color0;
+    v_RainFloorReflect = azifyColor1;
     gl_Position = mul(u_viewProj, vec4(worldPos, 1.0));
 }

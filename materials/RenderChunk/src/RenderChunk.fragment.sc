@@ -1,4 +1,4 @@
-$input v_color0, v_fog, v_texcoord0, v_lightmapUV, v_colors, v_skyMie, v_cpos, v_wpos, v_color1
+$input v_color0, v_fog, v_texcoord0, v_lightmapUV, v_colors, v_skyMie, v_cpos, v_wpos, v_color1, v_RainFloorReflect
 
 #include <bgfx_shader.sh>
 
@@ -23,7 +23,8 @@ void main() {
     diffuse = texture2D(s_MatTexture, v_texcoord0);
     vec4 Gtex = texture2DLod(s_MatTexture, v_texcoord0, 0.0);
     if (((Gtex.a > 0.03) && (Gtex.a < 0.06))) {
-    diffuse.rgb *= max (diffuse.rgb, ((1.34 * (0.06 - Gtex.w) ) / 0.007499993));
+    float flicker = 1.15 + 0.3 * sin(ViewPositionAndTime.w*1.15);
+    diffuse.rgb *= max(vec3(1.0), ((flicker * (0.06 - Gtex.w)) / 0.007499993));
     }
 
 #if defined(ALPHA_TEST)
@@ -47,19 +48,18 @@ void main() {
     diffuse.a = 1.0;
 #endif
 
-float waterFlag = 0.0;
-#ifdef TRANSPARENT
-    if (v_color1.r != v_color1.g || v_color1.g != v_color1.b || v_color1.r != v_color1.b) {
-        waterFlag = 1.0;
-    }
-#endif
 
 bool DevUnWater = detectUnderwater(FogColor.rgb, FogAndDistanceControl.xy);
 bool DevNether = detectNether(FogColor.rgb, FogAndDistanceControl.xy);
+bool waterFlag = v_color0.b > 0.3 && v_color0.a < 0.95;
+// Water Functions
+bool uvwater = false;
+if (v_lightmapUV.y < 0.9 && abs((2.0 * v_cpos.y - 15.0) / 16.0 - v_lightmapUV.y) < 0.00002) {
+  uvwater = true;
+}
 
 // World Color
 diffuse.rgb *= v_colors.rgb;
-
 
 
 vec3 norml = normalize(cross(dFdx(v_cpos), dFdy(v_cpos)));
@@ -102,9 +102,11 @@ diffuse.rgb *= dirlitCC;
   #endif
 #endif
 
-// Water Functions
-#if defined(TRANSPARENT)
-  if (waterFlag > 0.5) {
+
+// DETERMINE WATER TEXTURE
+#if !defined(DEPTH_ONLY_OPAQUE) || defined(DEPTH_ONLY)
+#ifdef TRANSPARENT
+if (waterFlag) {
 // Fake NormalMap
 vec4 Line;
 #ifdef WATER_NORMALS
@@ -117,14 +119,6 @@ vec4 Line;
   Line = diffuse;
 #endif
 
-// Water Gradient
-#ifdef WATER_GRADIENT
-vec3 y_pos = normalize(-v_wpos.xyz);
-float fnel = (smoothstep(0.5, 0.0, y_pos.y) * (0.7 * v_lightmapUV.y));
-vec3 sky1 = v_skyMie.rgb;
-  diffuse = vec4(mix(diffuse.rgb, sky1, fnel), mix(diffuse.a * WATER_OPACITY, WATERGRAD_OPACITY,  smoothstep(WATERGRAD_SMOOTHNESS, 0.0, max(0.001, dot(norml, y_pos)))));
-#endif
-
 // Water Lines
 #ifdef WATER_LINES
 if (Line.b > WATERLINE_INTENSITY) {
@@ -133,34 +127,24 @@ vec3 wlc = mix(wLINE_DAYc,wLINE_NIGHTc,AFnight);
      diffuse += vec4(wlc, diffuse.a * WATERLINE_OPACITY);
   }
 #endif
+
+
+// Water Gradient
+#ifdef WATER_GRADIENT
+vec3 y_pos = normalize(-v_wpos.xyz);
+float fnel = (smoothstep(0.5, 0.0, y_pos.y) * (0.7 * v_lightmapUV.y));
+vec3 sky1 = v_skyMie.rgb;
+diffuse = vec4(mix(diffuse.rgb, sky1, fnel), mix(diffuse.a * WATER_OPACITY, WATERGRAD_OPACITY,  smoothstep(WATERGRAD_SMOOTHNESS, 0.0, max(0.001, dot(norml, y_pos)))));
+#endif
 }
+#endif
 #endif
 
 
-/*
-vec2 uv = v_wpos.xz/ v_wpos.y;
-float time = ViewPositionAndTime.w * .5+23.0;
-vec2 p = mod(uv*TAU, TAU)-250.0;
-vec2 i = vec2(p);
-	float c = 1.0;
-	float inten = .005;
-	for (int n = 0; n < MAX_ITER; n++) 
-	{
-		float t = time * (1.0 - (3.5 / float(n+1)));
-		i = p + vec2(cos(t - i.x) + sin(t + i.y), sin(t - i.y) + cos(t + i.x));
-		c += 1.0/length(vec2(p.x / (sin(i.x+t)/inten),p.y / (cos(i.y+t)/inten)));
-	}
-	c /= float(MAX_ITER);
-	c = 1.17-pow(c, 1.4);
-	vec3 colour = vec3(pow(abs(c), 8.0));
-    colour = clamp(colour + vec3(0.0, 0.35, 0.5), 0.0, 1.0);
-    diffuse.rgb *= colour;
-*/
-
 #ifdef CAUSTICS
-float caustics = voro2D((v_cpos.xz + v_cpos.y) * 0.4, ViewPositionAndTime.w);
-if (DevUnWater) {
-diffuse.rgb += max(caustics, 0.0) * 0.85 * diffuse.rgb;
+float caustics = voronoi((v_cpos.xz + v_cpos.y) * 0.34, ViewPositionAndTime.w);
+if (uvwater) {
+diffuse.rgb += max(caustics, 0.0) * 0.7 * diffuse.rgb;
 }
 #endif
 
@@ -187,16 +171,22 @@ diffuse.rgb += finalColor;
 
 
 // Tone-Mapping
+if (waterFlag) {
+  #if !defined(DEPTH_ONLY_OPAQUE) || defined(DEPTH_ONLY)
+  #ifdef TRANSPARENT
+    diffuse.rgb;
+  #endif
+  #endif
+} else {
   diffuse.rgb = AzifyFN(diffuse.rgb);
+}
 #ifdef FLOOR_REFLECTION
  #ifndef ALPHA_TEST
   #ifndef TRANSPARENT
-  if (norml.y > 0.1) {
-    vec3 a_pos = normalize(-v_wpos.xyz);
-    float smtr1 = smoothstep(0.5, 0.0, a_pos.y);
-    float fogDist = mix(0.0, mix(0.0, 0.7, smtr1), AFrain * v_lightmapUV.y);
-    diffuse.rgb = mix(diffuse.rgb, skyfog, fogDist);
-  }
+    if (DevUnWater) {
+    } else {
+    diffuse.rgb = mix(diffuse.rgb, v_RainFloorReflect.rgb, max(0.0,norml.y) * v_RainFloorReflect.a);
+    }
   #endif
  #endif
 #endif
@@ -205,6 +195,7 @@ diffuse.rgb += finalColor;
   if (DevUnWater) {
     diffuse.rgb = mix(diffuse.rgb, UNDERWATER_FOG, v_fog.a);
   } else if (DevNether) {
+ // } else if (DevEnd) {
   } else {
     diffuse.rgb = mix(diffuse.rgb, skyfog, v_fog.a);
   }

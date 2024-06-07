@@ -82,14 +82,19 @@ float smoothstepCustom(float edge0, float edge1, float x) {
 }
 
 // VORONEI
-float voro2D(vec2 p, float time) {
-    vec4 v = vec4(p, p.x + p.y, p.x + p.y);
-    v.xy += time * 0.35;
-    float s1 = length(0.5 - fract(v.xyw *= mat3(0, -1, 2, 3, -3, 1, 1, 2, 1) * 0.5));
-    float s2 = length(0.5 - fract(v.xyw *= mat3(0, -1, 2, 3, -3, 1, 1, 2, 1) * 0.4));
-    float s3 = length(0.5 - fract(v.xyw *= mat3(0, -1, 2, 3, -3, 1, 1, 2, 1) * 0.3));
-    float minDist = min(min(s1, s2), s3);
-    return pow(minDist, 4.0) * 4.0;
+float voronoi(vec2 pos, float time) {
+    vec2 p = pos * 1.5; // scale
+    float t = time * 0.25;
+    mat2 m = mat2(0.8, -0.6, 0.6, 0.8);
+
+    // Offset position
+    vec2 p1 = fract(p + t);
+    vec2 p2 = fract((p + vec2(0.9, 0.9) - t * 0.2) * m);
+    float d1 = length(p1 - vec2(0.5));
+    float d2 = length(p2 - vec2(0.5));
+    float d = min(d1, d2);
+    d += 0.05 * sin(10.0 * p1.x + 10.0 * p1.y + t) * sin(10.0 * p2.x + 10.0 * p2.y + t);
+    return d;
 }
 
 vec3 grayscale(vec3 color) {
