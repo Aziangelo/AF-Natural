@@ -57,8 +57,8 @@ void main() {
     albedo.a = max(UseAlphaRewrite.r, albedo.a);
 #endif
 
-    vec4 lightfix = mix(vec4(1.0), v_light, (1.0-AFnight));
     albedo = applyActorDiffuse(albedo, v_color0.rgb, vec4(grayscale(v_light.rgb), v_light.a), ColorBased.x, OverlayColor);
+    //albedo = applyActorDiffuse(albedo, v_color0.rgb, v_light, ColorBased.x, OverlayColor);
 
 #if TRANSPARENT
     albedo = applyHudOpacity(albedo, HudOpacity.x);
@@ -67,44 +67,61 @@ void main() {
  bool DevEnd = FogColor.r > FogColor.g && FogColor.b > FogColor.g && FogColor.r <= 0.05 && FogColor.g <= 0.05 && FogColor.b <= 0.05 && FogAndDistanceControl.x >= 0.56 && FogAndDistanceControl.x <= 0.8 && FogAndDistanceControl.y >= 0.59;
  bool nether = detectNether(FogColor.rgb, FogAndDistanceControl.xy);
  bool DevUnWater = detectUnderwater(FogColor.rgb, FogAndDistanceControl.xy);
+ 
+  bool isDaytime = false;
+  bool isDusk = false;
+  bool isNighttime = false;
+  bool isInCave = false;
+  float dayThreshold = 0.9;
+  float duskThreshold = 0.6;
+  float nightThreshold = 0.34;
+  float caveThreshold = 0.34;
+  
+  if (v_light.x >= dayThreshold) {
+      isDaytime = true;
+  } else if (v_light.x >= duskThreshold && v_light.x < dayThreshold) {
+      isDusk = true;
+  } else if (v_light.x >= nightThreshold && v_light.x < duskThreshold) {
+      isNighttime = true;
+  } else if (v_light.x < caveThreshold) {
+      isInCave = true;
+  }
+  
+  if (v_light.x < caveThreshold) {
+      isInCave = true;
+      isDaytime = false;
+      isDusk = false;
+      isNighttime = false;
+  }
 
  if (DevEnd) {
    albedo.rgb *= vec3(0.85);
  } else if (nether) {
    albedo.rgb *= vec3(0.9);
- } else {
+ } else if (!isInCave) {
    albedo.rgb *= v_colors.xyz;
+ } else if (isInCave) {
+   albedo.rgb *= ECAVEc+0.863;
  }
-
 
  vec3 norml = normalize(cross(dFdx(v_cpos), dFdy(v_cpos)));
  vec3 dirlitCC;
- float dp1 = max(abs(norml.z), -norml.y);
+ float dp1 = max(abs(norml.z), norml.y);
  float dp2 = abs(norml.x);
-#if defined(ALPHA_TEST)
+ float isTorch = smoothstep(0.5, 1.0, v_light.r);
+ isTorch =  (pow(isTorch, 2.0)*0.5+isTorch*0.5);
+
 if (DevEnd) {
-  /*
-ccmix1 = RGB(177,177,177);
-colorFactor1 = mix(vec3(1.0), ccmix1, mixFactor1);
-ccmix2 = RGB(242,242,242);
-colorFactor2 = mix(vec3(1.0), ccmix2, mixFactor2);
-dirlitCC.rgb = (colorFactor1*colorFactor2);
-*/
+
 } else if (nether) {
-  /*
- ccmix1 = RGB(198,173,157);
- colorFactor1 = mix(vec3(1.0), ccmix1, mixFactor1);
- ccmix2 = RGB(238,224,198);
- colorFactor2 = mix(vec3(1.0), ccmix2, mixFactor2);
- dirlitCC.rgb = (colorFactor1*colorFactor2);
-*/
-} else {
+
+} else if (!isInCave) {
 // Shadows
-vec3 ccmix1 = mix(mDS_DAYc*1.2, mDS_NIGHTc*1.5, AFnight);
+vec3 ccmix1 = mix(mDS_DAYc, mDS_NIGHTc-1.0, AFnight);
 ccmix1 = mix(ccmix1, mDS_DUSKc, AFdusk);
 ccmix1 = mix(ccmix1, mix(mDS_RAINc, mDS_RAINc, AFnight), AFrain);
 // Highlights
-vec3 ccmix2 = mix(mDL_DAYc, mDL_NIGHTc, AFnight);
+vec3 ccmix2 = mix(mDL_DAYc, mDL_NIGHTc-1.5, AFnight);
 ccmix2 = mix(ccmix2, mDL_DUSKc, AFdusk);
 ccmix2 = mix(ccmix2, mix(mDL_RAINc, mDL_RAINc, AFnight), AFrain);
 
@@ -113,8 +130,20 @@ vec3 colorFactor2 = mix(vec3(1.0), ccmix2, dp2);
 
 dirlitCC = (colorFactor1 * colorFactor2);
 albedo.rgb *= dirlitCC;
-}
-#endif
+} /*else if (isInCave) {
+  if (isDaytime) {
+    /*
+// Shadows
+vec3 ccmix1 = vec3(mDS_DAYc+0.1);
+// Highlights
+vec3 ccmix2 = vec3(0.9,0.8,0.7);
+
+vec3 colorFactor1 = mix(vec3(1.0), ccmix1, dp1);
+vec3 colorFactor2 = mix(vec3(1.0), ccmix2, dp2);
+
+dirlitCC = (colorFactor1 * colorFactor2);
+albedo.rgb *= dirlitCC;*/
+ 
 
 albedo.rgb = AzifyFN(albedo.rgb);
 if (DevUnWater) {

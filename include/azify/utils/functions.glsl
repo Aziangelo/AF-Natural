@@ -10,18 +10,20 @@
  #define AFrain smoothstep(0.66, 0.3, FogAndDistanceControl.x)
  #define AFnight mix( detect( 0.65, 0.02, FogColor.r ), detect( 0.15, 0.01, FogColor.g ), AFrain )
  #define AFdusk mix( detect( 1.0, 0.0, FogColor.b ), detect( 0.25, 0.15, FogColor.g ), AFrain )
+ #define AFday detect(0.02, 0.65, FogColor.r)
  #define timecycle( a, b, c ) mix( mix( a, b, AFdusk ), c, AFnight )
 
 
 // TONE MAPPING 
 vec3 AzifyFN(vec3 x) {
- float a = 5.61;
- float b = 0.03;
- float c = 3.6;
- float d = 0.4;
- float e = 0.5;
+ float a = 5.0;
+ float b = 0.3;
+ float c = 4.0;
+ float d = 0.9;
+ float e = 0.6;
     return clamp((x * (a * x + b)) / (x * (c * x + d) + e), 0.0, 1.0);
 }
+
 
 // NOISE
 float hash( float n ) {

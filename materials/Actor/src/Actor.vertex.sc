@@ -42,7 +42,7 @@ void main() {
 
     float lightIntensity = calculateLightIntensity(World, vec4(a_normal.xyz, 0.0), TileLightColor);
     lightIntensity += OverlayColor.a * 0.0;
-    vec4 light = vec4(lightIntensity * TileLightColor.rgb, 1.0);
+    vec4 light = vec4(TileLightColor.rgb, 1.0);
     
     //StandardTemplate_VertSharedTransform
     vec3 worldPosition;
@@ -69,11 +69,38 @@ void main() {
     v_color0 = a_color0;
 #endif
 
- 
- vec3 raincc = mix(RAINc*1.2, RAINc*2.65, AFnight);
+bool isDaytime = false;
+bool isDusk = false;
+bool isNighttime = false;
+bool isInCave = false;
+
+float dayThreshold = 0.9;
+float duskThreshold = 0.6;
+float nightThreshold = 0.3;
+float caveThreshold = 0.3;
+float torchThreshold = 0.8; 
+
+if (light.x >= dayThreshold) {
+    isDaytime = true;
+} else if (light.x >= duskThreshold && light.x < dayThreshold) {
+    isDusk = true;
+} else if (light.x >= nightThreshold && light.x < duskThreshold) {
+    isNighttime = true;
+} else if (light.x < caveThreshold) {
+    isInCave = true;
+}
+
+if (light.x < caveThreshold) {
+    isInCave = true;
+    isDaytime = false;
+    isDusk = false;
+    isNighttime = false;
+}
+
+ vec3 raincc = mix(ERAINc, ERAINc+0.553, AFnight);
  vec3 mainCC;
-   mainCC = mix(DAYc*0.85, DUSKc*1.5, AFdusk);
-   mainCC = mix(mainCC, NIGHTc*2.2, AFnight);
+   mainCC = mix(EDAYc-0.15, EDUSKc+0.337, AFdusk);
+   mainCC = mix(mainCC, ENIGHTc+0.553, AFnight);
    mainCC = mix(mainCC, raincc, AFrain);
  vec4 Azify;
    Azify.xyz = (mainCC.xyz);
@@ -83,30 +110,18 @@ void main() {
 v_viewpos.y = (v_viewpos.y - 0.0128);
  float v_pos = min(v_viewpos.y, 0.005);
 v_viewpos.y = max(v_viewpos.y, 0.0);
- vec3 scc_01 = vec3(0.17,0.42,0.6);
- vec3 scc_02 = vec3(0.1,0.23,0.4);
- vec3 scc_03 = vec3(0.07,0.1,0.2);
- vec3 scc_04 = vec3(0.3);
- vec3 scc_05 = vec3(0.95,1.0,0.9);
- vec3 scc_06 = vec3(1.0,0.45,0.23);
- vec3 scc_07 = vec3(0.35,0.1,0.25);
- vec3 scc_08 = vec3(0.5);
- vec3 scc_09 = vec3(0.3,0.4,0.6);
- vec3 scc_10 = vec3(0.6,0.4,0.3);
- vec3 scc_11 = (vec3(0.1,0.3,0.5) * 0.2);
- vec3 scc_12 = vec3(0.2);
  vec3 albedo1;
-albedo1 = mix(scc_01, scc_02, AFdusk);
-albedo1 = mix(albedo1, scc_03, AFnight);
-albedo1 = mix(albedo1, scc_04, AFrain);
+albedo1 = mix(SA_DAY, SA_DUSK, AFdusk);
+albedo1 = mix(albedo1, SA_NIGHT, AFnight);
+albedo1 = mix(albedo1, SA_RAIN, AFrain);
  vec3 albedo2;
-albedo2 = mix(scc_05, scc_06, AFdusk);
-albedo2 = mix(albedo2, scc_07, AFnight);
-albedo2 = mix(albedo2, scc_08, AFrain);
+albedo2 = mix(SB_DAY, SB_DUSK, AFdusk);
+albedo2 = mix(albedo2, SB_NIGHT, AFnight);
+albedo2 = mix(albedo2, SB_RAIN, AFrain);
  vec3 albedo3;
-albedo3 = mix(scc_09, scc_10, AFdusk);
-albedo3 = mix(albedo3, scc_11, AFnight);
-albedo3 = mix(albedo3, scc_12, AFrain);
+albedo3 = mix(SC_DAY, SC_DUSK, AFdusk);
+albedo3 = mix(albedo3, SC_NIGHT, AFnight);
+albedo3 = mix(albedo3, SC_RAIN, AFrain);
  vec3 albedo4;
 albedo4 = vec3(0.0);
 albedo4 += (albedo2 * exp(-v_viewpos.y * 4.0));
