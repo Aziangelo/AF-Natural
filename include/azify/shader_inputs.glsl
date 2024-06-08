@@ -21,7 +21,7 @@
  const vec3 ECAVEc = (vec3(0.1, 0.15, 0.2)* 1.0);
 
 
-#define SUPER_AO     // [ TOGGLE ]
+//#define SUPER_AO     // [ TOGGLE ]
 #define CHUNK_ANIMATION
 
 #define DIRECT_LIGHT     // [ TOGGLE ]
@@ -69,11 +69,11 @@
 
 // =====>  [ SKY MAIN ]  <=====
 // SKY COLORS
- const vec3 SA_DAY = (vec3(0.14,0.3,0.5)* 1.0);  //up
+ const vec3 SA_DAY = (vec3(0.14,0.35,0.5)* 1.0);  //up
  const vec3 SA_DUSK = (vec3(0.2,0.23,0.4)* 1.0);
  const vec3 SA_NIGHT = (vec3(0.14, 0.18, 0.31)* 1.0);
  const vec3 SA_RAIN = (vec3(0.3, 0.3, 0.3)* 1.0);
- const vec3 SB_DAY = (vec3(0.95,1.0,0.9)* 1.0);  //mid
+ const vec3 SB_DAY = (vec3(0.95,1.0,0.9)* 0.75);  //mid
  const vec3 SB_DUSK = (vec3(1.0,0.45,0.23)* 1.0);
  const vec3 SB_NIGHT = (vec3(0.45, 0.28, 0.65)* 1.0);
  const vec3 SB_RAIN = (vec3(0.5, 0.5, 0.5)* 1.0);
@@ -84,7 +84,7 @@
 
 //#define AURORA_BOREALIS     // [ TOGGLE ] [ BETA ]
 #define CLOUDS              // [ TOGGLE ]
- const vec3 CLOUD_DAYc = (vec3(0.95, 0.98, 1.0)* 1.0);
+ const vec3 CLOUD_DAYc = (vec3(0.8,0.9,0.95)* 1.0);
  const vec3 CLOUD_DUSKc = (vec3(0.7, 0.49, 0.39)* 1.0);
  const vec3 CLOUD_NIGHTc = (vec3(0.14, 0.18, 0.31)* 1.0);
  const vec3 CLOUD_RAINc = (vec3(0.59, 0.6, 0.6)* 1.0);
