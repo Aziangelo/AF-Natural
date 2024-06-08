@@ -2,7 +2,9 @@ $input a_color0, a_position, a_texcoord0, a_texcoord1
 #ifdef INSTANCING
     $input i_data0, i_data1, i_data2
 #endif
-$output v_color0, v_fog, v_texcoord0, v_lightmapUV, v_colors, v_skyMie, v_cpos, v_wpos, v_color1, v_RainFloorReflect
+$output v_color0, v_fog, v_texcoord0, v_lightmapUV
+$output v_colors, v_skyMie, v_color1, v_RainFloorReflect
+$output v_cpos, v_wpos
 
 #include <bgfx_shader.sh>
 
@@ -110,7 +112,7 @@ vec3 skyCol = albedo4-0.18;
     v_colors = Azify;
     v_skyMie = horizon;
     v_cpos = a_position;
-    v_wpos = worldPos.xyz;
+    v_wpos = worldPos;
     v_color1 = a_color0;
     v_RainFloorReflect = azifyColor1;
     gl_Position = mul(u_viewProj, vec4(worldPos, 1.0));
