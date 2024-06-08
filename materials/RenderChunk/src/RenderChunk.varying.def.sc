@@ -17,5 +17,5 @@ vec4 v_skyMie              : COLOR5;
 vec4 v_color1              : COLOR3;
 vec4 v_RainFloorReflect    : COLOR1;
 vec3 v_cpos                : POSITION1;
-vec3 v_wpos                : TEXCOORD3;
+vec3 v_wpos                : POSITION2;
 //vec4 aFN          : COLOR1;

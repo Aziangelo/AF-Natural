@@ -24,7 +24,7 @@ void main() {
     vec4 Gtex = texture2DLod(s_MatTexture, v_texcoord0, 0.0);
     if (((Gtex.a > 0.03) && (Gtex.a < 0.06))) {
     float flicker = 1.15 + 0.3 * sin(ViewPositionAndTime.w*1.15);
-    diffuse.rgb *= max(vec3(1.0), ((flicker * (0.06 - Gtex.w)) / 0.007499993));
+    diffuse.rgb *= max(vec3(1.0,1.0,1.0), ((flicker * (0.06 - Gtex.w)) / 0.007499993));
     }
 
 #if defined(ALPHA_TEST)
