@@ -99,9 +99,10 @@ float voronoi(vec2 pos, float time) {
 
     // Offset position
     vec2 p1 = fract(p + t);
-    vec2 p2 = fract((p + vec2(0.9, 0.9) - t * 0.2) * m);
-    float d1 = length(p1 - vec2(0.5));
-    float d2 = length(p2 - vec2(0.5));
+    vec2 tpt = mul((p + vec2(0.9, 0.9) - t * 0.2), m);
+    vec2 p2 = fract(tpt);
+    float d1 = length(p1 - vec2(0.5,0.5));
+    float d2 = length(p2 - vec2(0.5,0.5));
     float d = min(d1, d2);
     d += 0.05 * sin(10.0 * p1.x + 10.0 * p1.y + t) * sin(10.0 * p2.x + 10.0 * p2.y + t);
     return d;
