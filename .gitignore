@@ -2,12 +2,6 @@
 build/
 data/
 env/
-materials/ItemInHandColor
-materials/EndSky
-materials/SunMoon
-materials/RenderChunk
-materials/Stars
-materials/Actor
 
 # ignore files
 copy.sh
