@@ -1,19 +1,6 @@
 #ifndef FUNCTIONS
  #define FUNCTIONS
 
-
-
-// TIME AND WORLD DETECTIONS
- #define detect(a,b,x) clamp(((x)-(a))/((b)-(a)), 0.0, 1.0)
- #define disf ((FogAndDistanceControl.w-80.0)/112.0)
- #define AFnether detect( 0.24, 0.13 - ( 0.08 * disf ), FogAndDistanceControl.x )
- #define AFrain smoothstep(0.66, 0.3, FogAndDistanceControl.x)
- #define AFnight mix( detect( 0.65, 0.02, FogColor.r ), detect( 0.15, 0.01, FogColor.g ), AFrain )
- #define AFdusk mix( detect( 1.0, 0.0, FogColor.b ), detect( 0.25, 0.15, FogColor.g ), AFrain )
- #define AFday detect(0.02, 0.65, FogColor.r)
- #define timecycle( a, b, c ) mix( mix( a, b, AFdusk ), c, AFnight )
-
-
 // TONE MAPPING 
 vec3 AzifyFN(vec3 x) {
  float a = 5.0;
@@ -34,61 +21,6 @@ float noise(vec2 x) {
    f = f*f*(3.0-2.0*f);
    float n = p.x + p.y*57.0;
    return mix(mix( hash(n+  0.0), hash(n+  1.0),f.x), mix( hash(n+ 57.0), hash(n+ 58.0),f.x),f.y);
-}
-
-float fbm(vec2 pos, float time) {
-    float tot = 0., s = 1.;
-    pos += time * .001;
-    for(int i = 0; i <= 2; i++){
-        tot += noise(pos) / s;
-        s *= 2.2;
-        pos *= 3.;
-        pos += time * .03;
-    }
-    return 1. - pow(.1, max(1. - tot, 0.));
-}
-
-float generateCloud(vec2 position, float time, int detail) {
-    float cloudNoise = 0.0;
-    position *= 0.7995;
-    cloudNoise += noise(time * 0.06 + (position));
-    
-    float smoothNoise = smoothstep(0.1, 1.2, cloudNoise);
-    float cloudFbm = fbm(-time * 0.13 + (position), time);
-    float smoothFbm = smoothstep(-1.0, 2.5, cloudFbm);
-    position *= mix(1.0, 1.93, smoothFbm);
-
-    for (int i = 0; i < detail; i++) {
-        position *= 0.7995;
-        cloudNoise += noise(time * 0.06 + (position)) / float(i + 1);
-        cloudFbm += fbm(-time * 0.13 + (position), time) / float(i + 1);
-    }
-
-    float alpha = cloudNoise - (mix(0.3, 0.16, AFrain) - smoothNoise) - cloudFbm - (0.3 - smoothFbm);
-    if (alpha < 0.0) alpha = 0.0;
-    cloudNoise = 1.0 - pow(0.51, alpha);
-    cloudFbm = 1.2 - pow(0.01, alpha);
-
-    float cloudResult = cloudFbm - cloudNoise * cloudNoise - cloudNoise * 0.01 * cloudFbm * 2.0 - cloudFbm * 0.006 * cloudFbm;
-    return cloudResult;
-}
-
-
-float amap(vec2 p, float time){
-  float x;
-  float x1;
-  float x2;
-  for(int i = 0; i <= 1; i++){
-    x1 = noise(p);
-    x2 = noise(p*4.+vec2(time*0.02,16));
-  }
-  x = dot(vec2(x1,x2),vec2(0.8,0.3));
-  return x;
-}
-
-float smoothstepCustom(float edge0, float edge1, float x) {
-    float t = clamp((x - edge0) / (edge1 - edge0), 0.0, 1.0);
-    return t * t * (3.0 - 2.0 * t);
 }
 
 // VORONEI
