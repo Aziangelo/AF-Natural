@@ -1,4 +1,4 @@
-$input v_color0, v_position, v_worldpos, skypos
+$input v_color0, v_worldpos, skypos
 #if defined(GEOMETRY_PREPASS)
     $input v_texcoord0, v_normal, v_worldPos, v_prevWorldPos
 #endif

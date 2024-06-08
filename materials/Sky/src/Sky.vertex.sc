@@ -6,7 +6,7 @@ $input a_color0, a_position
     #endif
 #endif
 
-$output v_color0, v_position, v_worldpos, skypos
+$output v_color0, v_worldpos, skypos
 #ifdef GEOMETRY_PREPASS
     $output v_texcoord0, v_normal, v_worldPos, v_prevWorldPos
 #endif
@@ -40,7 +40,6 @@ void main() {
     k1.y = (a_position.y - sqrt(dot (a_position.xz, a_position.xz) * 17.5));
     
     skypos = (k1.xyz + vec3(0.0, 0.128, 0.0));
-    v_position = a_position;
     v_worldpos = mul(u_model[0], k1).xyz;
     v_color0 = mix(SkyColor, FogColor, a_color0.x);
     gl_Position = mul(u_modelViewProj, k1);
