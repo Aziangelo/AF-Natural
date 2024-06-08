@@ -47,15 +47,6 @@ albedo4 = mix(albedo4, albedo3, (1.0 - exp(v_pos * 8.0)));
   }
 
 
-
-/*
-vec2 aposX = spos.xz / spos.y + ViewPositionAndTime.w * vec2(0.1, 0.06);
-vec2 aposZ = spos.xz / spos.y - ViewPositionAndTime.w * vec2(0.1, 0.05);
-vec3 col1 = vec3(0.0, 0.8, 0.4);
-vec3 col2 = vec3(0.4, 0.2, 0.8);
-vec3 acol = mix(col1, col2, smoothstepCustom(0.5, 1.0, amap(aposZ)));
-albedo0.rgb += acol * smoothstepCustom(0.5, 1.0, amap(aposX)) * AFnight * clamp(smoothstep(0.9, 2.5, length(-v_viewPos.y * 5.0)), 0.0, 1.0);
-*/
 vec3 spos = normalize(skypos);
 
 #ifdef AURORA_BOREALIS
