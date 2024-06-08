@@ -109,7 +109,8 @@ float voronoi(vec2 pos, float time) {
 }
 
 vec3 grayscale(vec3 color) {
-    return vec3(dot(color, vec3(0.2126, 0.7152, 0.0722)));
+    float gray = dot(color, vec3(0.2126, 0.7152, 0.0722));
+    return vec3(gray,gray,gray);
 }
 
 bool detectUnderwater(vec3 FOG_COLOR, vec2 FOG_CONTROL) {
