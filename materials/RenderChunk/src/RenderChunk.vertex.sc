@@ -49,22 +49,22 @@ void main() {
     };
 #endif
 
- float cve1 = smoothstep(0.92, 0.89, a_texcoord1.y);
- float cve2 = smoothstep(0.68, 0.05, a_texcoord1.y);
+ float cve1 = smoothstep(0.92, 0.89, abs(a_texcoord1.y));
+ float cve2 = smoothstep(0.68, 0.05, abs(a_texcoord1.y));
  vec3 shadC = (vec3(0.8, 0.93, 1.0)*0.85);
  vec4 shadowCC;
-shadowCC.rgb = mix(mix(vec3(1.0,1.0,1.0), shadC, cve1 * (1.0-cve2)), vec3(1.0, 0.93, 0.9), pow(a_texcoord1.x, 3.5));
- float cve0 = 1.0-pow(a_texcoord1.y, 1.2);
+shadowCC.rgb = mix(mix(vec3(1.0,1.0,1.0), shadC, cve1 * (1.0-cve2)), vec3(1.0, 0.93, 0.9), pow(abs(a_texcoord1.x), 3.5));
+ float cve0 = 1.0-pow(abs(a_texcoord1.y), 1.2);
  vec3 mainCC;
   mainCC = mix(DAYc, DUSKc, AFdusk);
   mainCC = mix(mainCC, NIGHTc, AFnight);
   mainCC = mix(mainCC, RAINc, AFrain);
   mainCC = mix(mainCC, CAVEc, cve0);
-  mainCC = mix(mainCC, vec3(1.0,1.0,1.0), pow(a_texcoord1.x, 3.5));
+  mainCC = mix(mainCC, vec3(1.0,1.0,1.0), pow(abs(a_texcoord1.x), 3.5));
  vec4 lightCC;
  vec3 torchcc = mix(vec3(0.1,0.1,0.1), vec3(0.6,0.6,0.6), AFdusk * AFnight);
-torchcc = mix(torchcc, vec3(0.46,0.46,0.46), smoothstep(0.88, 0.35, a_texcoord1.y));
-lightCC.rgb = (torchcc * pow(a_texcoord1.x, 3.5));
+torchcc = mix(torchcc, vec3(0.46,0.46,0.46), smoothstep(0.88, 0.35, abs(a_texcoord1.y)));
+lightCC.rgb = (torchcc * pow(abs(a_texcoord1.x), 3.5));
  vec4 Azify;
 Azify.rgb = (mainCC.rgb * shadowCC.rgb + lightCC.rgb);
 
@@ -96,7 +96,7 @@ vec3 skyCol = albedo4-0.18;
 
   vec3 a_pos = normalize(-worldPos.xyz);
   float smtr1 = smoothstep(0.5, 0.0, a_pos.y);
-  float fogDist = mix(0.0, mix(0.0, 0.7, smtr1), AFrain * a_texcoord1.y);
+  float fogDist = mix(0.0, mix(0.0, 0.7, smtr1), AFrain * abs(a_texcoord1.y));
   vec4 azifyColor1;
   azifyColor1.rgb = skyCol;
   azifyColor1.a = fogDist;
