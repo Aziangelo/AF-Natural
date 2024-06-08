@@ -35,7 +35,7 @@ albedo3 = mix(SC_DAY, SC_DUSK, AFdusk);
 albedo3 = mix(albedo3, SC_NIGHT, AFnight);
 albedo3 = mix(albedo3, SC_RAIN, AFrain);
  vec3 albedo4;
-albedo4 = vec3(0.0);
+albedo4 = vec3(0.0,0.0,0.0);
 albedo4 += (albedo2 * exp(-v_viewpos.y * 4.0));
 albedo4 += (albedo1 * (1.0 - exp(-v_viewpos.y * 10.0)));
 albedo4 = mix(albedo4, albedo3, (1.0 - exp(v_pos * 8.0)));
@@ -62,13 +62,12 @@ albedo0.rgb += acol * smoothstepX * AFnight * yFactor;
 #ifdef CLOUDS
 if (DevUnWater) {
 } else {
-vec3 clCc;
-clCc = mix(mix(mix(CLOUD_DAYc, CLOUD_DUSKc, AFdusk), CLOUD_NIGHTc, AFnight), CLOUD_RAINc, AFrain);
-vec2 scaledPos = (spos.xz / spos.y) * 3.0;
-    float cloudAlpha = generateCloud(scaledPos, ViewPositionAndTime.w, 4); 
-    float smoothStepVal = smoothstep(0.3, 1.5, length(-v_viewpos.y * 5.0));
-    float mixFactor = cloudAlpha * 0.6 * clamp(smoothStepVal, 0.0, 1.0);
-    albedo0.rgb = mix(albedo0.rgb, clCc, mixFactor);
+  vec3 clCc = mix(mix(mix(CLOUD_DAYc, CLOUD_DUSKc, AFdusk), CLOUD_NIGHTc, AFnight), CLOUD_RAINc, AFrain);
+  vec2 scaledPos = (spos.xz / spos.y) * 3.0;
+  float cloudAlpha = generateCloud(scaledPos, ViewPositionAndTime.w, 4); 
+  float smoothStepVal = smoothstep(0.3, 1.5, length(-v_viewpos.y * 5.0));
+  float mixFactor = cloudAlpha * 0.6 * clamp(smoothStepVal, 0.0, 1.0);
+  albedo0.rgb = mix(albedo0.rgb, clCc, mixFactor);
 }
 #endif
 
