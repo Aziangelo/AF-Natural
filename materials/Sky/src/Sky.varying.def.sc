@@ -12,4 +12,4 @@ vec3 v_normal       : NORMAL;
 vec3 v_worldPos     : TEXCOORD3;
 vec3 v_prevWorldPos : TEXCOORD4;
 vec3 skypos : POSITION0;
-vec3 v_worldpos : TEXCOORD3;
+vec3 v_worldpos : TEXCOORD2;
