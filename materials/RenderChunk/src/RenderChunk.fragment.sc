@@ -93,10 +93,10 @@ vec3 ccmix2 = mix(mDL_DAYc, mDL_NIGHTc, AFnight);
 ccmix2 = mix(ccmix2, mDL_DUSKc, AFdusk);
 ccmix2 = mix(ccmix2, mDL_RAINc, AFrain);
 
-vec3 colorFactor1 = mix(vec3(1.0), ccmix1, disableinCve * dp1);
-vec3 colorFactor2 = mix(vec3(1.0), ccmix2, disableinCve * dp2);
+vec3 colorFactor1 = mix(vec3(1.0,1.0,1.0), ccmix1, disableinCve * dp1);
+vec3 colorFactor2 = mix(vec3(1.0,1.0,1.0), ccmix2, disableinCve * dp2);
 
-dirlitCC = mix(vec3(1.0),(colorFactor1 * colorFactor2),(1.0-pow(v_lightmapUV.x,3.5)));
+dirlitCC = mix(vec3(1.0,1.0,1.0),(colorFactor1 * colorFactor2),(1.0-pow(v_lightmapUV.x,3.5)));
 diffuse.rgb *= dirlitCC;
   #endif
 #endif
@@ -122,7 +122,7 @@ vec4 Line;
 #ifdef WATER_LINES
 if (texture2D(s_MatTexture, v_texcoord0).b > WATERLINE_INTENSITY) {
 vec3 wlc = mix(wLINE_DAYc,wLINE_NIGHTc,AFnight);
-     wlc = mix(vec3(0.0),wlc,v_lightmapUV.y);
+     wlc = mix(vec3(0.0,0.0,0.0),wlc,v_lightmapUV.y);
      diffuse += vec4(wlc, diffuse.a * WATERLINE_OPACITY);
   }
 #endif
@@ -158,9 +158,9 @@ float Grand1 = 0.17;
 float Grand2 = mix(2.51, 2.0, AFnight);
 vec3 reflectVec = reflect(normalize(v_wpos), norml);
 float noiseValue = noise(vec2(atan2(v_wpos.x, v_wpos.z)) * 9.4);
-vec3 baseColor = mix(vec3(1.0) * Grand1, vec3(0.5, 0.8, 1.0) * Grand2, noiseValue);
+vec3 baseColor = mix(vec3(1.0,1.0,1.0) * Grand1, vec3(0.5, 0.8, 1.0) * Grand2, noiseValue);
 float weight = clamp(length(v_wpos.xz * 0.06), 0.0, 1.0);
-vec3 finalColor = GDist * mix(vec3(0), baseColor, weight * clamp(reflectVec.y, 0.0, 1.0)) * v_lightmapUV.y;
+vec3 finalColor = GDist * mix(vec3(0.0,0.0,0.0), baseColor, weight * clamp(reflectVec.y, 0.0, 1.0)) * v_lightmapUV.y;
 
 diffuse.rgb += finalColor;
 }
