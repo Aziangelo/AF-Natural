@@ -8,13 +8,13 @@ vec4 i_data1 : TEXCOORD6;
 vec4 i_data2 : TEXCOORD5;
 
 vec4          v_color0     : COLOR0;
-vec4          v_color1     : COLOR0;
+vec4          v_color1     : COLOR3;
 vec4   v_RainFloorReflect  : COLOR1;
 vec4          v_fog        : COLOR2;
 centroid vec2 v_texcoord0  : TEXCOORD0;
 vec2          v_lightmapUV : TEXCOORD1;
-vec4 v_colors     : COLOR0;
-vec4 v_skyMie     : COLOR0;
+vec4 v_colors     : COLOR4;
+vec4 v_skyMie     : COLOR5;
 vec3 v_cpos       : POSITION;
 vec3 v_wpos       : TEXCOORD3;
 //vec4 aFN          : COLOR1;
