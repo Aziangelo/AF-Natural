@@ -12,5 +12,5 @@ vec3 v_normal       : NORMAL;
 vec3 v_worldPos     : TEXCOORD3;
 vec3 v_prevWorldPos : TEXCOORD4;
 vec3 v_position : POSITION;
-vec3 skypos : POSITION;
+vec3 skypos : POSITION1;
 vec3 v_worldpos : TEXCOORD3;
