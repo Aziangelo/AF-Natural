@@ -49,12 +49,12 @@ void main() {
     };
 #endif
 
- float cve1 = smoothstep(0.92, 0.89, abs(a_texcoord1.y));
- float cve2 = smoothstep(0.68, 0.05, abs(a_texcoord1.y));
+ float cve1 = smoothstep(0.92, 0.89, a_texcoord1.y);
+ float cve2 = smoothstep(0.68, 0.05, a_texcoord1.y);
  vec3 shadC = (vec3(0.8, 0.93, 1.0)*0.85);
  vec4 shadowCC;
 shadowCC.rgb = mix(mix(vec3(1.0,1.0,1.0), shadC, cve1 * (1.0-cve2)), vec3(1.0, 0.93, 0.9), pow(abs(a_texcoord1.x), 3.5));
- float cve0 = pow(1.0 - abs(a_texcoord1.y), 1.2);
+ float cve0 = pow(1.0 - a_texcoord1.y, 1.2);
  vec3 mainCC;
   mainCC = mix(DAYc, DUSKc, AFdusk);
   mainCC = mix(mainCC, NIGHTc, AFnight);
