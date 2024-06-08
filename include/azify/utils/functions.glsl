@@ -48,7 +48,7 @@ float fbm(vec2 pos, float time) {
     return 1. - pow(.1, max(1. - tot, 0.));
 }
 
-vec4 generateCloud(vec2 position, float time, int detail) {
+float generateCloud(vec2 position, float time, int detail) {
     float cloudNoise = 0.0;
     position *= 0.7995;
     cloudNoise += noise(time * 0.06 + (position));
@@ -69,7 +69,7 @@ vec4 generateCloud(vec2 position, float time, int detail) {
     cloudNoise = 1.0 - pow(0.51, alpha);
     cloudFbm = 1.2 - pow(0.01, alpha);
 
-    vec4 cloudResult = vec4(cloudFbm - cloudNoise * cloudNoise - cloudNoise * 0.01 * cloudFbm * 2.0 - cloudFbm * 0.006 * cloudFbm);
+    float cloudResult = cloudFbm - cloudNoise * cloudNoise - cloudNoise * 0.01 * cloudFbm * 2.0 - cloudFbm * 0.006 * cloudFbm;
     return cloudResult;
 }
 

@@ -65,7 +65,7 @@ if (DevUnWater) {
 vec3 clCc;
 clCc = mix(mix(mix(CLOUD_DAYc, CLOUD_DUSKc, AFdusk), CLOUD_NIGHTc, AFnight), CLOUD_RAINc, AFrain);
 vec2 scaledPos = (spos.xz / spos.y) * 3.0;
-    float cloudAlpha = generateCloud(scaledPos, ViewPositionAndTime.w, 4).a; 
+    float cloudAlpha = generateCloud(scaledPos, ViewPositionAndTime.w, 4); 
     float smoothStepVal = smoothstep(0.3, 1.5, length(-v_viewpos.y * 5.0));
     float mixFactor = cloudAlpha * 0.6 * clamp(smoothStepVal, 0.0, 1.0);
     albedo0.rgb = mix(albedo0.rgb, clCc, mixFactor);
