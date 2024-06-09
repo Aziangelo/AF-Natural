@@ -11,5 +11,8 @@ vec2 v_texcoord0    : TEXCOORD0;
 vec3 v_normal       : NORMAL;
 vec3 v_worldPos     : TEXCOORD3;
 vec3 v_prevWorldPos : TEXCOORD4;
-vec3 skypos : POSITION1;
 vec3 v_worldpos : TEXCOORD2;
+
+vec3 v_skypos  : POSITION1;
+vec3 v_viewPos : POSITION2;
+float v_minPos : POSITION3;

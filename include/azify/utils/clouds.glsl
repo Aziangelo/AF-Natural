@@ -1,16 +1,16 @@
-#ifndef CLOUDS
- #define CLOUDS
+#ifndef CLOUD
+ #define CLOUD
  
  float fbm(vec2 pos, float time) {
-    float tot = 0., s = 1.;
-    pos += time * .001;
-    for(int i = 0; i <= 2; i++){
+    float tot = 0.0, s = 1.0;
+    pos += time * 0.001;
+    for(int i = 0; i <= 1; i++){
         tot += noise(pos) / s;
         s *= 2.2;
-        pos *= 3.;
-        pos += time * .03;
+        pos *= 3.0;
+        pos += time * 0.03;
     }
-    return 1. - pow(.1, max(1. - tot, 0.));
+    return 1.0 - pow(0.1, max(1.0 - tot, 0.0));
 }
 
 float generateCloud(vec2 position, float time, int detail) {
