@@ -21,7 +21,11 @@
  const vec3 ECAVEc = (vec3(0.1, 0.15, 0.2)* 1.0);
 
 
+<<<<<<< HEAD
 #define SUPER_AO     // [ TOGGLE ]
+=======
+//#define SUPER_AO     // [ TOGGLE ]
+>>>>>>> origin/main
 #define CHUNK_ANIMATION
 
 #define DIRECT_LIGHT     // [ TOGGLE ]
@@ -53,10 +57,17 @@
 
 #define WATER_LINES        // [ TOGGLE ]
 #define WATERLINE_INTENSITY 0.68
+<<<<<<< HEAD
 #define WATERLINE_OPACITY 0.55
 // WATER LINES COLORS
  const vec3 wLINE_DAYc = (vec3(0.45, 0.9, 1.0)* 1.0);
  const vec3 wLINE_NIGHTc = (vec3(0.7, 0.6, 1.0)* 0.17);
+=======
+#define WATERLINE_OPACITY 0.3
+// WATER LINES COLORS
+ const vec3 wLINE_DAYc = (vec3(1.0, 0.99, 0.97)* 1.5);
+ const vec3 wLINE_NIGHTc = (vec3(1.0, 0.9, 0.95)* 0.17);
+>>>>>>> origin/main
  
 #define FOG     // [ TOGGLE ]
 // UNDER WATER FOG COLOR
@@ -83,19 +94,26 @@
  const vec3 SC_RAIN = (vec3(0.2, 0.2, 0.2)* 1.0);
 
 //#define AURORA_BOREALIS     // [ TOGGLE ] [ BETA ]
+<<<<<<< HEAD
  const vec3 AURA_C1 = (vec3(1.0,0.0,0.5)* 1.0);
  const vec3 AURA_C2 = (vec3(0.0,1.0,0.5)* 1.0);
 
 //#define CLOUDS              // [ TOGGLE ]
+=======
+#define CLOUDS              // [ TOGGLE ]
+>>>>>>> origin/main
  const vec3 CLOUD_DAYc = (vec3(0.8,0.9,0.95)* 1.0);
  const vec3 CLOUD_DUSKc = (vec3(0.7, 0.49, 0.39)* 1.0);
  const vec3 CLOUD_NIGHTc = (vec3(0.14, 0.18, 0.31)* 1.0);
  const vec3 CLOUD_RAINc = (vec3(0.59, 0.6, 0.6)* 1.0);
+<<<<<<< HEAD
  
  const vec3 SHADOW_DAYc = vec3(0.35, 0.5, 0.575);
  const vec3 SHADOW_DUSKc = vec3(0.5, 0.3, 0.25);
  const vec3 SHADOW_NIGHTc = vec3(0.05, 0.1, 0.2);
  const vec3 SHADOW_RAINc = vec3(0.295, 0.3, 0.3);
+=======
+>>>>>>> origin/main
 
 #endif
 
