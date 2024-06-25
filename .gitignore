@@ -1,5 +1,8 @@
 # ingnore dirs
-build/
+build/Android/
+build/iOS/
+build/Windows/
+build/All/
 data/
 env/
 
