@@ -1,16 +1,14 @@
 # ingnore dirs
-build/Android/
-build/iOS/
-build/Windows/
-build/All/
+build/
 data/
-env/bin/
-env/lib/
+env/
 
 # ignore files
 copy.sh
 commit.sh
 pull.sh
+chmod.sh
+mbt0.9.jar
 
 # eol
 * text=lf
