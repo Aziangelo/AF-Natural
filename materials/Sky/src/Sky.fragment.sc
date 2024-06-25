@@ -37,9 +37,9 @@ if (DevUnWater) {
   float cloudData = generateCloud(scaledPos);
   vec2 clPos = time * 0.15 + scaledPos;
   float cloudNoise = noise(clPos);
-  float shadowData = smoothstep(0.5,1.2, cloudNoise);
+  float shadowData = smoothstep(0.3,1.0, cloudNoise);
   float smoothStepVal = clamp(smoothstep(0.5, 1.8, length(-viewPos.y * 5.0)),0.0,1.0);
-  float mixFactor = cloudData * 0.55 * smoothStepVal;
+  float mixFactor = cloudData * 0.5 * smoothStepVal;
   albedo0.rgb = mix(albedo0.rgb, clCc, mixFactor);
   albedo0.rgb = mix(albedo0.rgb, shCc, shadowData*smoothStepVal);
 }

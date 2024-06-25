@@ -53,11 +53,11 @@
 
 // To be able to patch the uav registers on the DXBC SPDB Chunk (D3D11 renderer) the whitespaces around
 // '_type[_reg]' are necessary. This only affects shaders with debug info (i.e., those that have the SPDB Chunk).
-#	if BGFX_SHADER_LANGUAGE_HLSL > 400 || BGFX_SHADER_LANGUAGE_PSSL || BGFX_SHADER_LANGUAGE_SPIRV || BGFX_SHADER_LANGUAGE_METAL
+//#	if BGFX_SHADER_LANGUAGE_HLSL > 400 || BGFX_SHADER_LANGUAGE_PSSL || BGFX_SHADER_LANGUAGE_SPIRV || BGFX_SHADER_LANGUAGE_METAL
 #		define REGISTER(_type, _reg) register( _type[_reg] )
-#	else
-#		define REGISTER(_type, _reg) register(_type ## _reg)
-#	endif // BGFX_SHADER_LANGUAGE_HLSL
+//#	else
+//#		define REGISTER(_type, _reg) register(_type ## _reg)
+//#	endif // BGFX_SHADER_LANGUAGE_HLSL
 
 #   if BGFX_SHADER_LANGUAGE_HLSL >= 400 && BGFX_SHADER_TYPE_FRAGMENT
 cbuffer __placeholder__ : REGISTER(b, 0) {};
@@ -642,9 +642,11 @@ vec4  mod(vec4  _a, vec4  _b) { return _a - _b * floor(_a / _b); }
 #	define USAMPLER3D(_name, _reg) uniform highp usampler3D _name
 
 #	if BGFX_SHADER_LANGUAGE_GLSL >= 130
-#		define texture2D(_sampler, _coord)      texture(_sampler, _coord)
-#		define texture2DArray(_sampler, _coord) texture(_sampler, _coord)
-#		define texture3D(_sampler, _coord)      texture(_sampler, _coord)
+#		define texture2D(_sampler, _coord)               texture(_sampler, _coord)
+#		define texture2DArray(_sampler, _coord)          texture(_sampler, _coord)
+#		define texture2DArrayLod(_sampler, _coord, _lod) textureLod(_sampler, _coord, _lod)
+#		define texture3D(_sampler, _coord)          texture(_sampler, _coord)
+#		define texture3DLod(_sampler, _coord, _lod) textureLod(_sampler, _coord, _lod)
 #		define textureCube(_sampler, _coord)    texture(_sampler, _coord)
 #		define texture2DLod(_sampler, _coord, _lod)                textureLod(_sampler, _coord, _lod)
 #		define texture2DLodOffset(_sampler, _coord, _lod, _offset) textureLodOffset(_sampler, _coord, _lod, _offset)
@@ -668,23 +670,23 @@ vec3  rcp(vec3  _a) { return vec3(1.0)/_a; }
 vec4  rcp(vec4  _a) { return vec4(1.0)/_a; }
 #endif // BGFX_SHADER_LANGUAGE_*
 
-#define SAMPLER2D_AUTOREG(_name)       SAMPLER2D(_name, _name ## __REG)
-#define SAMPLER2DMS_AUTOREG(_name)     SAMPLER2DMS(_name, _name ## __REG)
-#define SAMPLER3D_AUTOREG(_name)       SAMPLER3D(_name, _name ## __REG)
-#define SAMPLERCUBE_AUTOREG(_name)     SAMPLERCUBE(_name, _name ## __REG)
-#define SAMPLER2DSHADOW_AUTOREG(_name) SAMPLER2DSHADOW(_name, _name ## __REG)
-#define SAMPLER2D_HIGHP_AUTOREG(_name, _reg)  SAMPLER2D_HIGHP(_name, _name ## __REG)
-#define SAMPLERCUBE_HIGHP_AUTOREG(_name, _reg) SAMPLERCUBE_HIGHP(_name, _name ## __REG)
+#define SAMPLER2D_AUTOREG(_name)       SAMPLER2D(_name, _name ## _REG)
+#define SAMPLER2DMS_AUTOREG(_name)     SAMPLER2DMS(_name, _name ## _REG)
+#define SAMPLER3D_AUTOREG(_name)       SAMPLER3D(_name, _name ## _REG)
+#define SAMPLERCUBE_AUTOREG(_name)     SAMPLERCUBE(_name, _name ## _REG)
+#define SAMPLER2DSHADOW_AUTOREG(_name) SAMPLER2DSHADOW(_name, _name ## _REG)
+#define SAMPLER2D_HIGHP_AUTOREG(_name, _reg)  SAMPLER2D_HIGHP(_name, _name ## _REG)
+#define SAMPLERCUBE_HIGHP_AUTOREG(_name, _reg) SAMPLERCUBE_HIGHP(_name, _name ## _REG)
 
-#define SAMPLER2DARRAY_AUTOREG(_name)       SAMPLER2DARRAY(_name, _name ## __REG)
-#define SAMPLER2DMSARRAY_AUTOREG(_name)     SAMPLER2DMSARRAY(_name, _name ## __REG)
-#define SAMPLERCUBEARRAY_AUTOREG(_name)     SAMPLERCUBEARRAY(_name, _name ## __REG)
-#define SAMPLER2DARRAYSHADOW_AUTOREG(_name) SAMPLER2DARRAYSHADOW(_name, _name ## __REG)
+#define SAMPLER2DARRAY_AUTOREG(_name)       SAMPLER2DARRAY(_name, _name ## _REG)
+#define SAMPLER2DMSARRAY_AUTOREG(_name)     SAMPLER2DMSARRAY(_name, _name ## _REG)
+#define SAMPLERCUBEARRAY_AUTOREG(_name)     SAMPLERCUBEARRAY(_name, _name ## _REG)
+#define SAMPLER2DARRAYSHADOW_AUTOREG(_name) SAMPLER2DARRAYSHADOW(_name, _name ## _REG)
 
-#define ISAMPLER2D_AUTOREG(_name) ISAMPLER2D(_name, _name ## __REG)
-#define USAMPLER2D_AUTOREG(_name) USAMPLER2D(_name, _name ## __REG)
-#define ISAMPLER3D_AUTOREG(_name) ISAMPLER3D(_name, _name ## __REG)
-#define USAMPLER3D_AUTOREG(_name) USAMPLER3D(_name, _name ## __REG)
+#define ISAMPLER2D_AUTOREG(_name) ISAMPLER2D(_name, _name ## _REG)
+#define USAMPLER2D_AUTOREG(_name) USAMPLER2D(_name, _name ## _REG)
+#define ISAMPLER3D_AUTOREG(_name) ISAMPLER3D(_name, _name ## _REG)
+#define USAMPLER3D_AUTOREG(_name) USAMPLER3D(_name, _name ## _REG)
 
 vec2 vec2_splat(float _x) { return vec2(_x, _x); }
 vec3 vec3_splat(float _x) { return vec3(_x, _x, _x); }

@@ -25,7 +25,7 @@ float noise(vec2 x) {
 
 // DITHER
 #define CL_QUALITY 0.5
-#define DITHER 2
+#define DITHER 1
 #if DITHER==1
 float rand(vec2 co) {
     return fract(sin(dot(co.xy, vec2(12.9898, 78.233))) * 43758.5453);

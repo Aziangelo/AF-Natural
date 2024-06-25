@@ -84,7 +84,7 @@
 #define SB_DUSK  vec3(1.0,0.45,0.23)* 1.0
 #define SB_NIGHT vec3(0.45,0.28,0.65)* 1.0
 #define SB_RAIN  vec3(0.5,0.5,0.5)* 1.0
-#define SC_DAY   vec3(0.1,0.2,0.4)* 1.0   //down
+#define SC_DAY   vec3(0.2,0.4,0.6)* 1.0   //down
 #define SC_DUSK  vec3(0.6,0.4,0.3)* 1.0
 #define SC_NIGHT vec3(0.1,0.3,0.5) * 0.2
 #define SC_RAIN  vec3(0.2,0.2,0.2)* 1.0
@@ -98,11 +98,11 @@
 #define CLOUDS        // [ TOGGLE ]
 #define CLOUD_DAYc     vec3(0.8,0.9,0.95)* 1.0
 #define CLOUD_DUSKc    vec3(0.7,0.49,0.39)* 1.0
-#define CLOUD_NIGHTc   vec3(0.14,0.18,0.31)* 1.0
+#define CLOUD_NIGHTc   vec3(0.13, 0.11, 0.33)* 1.1
 #define CLOUD_RAINc    vec3(0.59,0.6,0.6)* 1.0
-#define SHADOW_DAYc    vec3(0.25,0.4,0.475)
+#define SHADOW_DAYc    vec3(0.2,0.4,0.5)* 0.9
 #define SHADOW_DUSKc   vec3(0.5,0.3,0.25)
-#define SHADOW_NIGHTc  vec3(0.05,0.1,0.2)
+#define SHADOW_NIGHTc  vec3(0.055, 0.067, 0.235)
 #define SHADOW_RAINc   vec3(0.295,0.3,0.3)
 
 
