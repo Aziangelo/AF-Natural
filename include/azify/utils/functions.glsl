@@ -11,13 +11,9 @@ vec3 AzifyFN(vec3 x) {
     return clamp((x * (a * x + b)) / (x * (c * x + d) + e), 0.0, 1.0);
 }
 
-// NOISE
+// NOISE & HASH
 float hash( float n ) {
-<<<<<<< HEAD
     return fract(sin(n+2836.5)*43758.5453);
-=======
-    return fract(sin(n)*43758.5453);
->>>>>>> origin/main
 }
 float noise(vec2 x) {
  vec2 p = floor(x);
@@ -27,7 +23,28 @@ float noise(vec2 x) {
    return mix(mix( hash(n+  0.0), hash(n+  1.0),f.x), mix( hash(n+ 57.0), hash(n+ 58.0),f.x),f.y);
 }
 
-<<<<<<< HEAD
+// DITHER
+#define CL_QUALITY 0.5
+#define DITHER 2
+#if DITHER==1
+float rand(vec2 co) {
+    return fract(sin(dot(co.xy, vec2(12.9898, 78.233))) * 43758.5453);
+}
+float dither(vec2 pos) {
+    return CL_QUALITY * (rand(pos) - 0.5);
+}
+#elif DITHER==2
+float dither(vec2 pos) {
+    float gridSize = 4.0; // Adjust the grid size for dither effect
+    vec2 grid = floor(pos * gridSize);
+    float ditherValue = mod(grid.x + grid.y, 2.0) * 0.5;
+    return CL_QUALITY * (ditherValue - 0.25);
+}
+#endif
+
+
+
+
 vec3 getTangent(vec3 n) 
 {
     if (n.x > 0.0) return vec3(0, 0, -1);
@@ -54,42 +71,7 @@ vec3 getFresnel(float NoV, vec3 roughness)
 }
 
 // VORONEI
-float voronoi(vec2 pos, float time) 
-{
-  vec2 p = pos * 1.5;
-  float t = time * 0.25;
-  mat2 m = mat2(0.8, -0.6, 0.6, 0.8);
-  vec2 p1 = fract(p + t);
-  vec2 tpt = mul((p + vec2(0.9, 0.9) - t * 0.2), m);
-  vec2 p2 = fract(tpt);
-  float d1 = length(p1 - vec2(0.5,0.5));
-  float d2 = length(p2 - vec2(0.5,0.5));
-  float d = min(d1, d2);
-  d += 0.05 * sin(10.0 * p1.x + 10.0 * p1.y + t) * sin(10.0 * p2.x + 10.0 * p2.y + t);
-  return d;
-}
-
-vec3 grayscale(vec3 color) 
-{
-  float gray = dot(color, vec3(0.2126, 0.7152, 0.0722));
-  return vec3(gray,gray,gray);
-}
-
-float luma(vec3 c) 
-{
-  return dot(c, vec3(.2126, .7152, .0722));
-}
-
-bool detectUnderwater(vec3 FOG_COLOR, vec2 FOG_CONTROL) 
-{
-  return FOG_CONTROL.x==0.0 && FOG_CONTROL.y<0.8 && (FOG_COLOR.b>FOG_COLOR.r || FOG_COLOR.g>FOG_COLOR.r);
-}
-
-bool detectNether(vec3 FOG_COLOR, vec2 FOG_CONTROL) 
-{
-=======
-// VORONEI
-float voronoi(vec2 pos, float time) {
+float voronoi(vec2 pos) {
     vec2 p = pos * 1.5; // scale
     float t = time * 0.25;
     mat2 m = mat2(0.8, -0.6, 0.6, 0.8);
@@ -115,7 +97,7 @@ bool detectUnderwater(vec3 FOG_COLOR, vec2 FOG_CONTROL) {
 }
 
 bool detectNether(vec3 FOG_COLOR, vec2 FOG_CONTROL) {
->>>>>>> origin/main
+
   float expectedFogX = 0.029 + (0.09*FOG_CONTROL.y*FOG_CONTROL.y);
   bool netherFogCtrl = (FOG_CONTROL.x<0.14  && abs(FOG_CONTROL.x-expectedFogX) < 0.02);
   bool netherFogCol = (FOG_COLOR.r+FOG_COLOR.g)>0.0;

@@ -8,5 +8,6 @@
  #define AFdusk mix( detect( 1.0, 0.0, FogColor.b ), detect( 0.25, 0.15, FogColor.g ), AFrain )
  #define AFday detect(0.02, 0.65, FogColor.r)
  #define timecycle( a, b, c ) mix( mix( a, b, AFdusk ), c, AFnight )
+vec4 wtime = vec4(AFday,AFdusk,AFnight,AFrain);
  
  #endif

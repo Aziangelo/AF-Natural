@@ -1,7 +1,7 @@
 #!/bin/bash
 
 MBT_JAR_FILES=(env/jar/MaterialBinTool-0.*.jar)
-MBT_JAR="java -jar ${MBT_JAR_FILES[0]}"
+MBT_JAR="java -jar ${MBT_JAR_FILES[1]}"
 
 SHADERC=env/bin/shaderc
 LIB_DIR=env/lib
@@ -61,14 +61,14 @@ fi
 
 MBT_ARGS+=" --threads $THREADS"
 
-echo "${MBT_JAR##*/}"
 for p in $TARGETS; do
   echo "----------------------------------------------------"
-  echo -e "$YD>> File:$Y AF-Natural $RESET"
+  echo "-- ${MBT_JAR##*/}"
+  echo -e "$YD>> File:$Y AF-TrulyDefault $RESET"
   echo -e "$GD>> Building materials -$G $p $VD$DATA_VER:$RESET"
   if [ -d "$DATA_DIR/$p" ]; then
     for s in $MATERIALS; do
-      echo "- $s"
+      echo "-- $s"
       LD_LIBRARY_PATH=$LIB_DIR $MBT_JAR $MBT_ARGS --output $BUILD_DIR/$p --data $DATA_DIR/$p/${s##*/} $s -m
       echo -e "$G>> Success. $RESET"
    echo "----------------------------------------------------"

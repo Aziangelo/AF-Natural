@@ -13,38 +13,31 @@ $output v_skypos, v_viewPos, v_minPos
 #endif
 
 #include <bgfx_shader.sh>
-
-uniform vec4 SkyColor;
-uniform vec4 FogColor;
-uniform vec4 FogAndDistanceControl;
-uniform vec4 ViewPositionAndTime;
-
-#include <azify/shader_inputs.glsl>
-#include <azify/utils/time.glsl>
-#include <azify/utils/functions.glsl>
+#include <azify/core.sh>
 
 void main() {
 #if defined(OPAQUE)
-
-    vec4 tmpvar;
-    vec4 k1;
-    tmpvar.w = 1.0;
-    tmpvar.xyz = a_position;
-    k1.xzw = tmpvar.xzw;
-    k1.y = (a_position.y - sqrt(dot (a_position.xz, a_position.xz) * 17.5));
-    vec3 sPos  = (k1.xyz + vec3(0.0, 0.128, 0.0));
- 
-    v_viewPos = normalize(sPos);
-    v_viewPos.y = (v_viewPos.y - 0.0128);
-    v_minPos = min(v_viewPos.y, 0.005);
-    v_viewPos.y = max(v_viewPos.y, 0.0);
-    v_skypos = sPos;
-    v_color0 = mix(SkyColor, FogColor, a_color0.x);
-    gl_Position = mul(u_modelViewProj, k1);
+  //Opaque
+  vec4 pos;
+  pos.w = 1.0;
+  pos.xyz = a_position;
+  pos.y = a_position.y - sqrt(dot(a_position.xz, a_position.xz) * 360.0);
+  
+  vec3 sPos = pos.xyz + vec3(0.0, 0.128, 0.0);
+  
+  v_viewPos = normalize(sPos);
+  v_viewPos.y -= 0.0128;
+  v_minPos = min(v_viewPos.y, 0.005);
+  v_viewPos.y = max(v_viewPos.y, 0.0);
+  v_skypos = sPos;
+  v_color0 = mix(SkyColor, FogColor, a_color0.x);
+  
+  gl_Position = mul(u_modelViewProj, pos);
+    
 #else
-    //Fallback
-    v_color0 = vec4(0.0, 0.0, 0.0, 0.0);
-    gl_Position = vec4(0.0, 0.0, 0.0, 0.0);
+  //Fallback
+  v_color0 = vec4(0.0, 0.0, 0.0, 0.0);
+  gl_Position = vec4(0.0, 0.0, 0.0, 0.0);
 
 #endif
 }
