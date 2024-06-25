@@ -32,8 +32,8 @@ void main() {
     float camDis = length(modelCamPos);
     vec4 fogColor;
     fogColor.rgb = FogColor.rgb;
-    fogColor.a = clamp(((((camDis / FogAndDistanceControl.z) + RenderChunkFogAlpha.x) -
-        FogAndDistanceControl.x) / (FogAndDistanceControl.y - FogAndDistanceControl.x)), 0.0, 1.0);
+    fogColor.a = 
+  clamp(((((camDis / FogAndDistanceControl.z) + RenderChunkFogAlpha.x) - FogAndDistanceControl.x) / (FogAndDistanceControl.y)), 0.0, 1.0);
 
 #ifdef TRANSPARENT
     if(a_color0.a < 0.95) {
