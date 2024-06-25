@@ -3,6 +3,8 @@ $input a_color0, a_position, a_texcoord0, a_texcoord1
     $input i_data0, i_data1, i_data2
 #endif
 $output v_color0, v_fog, v_texcoord0, v_lightmapUV
+$output v_colors, v_skyMie, v_color1, v_color2, v_color3, v_color4, v_RainFloorReflect
+$output v_cpos, v_wpos
 
 #include <bgfx_shader.sh>
 #include <azify/core.sh>
@@ -17,6 +19,14 @@ void main() {
 
     vec3 worldPos = mul(model, vec4(a_position, 1.0)).xyz;
     vec4 color;
+#ifdef CHUNK_ANIMATION
+  float bI = 7.5;
+  float bS = 1.2;
+  float bX = abs(sin(RenderChunkFogAlpha.x * bS * 3.14159));
+  float fogEffect = 600.0 * pow(RenderChunkFogAlpha.x, 3.0);
+  worldPos.y += bI * bX - fogEffect;
+#endif // CHUNK_ANIMATION
+
 #ifdef RENDER_AS_BILLBOARDS
     worldPos += vec3(0.5, 0.5, 0.5);
     vec3 viewDir = normalize(worldPos - ViewPositionAndTime.xyz);

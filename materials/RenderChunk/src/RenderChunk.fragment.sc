@@ -1,4 +1,6 @@
 $input v_color0, v_fog, v_texcoord0, v_lightmapUV
+$input v_colors, v_skyMie, v_color1, v_color2, v_color3, v_color4, v_RainFloorReflect
+$input v_cpos, v_wpos
 
 #include <bgfx_shader.sh>
 #include <azify/core.sh>
