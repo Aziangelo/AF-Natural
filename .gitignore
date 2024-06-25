@@ -4,7 +4,7 @@ build/iOS/
 build/Windows/
 build/All/
 data/
-# env/bin/
+env/bin/
 env/lib/
 
 # ignore files
