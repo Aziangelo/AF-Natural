@@ -84,7 +84,7 @@
 #define SB_DUSK  vec3(1.0,0.45,0.23)* 1.0
 #define SB_NIGHT vec3(0.45,0.28,0.65)* 1.0
 #define SB_RAIN  vec3(0.5,0.5,0.5)* 1.0
-#define SC_DAY   vec3(0.3,0.4,0.6)* 1.0   //down
+#define SC_DAY   vec3(0.1,0.2,0.4)* 1.0   //down
 #define SC_DUSK  vec3(0.6,0.4,0.3)* 1.0
 #define SC_NIGHT vec3(0.1,0.3,0.5) * 0.2
 #define SC_RAIN  vec3(0.2,0.2,0.2)* 1.0

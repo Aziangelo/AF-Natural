@@ -5,11 +5,7 @@ $input a_color0, a_position, a_texcoord0, a_texcoord1
 $output v_color0, v_fog, v_texcoord0, v_lightmapUV
 
 #include <bgfx_shader.sh>
-
-uniform vec4 RenderChunkFogAlpha;
-uniform vec4 FogAndDistanceControl;
-uniform vec4 ViewPositionAndTime;
-uniform vec4 FogColor;
+#include <azify/core.sh>
 
 void main() {
     mat4 model;

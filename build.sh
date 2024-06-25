@@ -1,4 +1,5 @@
 #!/bin/bash
+CURRENTDIR=$(basename "$PWD")
 
 MBT_JAR_FILES=(env/jar/MaterialBinTool-0.*.jar)
 MBT_JAR="java -jar ${MBT_JAR_FILES[1]}"
@@ -8,8 +9,8 @@ LIB_DIR=env/lib
 
 MBT_ARGS="--compile --shaderc $SHADERC --include include/"
 
-DATA_VER="1.20.0"
-DATA_DIR=data/$DATA_VER
+DATA_VER="1.20.60"
+DATA_DIR=../RenderDragonData/$DATA_VER
 BUILD_DIR=build
 MATERIAL_DIR=materials
 G='\e[1;32m'
@@ -64,7 +65,7 @@ MBT_ARGS+=" --threads $THREADS"
 for p in $TARGETS; do
   echo "----------------------------------------------------"
   echo "-- ${MBT_JAR##*/}"
-  echo -e "$YD>> File:$Y AF-TrulyDefault $RESET"
+  echo -e "$YD>> File:$Y $CURRENTDIR $RESET"
   echo -e "$GD>> Building materials -$G $p $VD$DATA_VER:$RESET"
   if [ -d "$DATA_DIR/$p" ]; then
     for s in $MATERIALS; do
