@@ -11,7 +11,7 @@ set BUILD_DIR=build
 set MATERIALS_DIR=materials
 
 set MATERIALS=
-set TARGETS=android
+set TARGETS=
 set ARG_MODE=
 :loop_args
   if "%1" == "" goto :end_args
