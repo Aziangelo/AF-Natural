@@ -1,6 +1,5 @@
 @echo off
 
-#set MBT=env\bin\MaterialBinTool-0.8.2-native-image.exe
 set MBT=env\jar\MaterialBinTool-0.9.0-all.jar
 set SHADERC=env\bin\shaderc.exe
 
