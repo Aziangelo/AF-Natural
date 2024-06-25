@@ -25,7 +25,7 @@ void main() {
   }
 
 #ifdef AURORA_BOREALIS
-  getAurora(albedo0.rgb, viewPos, wtime);
+  getAurora(albedo0.rgb, viewPos, Wtime);
 #endif
 
 #ifdef CLOUDS
