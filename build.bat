@@ -1,5 +1,6 @@
 @echo off
 
+set MBT=env\bin\MaterialBinTool-0.8.2-native-image.exe
 set MBT=env\bin\MaterialBinTool-0.9.0-all.jar
 set SHADERC=env\bin\shaderc.exe
 
@@ -11,7 +12,7 @@ set BUILD_DIR=build
 set MATERIALS_DIR=materials
 
 set MATERIALS=
-set TARGETS=
+set TARGETS=android
 set ARG_MODE=
 :loop_args
   if "%1" == "" goto :end_args
@@ -62,9 +63,10 @@ for %%p in (%TARGETS%) do (
   if exist %DATA_DIR%\%%p (
     for /d %%s in (%MATERIALS%) do (
       echo  - %%s
-      %MBT% %MBT_ARGS% --output %BUILD_DIR%\%%p --data %DATA_DIR%\%%p\%%~nxs %%s
+      java -jar %MBT% %MBT_ARGS% --output %BUILD_DIR%\%%p --data %DATA_DIR%\%%p\%%~nxs %%s
     )
   ) else (
     echo Error: %DATA%\%%p not found
   )
 )
+pause
