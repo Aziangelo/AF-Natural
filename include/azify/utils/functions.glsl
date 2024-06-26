@@ -92,17 +92,4 @@ vec3 grayscale(vec3 color) {
     return vec3(gray,gray,gray);
 }
 
-bool detectUnderwater(vec3 FOG_COLOR, vec2 FOG_CONTROL) {
-  return FOG_CONTROL.x==0.0 && FOG_CONTROL.y<0.8 && (FOG_COLOR.b>FOG_COLOR.r || FOG_COLOR.g>FOG_COLOR.r);
-}
-
-bool detectNether(vec3 FOG_COLOR, vec2 FOG_CONTROL) {
-
-  float expectedFogX = 0.029 + (0.09*FOG_CONTROL.y*FOG_CONTROL.y);
-  bool netherFogCtrl = (FOG_CONTROL.x<0.14  && abs(FOG_CONTROL.x-expectedFogX) < 0.02);
-  bool netherFogCol = (FOG_COLOR.r+FOG_COLOR.g)>0.0;
-  bool underLava = FOG_CONTROL.x == 0.0 && FOG_COLOR.b == 0.0 && FOG_COLOR.g < 0.18 && FOG_COLOR.r-FOG_COLOR.g > 0.1;
-  return (netherFogCtrl && netherFogCol) || underLava;
-}
-
 #endif

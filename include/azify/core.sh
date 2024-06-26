@@ -3,9 +3,11 @@
 
 #include "uniforms.sh"
 
-#include "shader_inputs.glsl"
+#include "shader_inputs.h"
 #include "utils/time.glsl"
+#include "utils/components.glsl"
 #include "utils/functions.glsl"
+#include "utils/glow.glsl"
 #include "utils/sky.glsl"
 #include "utils/clouds.glsl"
 
