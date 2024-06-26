@@ -28,7 +28,9 @@ void main() {
   getAurora(albedo0.rgb, viewPos, Wtime);
 #endif
 
+#ifdef STARS
 getStars(albedo0.rgb, viewPos, Wtime);
+#endif 
 
 #ifdef CLOUDS
 if (DevUnWater) {
