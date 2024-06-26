@@ -1,6 +1,6 @@
 # ingnore dirs
 build/
-data/
+# data/
 env/
 
 # ignore files

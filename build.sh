@@ -9,7 +9,18 @@ LIB_DIR=env/lib
 
 MBT_ARGS="--compile --shaderc $SHADERC --include include/"
 
-DATA_VER="1.20.0"
+echo -e "Data Version:"
+echo -e "(0) 1.20.0"
+echo -e "(1) 1.20.60"
+read -p "Enter a value: " VERSION
+if [ "$VERSION" = "0" ]; then
+  DATA_VER="1.20.0"
+elif [ "$VERSION" = "1" ]; then
+  DATA_VER="1.20.60"
+else
+    echo "Invalid option. Exiting."
+    exit 1
+fi
 DATA_DIR=../RenderDragonData/$DATA_VER
 BUILD_DIR=build
 MATERIAL_DIR=materials
