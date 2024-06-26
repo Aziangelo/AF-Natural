@@ -9,6 +9,7 @@ commit.sh
 pull.sh
 chmod.sh
 mbt0.9.jar
+merge.sh
 
 # eol
 * text=lf
