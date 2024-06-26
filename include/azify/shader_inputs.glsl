@@ -101,7 +101,7 @@
 #define CLOUD_NIGHTc   vec3(0.13, 0.11, 0.33)* 1.1
 #define CLOUD_RAINc    vec3(0.59,0.6,0.6)* 1.0
 #define SHADOW_DAYc    vec3(0.2,0.4,0.5)* 0.9
-#define SHADOW_DUSKc   vec3(0.5,0.3,0.25)
+#define SHADOW_DUSKc   vec3(0.5,0.3,0.25)* 0.7
 #define SHADOW_NIGHTc  vec3(0.055, 0.067, 0.235)
 #define SHADOW_RAINc   vec3(0.295,0.3,0.3)
 

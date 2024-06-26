@@ -28,13 +28,15 @@ void main() {
   getAurora(albedo0.rgb, viewPos, Wtime);
 #endif
 
+getStars(albedo0.rgb, viewPos, Wtime);
+
 #ifdef CLOUDS
 if (DevUnWater) {
 } else {
   vec3 clCc = mix(mix(mix(CLOUD_DAYc, CLOUD_DUSKc, AFdusk), CLOUD_NIGHTc, AFnight), CLOUD_RAINc, AFrain);
   vec3 shCc = mix(mix(mix(SHADOW_DAYc, SHADOW_DUSKc, AFdusk), SHADOW_NIGHTc, AFnight), SHADOW_RAINc, AFrain);
   vec2 scaledPos = (viewPos.xz / viewPos.y) * 2.5;
-  float cloudData = generateCloud(scaledPos);
+  float cloudData = getClouds(scaledPos);
   vec2 clPos = time * 0.15 + scaledPos;
   float cloudNoise = noise(clPos);
   float shadowData = smoothstep(0.3,1.0, cloudNoise);
