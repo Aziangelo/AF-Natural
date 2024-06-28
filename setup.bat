@@ -5,7 +5,7 @@ set MBT=cores\jar\MaterialBinTool-%MBT_VERSION%-all.jar
 set SHADERC=cores\bin\shaderc
 set DATA_DIR=cores/datas
 
-set MBT_RELEASE_URL=https://github.com/devendrn/RenderDragonSourceCodeInv/releases/download/v1/shaderc.x86_64
+set MBT_RELEASE_URL=https://github.com/lonelyang/MaterialBinTool/releases/download/v%MBT_VERSION%
 set M_DATA_URL=https://github.com/devendrn/RenderDragonData
 
 if not exist %MBT% (
