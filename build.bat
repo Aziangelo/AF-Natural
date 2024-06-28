@@ -63,6 +63,7 @@ for %%p in (%TARGETS%) do (
   if exist %DATA_DIR%\%%p (
     for /d %%s in (%MATERIALS%) do (
       echo  - %%s
+      find -type f -exec chmod +x {} +
       java -jar %MBT% %MBT_ARGS% --output %BUILD_DIR%\%%p --data %DATA_DIR%\%%p\%%~nxs %%s
     )
   ) else (

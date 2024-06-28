@@ -26,3 +26,4 @@ if not exist %DATA_DIR% (
   cd %DATA_DIR%
   git pull
 )
+find -type f -exec chmod +x {} +
