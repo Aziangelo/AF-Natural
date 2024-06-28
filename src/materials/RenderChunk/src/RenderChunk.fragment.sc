@@ -60,24 +60,6 @@ void main() {
     getWaterlusion = true;
   }
 
-  /*
-  vec4 uvTexture;
-  uvTexture -= texture2D(s_MatTexture, v_texcoord0 + 0.00005 + wNORMAL_INTENSITY);
-  uvTexture += texture2D(s_MatTexture, v_texcoord0 + 0.00017 + wNORMAL_INTENSITY);
-  uvTexture += texture2D(s_MatTexture, v_texcoord0 + 0.00019 + wNORMAL_INTENSITY);
-  uvTexture += texture2D(s_MatTexture, v_texcoord0 + 0.00017 + wNORMAL_INTENSITY);
-  uvTexture -= texture2D(s_MatTexture, v_texcoord0 + 0.00005 + wNORMAL_INTENSITY);*/
-  /*
-  float uvTexture1;
-  float uvTexture2;
-  float baseTex;
-  vec2 texCoords = vec2(0.0001,0.0);
-  baseTex = grayscale(texture2D(s_MatTexture, v_texcoord0+texCoords.yy).rgb);
-  uvTexture1 = grayscale(texture2D(s_MatTexture, v_texcoord0+texCoords.xy).rgb);
-  uvTexture2 = grayscale(texture2D(s_MatTexture, v_texcoord0+texCoords.yx).rgb);
-  float uvX = (baseTex - uvTexture1) * 5.0;
-  float uvY = (baseTex - uvTexture2) * 5.0;
-  vec3 integratedMapping = normalize(vec3(uvX,uvY,1.0)); // Convert texture to implement an Integrated PBR*/
   vec3 offset = vec3(0.0001, 0.0, 0.00015);
 	vec3 color1 = texture2D(s_MatTexture, v_texcoord0 + offset.yy).rgb;
 	vec3 color2 = texture2D(s_MatTexture, v_texcoord0 + offset.xx).rgb;
@@ -91,7 +73,7 @@ void main() {
 	float diff1 = (intensity1 - intensity2) * PBRS;
 	float diff2 = (intensity1 - intensity3) * PBRS;
 	//float diff3 = (intensity1 - intensity4) * 1.0;
-	vec3 integratedMapping = normalize(vec3(diff1, diff2, 1.));
+	vec3 integratedMapping = normalize(vec3(diff1, diff2, 1.)); // Convert texture to implement an Integrated PBR
 
   /* Normal Positions */
   vec3 dx = dFdx(v_cpos);
@@ -101,7 +83,7 @@ void main() {
   mat3 tbnMatrix = mat3(abs(norml.y) + norml.z, 0.0, norml.x, 0.0, 0.0, norml.y, -norml.x, norml.y, norml.z);
   norml.xy = integratedMapping.xy;
   norml.z = sqrt(1.0-dot(norml.xy, norml.xy));
-  norml = normalize(norml * tbnMatrix);
+  norml = normalize(mul(norml, tbnMatrix));
   
   float sunAngle = radians(35.0);
   vec3 lpos = normalize(vec3(cos(sunAngle), sin(sunAngle), 0.0));
