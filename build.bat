@@ -3,7 +3,7 @@
 set MBT=cores\bin\MaterialBinTool-0.8.2-native-image.exe
 set SHADERC=cores\bin\shaderc.exe
 
-set MBT_ARGS=--compile --shaderc %SHADERC% --include include/ --include src/
+set MBT_ARGS=--compile --shaderc %SHADERC% --include cores/include/ --include src/
 
 set DATA_VER=1.20.0
 set DATA_DIR=cores/datas/%DATA_VER%
