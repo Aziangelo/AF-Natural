@@ -5,8 +5,7 @@ set MBT=cores\bin\MaterialBinTool-%MBT_VERSION%-native-image.exe
 set SHADERC=cores\bin\shaderc.exe
 set DATA_DIR=cores/datas
 
-set MBT_RELEASE_URL=
-https://github.com/lonelyang/MaterialBinTool/releases/download/v%MBT_VERSION%
+set MBT_RELEASE_URL=https://github.com/lonelyang/MaterialBinTool/releases/download/v%MBT_VERSION%
 set M_DATA_URL=https://github.com/devendrn/RenderDragonData
 
 if not exist %MBT% (
