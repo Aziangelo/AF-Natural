@@ -73,7 +73,7 @@ void main() {
 	float diff1 = (intensity1 - intensity2) * PBRS;
 	float diff2 = (intensity1 - intensity3) * PBRS;
 	//float diff3 = (intensity1 - intensity4) * 1.0;
-	vec3 integratedMapping = normalize(vec3(diff1, diff2, 1.)); // Convert texture to implement an Integrated PBR
+	vec3 integratedMapping = normalize(vec3(diff1, diff2, 1.0)); // Convert texture to implement an Integrated PBR
 
   /* Normal Positions */
   vec3 dx = dFdx(v_cpos);
@@ -95,9 +95,9 @@ void main() {
 
   float NoL = max(0.0,dot(norml, lpos));
   float NoV = max(0.0, dot(norml, vdir));
-  float NoH = max(.001, dot(norml, hdir));
+  float NoH = max(0.001, dot(norml, hdir));
   float ndotv = clamp(dot(norml, vdir),0.0,1.0);
-  vec4 fresnel = clamp(vec4(getFresnel(NoV, vec3(0.05)), smoothstep(.5, 0., NoV)),0.,1.);
+  vec4 fresnel = clamp(vec4(getFresnel(NoV, float3(0.05)), smoothstep(0.5, 0.0, NoV)),0.0,1.0);
   
   float powCave = pow(v_lightmapUV.y, 2.0);
   float powLight = pow(v_lightmapUV.x, 3.5);
@@ -147,14 +147,10 @@ void main() {
 	#endif /* WATER_LINES */
 	#ifdef WATER_GRADIENT
 	
-	vec3 viewPos = clamp(normalize(vdir),0.,1.);
+	vec3 viewPos = clamp(normalize(vdir),0.0,1.0);
 	float minPos = min(viewPos.y, 0.005);
 	vec3 skyM = calculateSky(diffuse.rgb, viewPos, minPos);
 	diffuse = vec4(mix(diffuse.rgb, skyM, fresnel.rgb), mix(diffuse.a*0.1,0.9,fresnel.a));
-	/*
-	vec3 y_pos = normalize(-v_wpos.xyz);
-  float fnel = (smoothstep(0.5, 0.0, y_pos.y) * (0.7 * v_lightmapUV.y));
-  diffuse = vec4(mix(diffuse.rgb, v_skyMie.rgb, fnel), mix(diffuse.a * WATER_OPACITY, WATERGRAD_OPACITY,  smoothstep(WATERGRAD_SMOOTHNESS, 0.0, max(0.001, dot(norml, y_pos)))));*/
   #endif /* WATER_GRADIENT */
 	}
 	#endif /* TRANSPARENT */
