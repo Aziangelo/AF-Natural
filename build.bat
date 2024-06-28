@@ -1,10 +1,9 @@
 @echo off
 
-
-set MBT=cores\bin\MaterialBinTool-0.9.0-native-image.exe
+set MBT=cores\bin\MaterialBinTool-0.8.2-native-image.exe
 set SHADERC=cores\bin\shaderc.exe
 
-set MBT_ARGS=--compile --shaderc %SHADERC% --include cores/include/ --include src/
+set MBT_ARGS=--compile --shaderc %SHADERC% --include include/ --include src/
 
 set DATA_VER=1.20.0
 set DATA_DIR=cores/datas/%DATA_VER%
@@ -63,11 +62,9 @@ for %%p in (%TARGETS%) do (
   if exist %DATA_DIR%\%%p (
     for /d %%s in (%MATERIALS%) do (
       echo  - %%s
-      find -type f -exec chmod +x {} +
-      java -jar %MBT% %MBT_ARGS% --output %BUILD_DIR%\%%p --data %DATA_DIR%\%%p\%%~nxs %%s
+      %MBT% %MBT_ARGS% --output %BUILD_DIR%\%%p --data %DATA_DIR%\%%p\%%~nxs %%s
     )
   ) else (
     echo Error: %DATA%\%%p not found
   )
 )
-pause
