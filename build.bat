@@ -1,14 +1,14 @@
 @echo off
 
-set MBT=env\jar\MaterialBinTool-0.9.0-all.jar
-set SHADERC=env\bin\shaderc.exe
+set MBT=cores\jar\MaterialBinTool-0.9.0-all.jar
+set SHADERC=cores\bin\shaderc.exe
 
-set MBT_ARGS=--compile --shaderc %SHADERC% --include include/
+set MBT_ARGS=--compile --shaderc %SHADERC% --include cores/include/ --include src/
 
 set DATA_VER=1.20.0
-set DATA_DIR=data/%DATA_VER%
+set DATA_DIR=cores/datas/%DATA_VER%
 set BUILD_DIR=build
-set MATERIALS_DIR=materials
+set MATERIALS_DIR=src/materials
 
 set MATERIALS=
 set TARGETS=

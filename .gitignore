@@ -1,7 +1,10 @@
 # ingnore dirs
 build/
-# data/
-env/
+cores/lib/
+cores/jar/
+cores/bin/
+cores/datas/
+
 
 # ignore files
 copy.sh

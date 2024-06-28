@@ -32,8 +32,7 @@ void main() {
   float camDis = length(modelCamPos);
   vec4 fogColor;
   fogColor.rgb = FogColor.rgb;
-  fogColor.a =
-  clamp(((((camDis / FogAndDistanceControl.z) + RenderChunkFogAlpha.x) - FogAndDistanceControl.x) / (FogAndDistanceControl.y)), 0.0, 1.0);
+  fogColor.a = clamp(((((camDis / FogAndDistanceControl.z) + RenderChunkFogAlpha.x) - FogAndDistanceControl.x) / (FogAndDistanceControl.y - FogAndDistanceControl.x)), 0.0, 1.0);
 
   #ifdef TRANSPARENT
   if(a_color0.a < 0.95) {
@@ -51,18 +50,18 @@ void main() {
   ambientOcclusion.a = 1.0;
 
 
-  float cve1 = smoothstep(0.92,0.89,a_texcoord1.y);
-  float cve2 = smoothstep(0.68,0.05,a_texcoord1.y);
+  float outerCave = smoothstep(0.91,0.9,a_texcoord1.y);
+  float middlCave = smoothstep(0.68,0.05,a_texcoord1.y);
 
   vec3 getShadowColor = vec3(0.8, 0.93, 1.0)*0.85;
-  vec3 getShadow = mix(mix(vec3(1.0, 1.0, 1.0), getShadowColor, cve1 * (1.0-cve2)), vec3(1.0, 0.93, 0.9), pow(a_texcoord1.x, 3.5));
+  vec3 getShadow = mix(mix(vec3(1.0, 1.0, 1.0), getShadowColor, outerCave*(1.0-middlCave)), vec3(1.0, 0.93, 0.9), pow(a_texcoord1.x, 3.5));
   
-  float cve0 = pow(1.0-a_texcoord1.y, 1.2);
+  float invPowCave = pow(1.0-a_texcoord1.y, 1.2);
   vec3 getMainColor;
   getMainColor = mix(DAYc, DUSKc, AFdusk);
   getMainColor = mix(getMainColor, NIGHTc, AFnight);
   getMainColor = mix(getMainColor, RAINc, AFrain);
-  getMainColor = mix(getMainColor, CAVEc, cve0);
+  getMainColor = mix(getMainColor, CAVEc, invPowCave);
   getMainColor = mix(getMainColor, vec3(1.0, 1.0, 1.0), pow(a_texcoord1.x, 3.5));
 
   vec3 getLightColor = mix(vec3(0.1, 0.1, 0.1), vec3(0.6, 0.6, 0.6), AFdusk * AFnight);
@@ -71,14 +70,31 @@ void main() {
   vec4 Azify;
   Azify.rgb = (getMainColor*getShadow+getLights);
   Azify.a = 1.0;
+  
+  vec3 viewPos = normalize(worldPos);
+  viewPos.y = (viewPos.y - 0.0128);
+  float minPos = min(viewPos.y, 0.005);
+  viewPos.y = max(viewPos.y, 0.0);
+  vec4 getSky;
+  getSky.rgb = calculateSky(SkyColor.rgb, viewPos, minPos);
+  getSky.a = 1.0;
+
+  vec3 n_wpos = normalize(-worldPos);
+  float fogPosition = mix(0.0, mix(0.0, 0.7, smoothstep(0.5, 0.0, n_wpos.y)/FogAndDistanceControl.w), abs(a_texcoord1.y) * AFrain);
+  vec4 azifyFog;
+  azifyFog.rgb = getSky.rgb;
+  azifyFog.a = fogPosition;
+  
 
   v_texcoord0 = a_texcoord0;
   v_lightmapUV = a_texcoord1;
-  v_color0 = color;
+  v_color0 = a_color0;
   v_fog = fogColor;
   v_cpos = a_position;
   v_wpos = worldPos;
   v_AO = ambientOcclusion;
   v_worldColors = Azify;
+  v_skyMie = getSky;
+  v_RainFloorReflect = azifyFog;
   gl_Position = mul(u_viewProj, vec4(worldPos, 1.0));
 }

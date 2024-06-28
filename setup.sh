@@ -1,11 +1,11 @@
 #!/bin/bash
 
-MBT_VERSION="0.8.2"
-MBT_JAR=env/jar/MaterialBinTool-$MBT_VERSION-all.jar
-SHADERC=env/bin/shaderc
-DATA_DIR=data
+MBT_VERSION="0.9.0"
+MBT_JAR=cores/jar/MaterialBinTool-$MBT_VERSION-all.jar
+SHADERC=cores/bin/shaderc
+DATA_DIR=cores/datas
 
-MBT_JAR_URL="https://github.com/ddf8196/MaterialBinTool/releases/download/v$MBT_VERSION/MaterialBinTool-$MBT_VERSION-all.jar"
+MBT_JAR_URL="https://github.com/lonelyang/MaterialBinTool/releases/download/v$MBT_VERSION/MaterialBinTool-$MBT_VERSION-all.jar"
 M_DATA_URL="https://github.com/devendrn/RenderDragonData"
 
 CPU_ARCH=$(uname -m)
@@ -23,17 +23,17 @@ SHADERC_URL="https://github.com/devendrn/RenderDragonSourceCodeInv/releases/down
 
 if [ "$1" == "-f" ]; then
   # clean
-  rm -rf env data build
+  rm -rf cores data build
 fi
 
 if [ ! -f "$MBT_JAR" ]; then
-  mkdir -p env/jar
+  mkdir -p cores/jar
   echo "Downloading MaterialBinTool-$MBT_VERSION-all.jar"
   curl -Lo $MBT_JAR $MBT_JAR_URL
 fi
 
 if [ ! -f "$SHADERC" ]; then
-  mkdir -p env/bin
+  mkdir -p cores/bin
   echo "Downloading shaderc $CPU_ARCH"
   curl -Lo $SHADERC $SHADERC_URL
   chmod +x $SHADERC
@@ -41,10 +41,10 @@ fi
 
 # libc++_shared.so not found fix for termux
 TERMUX_FILES="/data/data/com.termux/files"
-if [ -d "$TERMUX_FILES" ] && [ ! -f "env/lib/libc++_shared.so" ]; then
+if [ -d "$TERMUX_FILES" ] && [ ! -f "cores/lib/libc++_shared.so" ]; then
   echo "Termux fix: libc++_shared.so"
-  mkdir -p env/lib
-  cp $TERMUX_FILES/usr/lib/libc++_shared.so env/lib
+  mkdir -p cores/lib
+  cp $TERMUX_FILES/usr/lib/libc++_shared.so cores/lib
 fi
 
 if [ ! -d "$DATA_DIR" ]; then

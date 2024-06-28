@@ -2,9 +2,18 @@
  #define FUNCTIONS
 
 // TONE MAPPING 
+/*
 vec3 AzifyFN(vec3 x) {
  float a = 5.0;
  float b = 0.3;
+ float c = 3.6;
+ float d = 0.4;
+ float e = 0.5;
+    return clamp((x * (a * x + b)) / (x * (c * x + d) + e), 0.0, 1.0);
+}*/
+vec3 AzifyFN(vec3 x) {
+ float a = 5.55;
+ float b = 0.03;
  float c = 3.6;
  float d = 0.4;
  float e = 0.5;
@@ -87,9 +96,9 @@ float voronoi(vec2 pos) {
     return d;
 }
 
-vec3 grayscale(vec3 color) {
+float grayscale(vec3 color) {
     float gray = dot(color, vec3(0.2126, 0.7152, 0.0722));
-    return vec3(gray,gray,gray);
+    return gray;
 }
 
 #endif

@@ -1,44 +1,27 @@
 #!/bin/bash
 CURRENTDIR=$(basename "$PWD")
+G='\e[1;32m' GD='\e[0;32m' Y='\e[1;33m' YD='\e[0;33m' RESET='\e[0m'
 
-MBT_JAR_FILES=(env/jar/MaterialBinTool-0.*.jar)
-MBT_JAR="java -jar ${MBT_JAR_FILES[1]}"
+MBT_JAR_FILES=(cores/jar/MaterialBinTool-0.*.jar)
+MBT_JAR="java -jar ${MBT_JAR_FILES[0]}"
 
-SHADERC=env/bin/shaderc
-LIB_DIR=env/lib
+SHADERC=cores/bin/shaderc
+LIB_DIR=cores/lib
 
-MBT_ARGS="--compile --shaderc $SHADERC --include include/"
+MBT_ARGS="--compile --shaderc $SHADERC --include cores/include/ --include src/"
 
-echo -e "Data Version:"
-echo -e "(0) 1.20.0"
-echo -e "(1) 1.20.60"
-read -p "Enter a value: " VERSION
-if [ "$VERSION" = "0" ]; then
-  DATA_VER="1.20.0"
-elif [ "$VERSION" = "1" ]; then
-  DATA_VER="1.20.60"
-else
-    echo "Invalid option. Exiting."
-    exit 1
-fi
-DATA_DIR=../RenderDragonData/$DATA_VER
 BUILD_DIR=build
-MATERIAL_DIR=materials
-G='\e[1;32m'
-GD='\e[0;32m'
-Y='\e[1;33m'
-YD='\e[0;33m'
-RESET='\e[0m'
+MATERIAL_DIR=src/materials
 
 TARGETS=""
 MATERIALS=""
-
+DATA_VER=""
 ARG_MODE=""
 for t in "$@"; do
   if [ "${t:0:1}" == "-" ]; then
     # mode
     OPT=${t:1}
-    if [[ "$OPT" =~ ^[pmt]$ ]]; then
+    if [[ "$OPT" =~ ^[pmvt]$ ]]; then
       ARG_MODE=$OPT
     else
       echo "Invalid option: $t"      
@@ -50,12 +33,21 @@ for t in "$@"; do
   elif [ "$ARG_MODE" == "m" ]; then
     # material files
     MATERIALS+="$MATERIAL_DIR/$t "
+  elif [ "$ARG_MODE" == "v" ]; then
+    # version
+    DATA_VER+="$t"
   elif [ "$ARG_MODE" == "t" ]; then
     # mbt threads
     THREADS="$t"
   fi
   shift
 done
+
+if [ -z "$DATA_VER" ]; then
+  DATA_VER="1.20.0"
+fi
+
+DATA_DIR=../RenderDragonData/$DATA_VER
 
 if [ -z "$TARGETS" ]; then
   TARGETS="Android"

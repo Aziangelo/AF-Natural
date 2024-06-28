@@ -3,10 +3,10 @@ The AziFy Natural Shader, enhances the classic vanilla look of Minecraft. It wil
 
 Supports Android, iOS, and Windows
 
-![Screenshots](azifyss/afnss1.jpg "v1.0")
-![Screenshot2](azifyss/afnss2.jpg "v1.0")
-![Screenshot2](azifyss/afnss3.jpg "v1.0")
-![Screenshot2](azifyss/afnss4.jpg "v1.0")
+![Screenshots](cores/.cache/afnss1.jpg "v1.0")
+![Screenshot2](cores/.cache/afnss2.jpg "v1.0")
+![Screenshot2](cores/.cache/afnss3.jpg "v1.0")
+![Screenshot2](cores/.cache/afnss4.jpg "v1.0")
 
 &nbsp;
 &nbsp;

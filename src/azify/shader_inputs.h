@@ -11,7 +11,7 @@
 #define WATER_NORMALS      // [ TOGGLE ] * add normal
 #define WATER_GRADIENT     // [ TOGGLE ]
 #define WATER_LINES        // [ TOGGLE ]
-#define SUPER_AO           // [ TOGGLE ] * add ao
+//#define AMBIENT_OCCLUSION  // [ TOGGLE ] * add ao
 #define CHUNK_ANIMATION    // [ TOGGLE ]
 #define DIRECT_LIGHT       // [ TOGGLE ]
 #define CAUSTICS           // [ TOGGLE ]
@@ -89,7 +89,7 @@ SC - Below */
 #define SB_DUSK  vec3(1.0,0.45,0.23)* 1.0
 #define SB_NIGHT vec3(0.45,0.28,0.65)* 1.0
 #define SB_RAIN  vec3(0.5,0.5,0.5)* 1.0
-#define SC_DAY   vec3(0.2,0.4,0.6)* 1.0
+#define SC_DAY   vec3(0.2,0.4,0.5)* 1.0
 #define SC_DUSK  vec3(0.6,0.4,0.3)* 1.0
 #define SC_NIGHT vec3(0.1,0.3,0.5) * 0.2
 #define SC_RAIN  vec3(0.2,0.2,0.2)* 1.0
@@ -99,11 +99,11 @@ SC - Below */
 #define AURA_C2  vec3(0.0,1.0,0.5)* 1.0
 
 /* Cloud Colors */
-#define CLOUD_DAYc     vec3(0.8,0.9,0.95)* 1.0
-#define CLOUD_DUSKc    vec3(0.7,0.49,0.39)* 1.0
+#define CLOUD_DAYc     vec3(0.9,0.95,1.05)* 1.0
+#define CLOUD_DUSKc    vec3(0.9,0.7,0.4)* 1.0
 #define CLOUD_NIGHTc   vec3(0.13, 0.11, 0.33)* 1.1
 #define CLOUD_RAINc    vec3(0.59,0.6,0.6)* 1.0
-#define SHADOW_DAYc    vec3(0.2,0.4,0.5)* 0.9
+#define SHADOW_DAYc    vec3(0.15,0.35,0.5)* 0.9
 #define SHADOW_DUSKc   vec3(0.5,0.3,0.25)* 0.7
 #define SHADOW_NIGHTc  vec3(0.055, 0.067, 0.235)
 #define SHADOW_RAINc   vec3(0.295,0.3,0.3)

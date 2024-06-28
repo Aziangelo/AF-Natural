@@ -52,7 +52,6 @@ if (DevUnWater) {
     //Opaque
     albedo0.rgb = AzifyFN(albedo0.rgb);
     gl_FragColor = albedo0;
-
 #else
     //Fallback
     gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
