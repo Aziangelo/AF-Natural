@@ -1,22 +1,22 @@
 @echo off
 
 set MBT_VERSION=0.9.0
-set MBT=cores\jar\MaterialBinTool-%MBT_VERSION%-all.jar
-set SHADERC=cores\bin\shaderc
+set MBT=cores\bin\MaterialBinTool-%MBT_VERSION%-native-image.exe
+set SHADERC=cores\bin\shaderc.exe
 set DATA_DIR=cores/datas
 
 set MBT_RELEASE_URL=https://github.com/lonelyang/MaterialBinTool/releases/download/v%MBT_VERSION%
 set M_DATA_URL=https://github.com/devendrn/RenderDragonData
 
 if not exist %MBT% (
-  mkdir cores\jar\
-  echo Downloading MaterialBinTool-%MBT_VERSION%-all.jar
-  curl -L -o %MBT% %MBT_RELEASE_URL%/MaterialBinTool-%MBT_VERSION%-all.jar
+  mkdir cores\bin\
+  echo Downloading MaterialBinTool-%MBT_VERSION%-native-image.exe
+  curl -L -o %MBT% %MBT_RELEASE_URL%/MaterialBinTool-%MBT_VERSION%-native-image.exe
 )
 
 if not exist %SHADERC% (
-  echo Downloading shaderc.exe
-  curl -L -o %SHADERC% %MBT_RELEASE_URL%/shaderc
+  echo Downloading shaderc
+  curl -L -o %SHADERC% %MBT_RELEASE_URL%/shaderc.exe
 )
 
 if not exist %DATA_DIR% (

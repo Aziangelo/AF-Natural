@@ -1,7 +1,8 @@
 @echo off
 
-set MBT=cores\jar\MaterialBinTool-0.9.0-all.jar
-set SHADERC=cores\bin\shaderc
+
+set MBT=cores\bin\MaterialBinTool-0.9.0-native-image.exe
+set SHADERC=cores\bin\shaderc.exe
 
 set MBT_ARGS=--compile --shaderc %SHADERC% --include cores/include/ --include src/
 
