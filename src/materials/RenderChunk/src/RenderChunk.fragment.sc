@@ -63,7 +63,7 @@ void main() {
   
   /* Get NormalMapping */
 	vec3 integratedMapping;
-	getNormals(integratedMapping, s_MatTexture, v_texcoord0, getMetals);
+	getNormals(integratedMapping, s_MatTexture, v_texcoord0, getMetals, getWaterTex);
 
   /* Normal Positions */
   vec3 dx = dFdx(v_cpos);
@@ -78,7 +78,7 @@ void main() {
   norml = normalize(mul(v3Map, tbnMatrix));
   #endif
   
-  float Suntheta = radians(35.0);
+  float Suntheta = radians(45.0);
 	vec3 lpos = normalize(vec3(cos(Suntheta), sin(Suntheta), 0.0));
 	
 	vec3 normDir = normalize(v_wpos);
@@ -88,7 +88,7 @@ void main() {
 	
 	float DLN = max(0.0, dot(norml, lpos));
 	float DVN = max(0.0, dot(norml, viewDir));
-	float DHN = max(0.001, dot(norml, combinedDir));
+	float DHN = clamp(max(0.001, dot(norml, combinedDir)),0.0,1.0);
 	float CPD = clamp(dot(norml, viewDir), 0.0, 1.0);
 	vec4 fresnelVector = clamp(vec4(getFresnel(DVN, float3(0.05)), smoothstep(0.5, 0.0, DVN)), 0.0, 1.0);
   
@@ -143,13 +143,15 @@ void main() {
 	}
 	#endif /* WATER_LINES */
 	#ifdef WATER_GRADIENT
-	
 	vec3 viewPos = clamp(normalize(viewDir),0.0,1.0);
 	float minPos = min(viewPos.y, 0.005);
 	vec3 skyM = calculateSky(diffuse.rgb, viewPos, minPos);
 	diffuse = vec4(mix(diffuse.rgb, skyM, fresnelVector.rgb), mix(diffuse.a*0.1,0.9,fresnelVector.a));
   #endif /* WATER_GRADIENT */
-	}
+  #ifdef WATER_SUN_REFL
+  diffuse = mix(diffuse, vec4(1.0, 0.8, 0.5, 1.0), pow(DHN, 455.0) * 1.5 * powCave);
+  #endif // WATER_SUN_REFL
+	} // getWaterTex
 	#endif /* TRANSPARENT */
 	
 	#ifdef CAUSTICS
@@ -160,7 +162,6 @@ void main() {
   		max(caustics, 0.0) * 0.6 * diffuse.rgb;
   }
   #endif /* CAUSTICS */
-
  
   #ifdef BLOCK_REFLECTION
 	 #ifndef ALPHA_TEST
@@ -174,12 +175,15 @@ void main() {
 	vec3 baseColor = mix(float3(1.0) * Grand1, vec3(0.5, 0.8, 1.0) * Grand2, noiseValue);
 	float weight = clamp(length(v_wpos.xz * 0.06), 0.0, 1.0);
 	vec3 finalColor = GDist * mix(float3(0.0), baseColor, weight * clamp(reflectVec.y, 0.0, 1.0)) * v_lightmapUV.y;
-	
 	diffuse.rgb += finalColor;
+	
+	diffuse = mix(diffuse, vec4(1.0, 0.8, 0.5, 1.0), pow(DHN, 455.0) * powCave);
 	}
 	  #endif
 	 #endif
 	#endif
+
+  
 
   /* Rain Floor Reflection */
 	#ifdef FLOOR_REFLECTION
@@ -201,6 +205,19 @@ void main() {
     diffuse.rgb = mix(diffuse.rgb, v_skyMie.rgb, v_fog.a);
   }
   #endif /* FOG */
+  
+  #ifdef UNDERWATER_RAYS
+  if (getUnWater) {
+	float Grand1 = 0.01;
+	float Grand2 = 0.13;
+	float noiseValue = noise(float2(atan2(v_wpos.x, v_wpos.z)) * 9.4);
+	vec3 baseColor = mix(float3(1.0) * Grand1, vec3(0.5, 0.8, 1.0) * Grand2, noiseValue);
+	float weight = clamp(length(v_wpos.xz * 0.06), 0.0, 1.0);
+	vec3 finalColor = mix(float3(0.0), baseColor, weight);
+	diffuse.rgb += finalColor;
+  }
+  #endif
+  
   #endif /* DEPTH_ONLY_OPAQUE DEPTH_ONLY */
   /* Simple Tone Mapping */
   diffuse.rgb = AzifyColors(diffuse.rgb);

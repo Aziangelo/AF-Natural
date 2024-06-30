@@ -52,6 +52,18 @@ if (!getUnWater) {
 }
 #endif
 
+#ifdef UNDERWATER_RAYS
+if (getUnWater) {
+float Grand1 = 0.01;
+float Grand2 = 0.13;
+float noiseValue = noise(float2(atan2(v_skypos.x, v_skypos.z)) * 9.4);
+vec3 baseColor = mix(float3(1.0) * Grand1, vec3(0.5, 0.8, 1.0) * Grand2, noiseValue);
+float weight = clamp(length(v_skypos.xz * 0.06), 0.0, 1.0);
+vec3 finalColor = mix(float3(0.0), baseColor, weight);
+albedo0 += finalColor;
+}
+#endif
+
   /* Simple Tone Mapping */
   albedo0 = AzifyColors(albedo0);
   /* Vintage Tone Mapping */

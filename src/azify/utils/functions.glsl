@@ -45,14 +45,15 @@ float noise(vec2 x) {
 /* Dithering - UnOptimized */ 
 // NONE
 
-/* Integrated Normal Mapping */
-void getNormals(inout vec3 integratedMapping, in sampler2D MatTexture, in vec2 texcoord0, inout bool Metals) {
-	float MiXedB = mix(NORMALS_BEVEL, METALLIC_BEVEL, float(Metals));
-	float MiXedS = mix(NORMALS_STREN, METALLIC_STREN, float(Metals));
-	vec3 e = vec3(MiXedB, 0.0, MiXedB);
-	vec3 f = texture2D(MatTexture,texcoord0+e.yz).rgb;
-	vec3 g = texture2D(MatTexture,texcoord0+e.xx).rgb;
-	vec3 h = texture2D(MatTexture,texcoord0+e.xy).rgb;
+/* Integrated Normal Mapping 
+By: Robobo1221 */
+void getNormals(inout vec3 integratedMapping, in sampler2D MatTexture, in vec2 texcoord0, inout bool Metals, inout bool WaterTex) {
+	float MiXedB = mix(mix(NORMALS_BEVEL, METALLIC_BEVEL, float(Metals)), WATER_BEVEL, float(WaterTex));
+	float MiXedS = mix(mix(NORMALS_STREN, METALLIC_STREN, float(Metals)), WATER_STREN, float(WaterTex));
+	vec2 e = vec2(MiXedB, 0.0);
+	vec3 f = texture2D(MatTexture,texcoord0).rgb;
+	vec3 g = texture2D(MatTexture,texcoord0+e.xy).rgb;
+	vec3 h = texture2D(MatTexture,texcoord0+e.yx).rgb;
 	vec3 w = vec3(0.299, 0.587, 0.114);
 	
 	float a = dot(f, w);
@@ -71,19 +72,19 @@ void getNormals(inout vec3 integratedMapping, in sampler2D MatTexture, in vec2 t
 
 /* Water Surface */
 vec3 getFresnel(float valA, vec3 valB) {
-    vec3 base = valB;
-    float complement = 1.0 - valA;
-    float exponent = pow(complement, 5.0);
+  vec3 base = valB;
+  float complement = 1.0 - valA;
+  float exponent = pow(complement, 5.0);
 
-    vec3 unitVec = float3(1.0);
-    vec3 subtractedVec = unitVec - base;
-    vec3 scaledVec = subtractedVec * exponent;
+  vec3 unitVec = float3(1.0);
+  vec3 subtractedVec = unitVec - base;
+  vec3 scaledVec = subtractedVec * exponent;
 
-    vec3 resultVec = base + scaledVec;
-    return resultVec;
+  vec3 resultVec = base + scaledVec;
+  return resultVec;
 }
 
-/* UnOptimized - Voronoi */
+/* Optimized - Voronoi */
 float lpoint(vec2 pos) {
     pos.x += time*0.5;
     pos.y -= sin(time*0.3);
@@ -91,9 +92,7 @@ return length(fract(pos) - 0.5);
 }
 
 float getVoronoi(vec2 pos) {
-    mat2 m = mat2(-8,-5,3.14,8) / 1e1;
-    pos.x += sin(time*0.5);
-    pos.y -= time*0.2;
+    mat2 m = mat2(-8,-2,3.14,8) / 1e1;
 return min(lpoint(pos), lpoint(mul(pos, m)));
 }
 /*

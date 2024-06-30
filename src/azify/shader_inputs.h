@@ -11,6 +11,8 @@
 //#define VINTAGE_TONE       // [ TOGGLE ]
 #define WATER_GRADIENT     // [ TOGGLE ]
 #define WATER_LINES        // [ TOGGLE ]
+#define WATER_SUN_REFL     // [ TOGGLE ]
+#define UNDERWATER_RAYS    // [ TOGGLE ]
 //#define AMBIENT_OCCLUSION  // [ TOGGLE ] * add ao
 #define CHUNK_ANIMATION    // [ TOGGLE ]
 #define DIRECT_LIGHT       // [ TOGGLE ]
@@ -29,10 +31,12 @@
 #define WATERLINE_INTENSITY  0.68
 #define WATERLINE_OPACITY    0.55
 /* NormalMaps */
-#define METALLIC_BEVEL 0.00085
-#define METALLIC_STREN 6.0
+#define METALLIC_BEVEL 0.00065
+#define METALLIC_STREN 5.0
 #define NORMALS_BEVEL  0.00010
-#define NORMALS_STREN  5.0
+#define NORMALS_STREN  4.0
+#define WATER_BEVEL    0.00040
+#define WATER_STREN    3.0
 
 /* Overworld Colors */
 #define DAYc     vec3(0.76,0.84,0.88)* 1.0
@@ -70,14 +74,8 @@
 #define nDS_ENDc vec3(0.74,0.78,0.79)* 1.0
 
 /* Water Lines Colors */
-/*
-#define wLINE_DAYc   vec3(0.45,0.9,1.0)* 1.0
-#define wLINE_NIGHTc vec3(0.7,0.6,1.0)* 0.17
-*/
-// WATER LINES COLORS
 #define wLINE_DAYc vec3(1.0,0.99,0.97)* 1.5
 #define wLINE_NIGHTc vec3(1.0,0.9,0.95)* 0.17
-
  
 /* Under Water Fog Color */
 #define FOG_UNDERW_DAY   vec3(0.0,0.33,0.44)* 1.0
@@ -85,7 +83,7 @@
 
 
 //  ||█▓▒▒░░░ SKY FUNCTIONS ░░░▒▒▓█||
-//#define CLOUDS             // [ TOGGLE ]
+#define CLOUDS             // [ TOGGLE ]
 //#define AURORA_BOREALIS  // [ TOGGLE ] [ BETA ]
 
 /* Sky Colors 
