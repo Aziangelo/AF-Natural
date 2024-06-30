@@ -84,7 +84,7 @@ vec3 getFresnel(float valA, vec3 valB) {
 }
 
 /* UnOptimized - Voronoi */
-float point(vec2 pos) {
+float lpoint(vec2 pos) {
     pos.x += time*0.5;
     pos.y -= sin(time*0.3);
 return length(fract(pos) - 0.5);
@@ -94,7 +94,7 @@ float getVoronoi(vec2 pos) {
     mat2 m = mat2(-8,-5,3.14,8) / 1e1;
     pos.x += sin(time*0.5);
     pos.y -= time*0.2;
-return min(point(pos), point(pos * m));
+return min(lpoint(pos), lpoint(pos * m));
 }
 /*
 float getVoronoi(vec2 pos) {
