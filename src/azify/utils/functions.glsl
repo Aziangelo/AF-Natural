@@ -94,7 +94,7 @@ float getVoronoi(vec2 pos) {
     mat2 m = mat2(-8,-5,3.14,8) / 1e1;
     pos.x += sin(time*0.5);
     pos.y -= time*0.2;
-return min(lpoint(pos), lpoint(pos * m));
+return min(lpoint(pos), lpoint(mul(pos, m)));
 }
 /*
 float getVoronoi(vec2 pos) {
