@@ -42,24 +42,8 @@ float noise(vec2 x) {
    return mix(mix( hash(n+  0.0), hash(n+  1.0),f.x), mix( hash(n+ 57.0), hash(n+ 58.0),f.x),f.y);
 }
 
-/* Dithering - UnOptimized */
-#define CL_QUALITY 0.5
-#define DITHER 1
-#if DITHER==1
-float rand(vec2 co) {
-    return fract(sin(dot(co.xy, vec2(12.9898, 78.233))) * 43758.5453);
-}
-float dither(vec2 pos) {
-    return CL_QUALITY * (rand(pos) - 0.5);
-}
-#elif DITHER==2
-float dither(vec2 pos) {
-    float gridSize = 4.0; // Adjust the grid size for dither effect
-    vec2 grid = floor(pos * gridSize);
-    float ditherValue = mod(grid.x + grid.y, 2.0) * 0.5;
-    return CL_QUALITY * (ditherValue - 0.25);
-}
-#endif
+/* Dithering - UnOptimized */ 
+// NONE
 
 /* Integrated Normal Mapping */
 void getNormals(inout vec3 integratedMapping, in sampler2D MatTexture, in vec2 texcoord0, inout bool Metals) {
@@ -100,17 +84,30 @@ vec3 getFresnel(float valA, vec3 valB) {
 }
 
 /* UnOptimized - Voronoi */
+float point(vec2 pos) {
+    pos.x += time*0.5;
+    pos.y -= sin(time*0.3);
+return length(fract(pos) - 0.5);
+}
+
 float getVoronoi(vec2 pos) {
-    /* Scaled positions */
+    mat2 m = mat2(-8,-5,3.14,8) / 1e1;
+    pos.x += sin(time*0.5);
+    pos.y -= time*0.2;
+return min(point(pos), point(pos * m));
+}
+/*
+float getVoronoi(vec2 pos) {
+    // Scaled positions
     vec2 scaledPos = pos * 1.5;
     float tempVar = time * 0.25;
 
-    /* Compute offset positions */
+    // Compute offset positions
     vec2 offset1 = fract(scaledPos + tempVar);
     vec2 tempPos = scaledPos + float2(0.9) - tempVar * 0.2;
     vec2 offset2 = fract(mat2(0.8, -0.6, 0.6, 0.8) * tempPos);
 
-    /* Calculate distance */
+    // Calculate distance
     float distance1 = dot(offset1 - vec2(0.5), offset1 - vec2(0.5));
     float distance2 = dot(offset2 - vec2(0.5), offset2 - vec2(0.5));
     float minDistance = min(distance1, distance2);
@@ -121,7 +118,7 @@ float getVoronoi(vec2 pos) {
     float resultDistance = sqrt(minDistance) + 0.05 * noise1 * noise2;
 
     return resultDistance;
-}
+}*/
 
 /* Luma / GrayScale */
 float grayscale(vec3 color) {
