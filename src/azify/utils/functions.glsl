@@ -107,7 +107,7 @@ float getVoronoi(vec2 pos) {
 
     /* Compute offset positions */
     vec2 offset1 = fract(scaledPos + tempVar);
-    vec2 tempPos = scaledPos + vec2(0.9) - tempVar * 0.2;
+    vec2 tempPos = scaledPos + float2(0.9) - tempVar * 0.2;
     vec2 offset2 = fract(mat2(0.8, -0.6, 0.6, 0.8) * tempPos);
 
     /* Calculate distance */
