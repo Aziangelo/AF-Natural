@@ -21,6 +21,7 @@ uniform vec4 LightWorldSpaceDirection;
 uniform vec4 LightDiffuseColorAndIntensity;
 uniform vec4 HudOpacity;
 uniform vec4 UVAnimation;
+uniform vec4 TextureDimensions;
 uniform mat4 Bones[8];
 #define time ViewPositionAndTime.w
 #define float2(x) vec2(x,x)

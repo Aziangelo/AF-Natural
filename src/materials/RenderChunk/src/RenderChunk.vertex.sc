@@ -57,10 +57,11 @@ void main() {
   vec3 getShadow = mix(mix(vec3(1.0, 1.0, 1.0), getShadowColor, outerCave*(1.0-middlCave)), vec3(1.0, 0.93, 0.9), pow(a_texcoord1.x, 3.5));
   
   float invPowCave = pow(1.0-a_texcoord1.y, 1.2);
+  vec3 RainC = mix(D_RAINc, N_RAINc, AFnight);
   vec3 getMainColor;
   getMainColor = mix(DAYc, DUSKc, AFdusk);
   getMainColor = mix(getMainColor, NIGHTc, AFnight);
-  getMainColor = mix(getMainColor, RAINc, AFrain);
+  getMainColor = mix(getMainColor, RainC, AFrain);
   getMainColor = mix(getMainColor, CAVEc, invPowCave);
   getMainColor = mix(getMainColor, vec3(1.0, 1.0, 1.0), pow(a_texcoord1.x, 3.5));
 
@@ -72,7 +73,6 @@ void main() {
   Azify.a = 1.0;
   
   vec3 viewPos = normalize(worldPos);
-  viewPos.y = (viewPos.y - 0.0128);
   float minPos = min(viewPos.y, 0.005);
   viewPos.y = max(viewPos.y, 0.0);
   vec4 getSky;
@@ -80,12 +80,12 @@ void main() {
   getSky.a = 1.0;
 
   vec3 n_wpos = normalize(-worldPos);
-  float fogPosition = mix(0.0, mix(0.0, 0.7, smoothstep(0.5, 0.0, n_wpos.y)/FogAndDistanceControl.w), abs(a_texcoord1.y) * AFrain);
+  float fogPosition = mix(0.0, 
+    mix(0.0, 0.65, smoothstep(0.5, 0.0, n_wpos.y)), abs(a_texcoord1.y) * AFrain);
   vec4 azifyFog;
   azifyFog.rgb = getSky.rgb;
-  azifyFog.a = fogPosition;
+  azifyFog.a = fogPosition*0.7;
   
-
   v_texcoord0 = a_texcoord0;
   v_lightmapUV = a_texcoord1;
   v_color0 = a_color0;

@@ -13,7 +13,7 @@ bool detectNether(vec3 fc, vec2 fadc) {
   return (netherFogCtrl && netherFogCol) || underLava;
 }
 
-void getWorldDetctions(inout bool getUnWater, inout bool getNether, in vec4 fc, in vec4 fadc) {
+void getWorldDetections(inout bool getUnWater, inout bool getNether, in vec4 fc, in vec4 fadc) {
   getUnWater = detectUnderwater(fc.rgb, fadc.xy);
   getNether = detectNether(fc.rgb, fadc.xy);
 }

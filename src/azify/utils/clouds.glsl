@@ -4,22 +4,19 @@
 /* 
 Base code: https://www.shadertoy.com/view/4tdSWr
 Reference: sues shader by shimpanseGaming */
- float getFbm(vec2 pos) 
- {
+float getFbm(vec2 pos) {
     float sum = 0.0, amp = 1.0;
     vec2 ajp = pos + time * 0.1;
     
-    for (int i = 0; i <= 1; i++) {
+    for (int i = 0; i <= CLOUD_STEPS; i++) {
         sum += noise(ajp) / amp;
         amp *= 2.5;
         ajp = ajp * 3.0 + time * 0.3;
-        //sum += dither(ajp); // Add static dithering
     }
     return 1.0 - pow(0.1, max(1.0 - sum, 0.0));
 }
 
-float getClouds(vec2 pos) 
-{
+float getClouds(vec2 pos) {
     float cloudNoise = 0.0;
     vec2 modifiedPos = pos * 0.99;
     vec2 clPos = modifiedPos+time*0.15;
@@ -78,14 +75,14 @@ float generateCloud(vec2 position, float time, int detail) {
 }*/
  
 
-// Aurora mapping
+/* Aurora mapping */
 float amap(vec2 p) {
     float x1 = noise(p);
     float x2 = noise(p * 2.0 + vec2(time * 0.02, 16.0));
     return dot(vec2(x1, x2), vec2(0.7, 0.4));
 }
 
-// Aurora generation
+/* Aurora generation */
 void getAurora(inout vec3 diffuse, in vec3 viewPos, in vec4 wtime) {
     vec2 timeOffset = vec2(0.1, 0.06);
     vec2 apos = viewPos.xz / viewPos.y;
@@ -100,17 +97,15 @@ void getAurora(inout vec3 diffuse, in vec3 viewPos, in vec4 wtime) {
     diffuse += auroraColor * smoothedPos * yFactor * (wtime.z) * (1.0 - wtime.x) * (1.0 - wtime.w);
 }
 
-/* 
+/* Calculate Stars
 Base code: https://www.shadertoy.com/view/NtsBzB */
-vec3 shash( vec3 p )
-{
+vec3 shash( vec3 p ) {
 	p=vec3( dot(p,vec3(127.1,311.7, 74.7)),
 			  dot(p,vec3(269.5,183.3,246.1)),
 			  dot(p,vec3(113.5,271.9,124.6)));
 	return -1.0+2.0*fract(sin(p)*43758.5453123);
 }
-float snoise( in vec3 p )
-{
+float snoise( in vec3 p ) {
   vec3 i = floor(p);
   vec3 f = fract(p);
   vec3 u = f*f*(3.0-2.0*f);
@@ -125,6 +120,7 @@ float snoise( in vec3 p )
     dot( shash( i + vec3(1.0,1.0,1.0) ), f - vec3(1.0,1.0,1.0) ), u.x), u.y), u.z );
 }
 
+/* Enable Stars */
 void getStars(inout vec3 diffuse, in vec3 viewPos, in vec4 wtime) {
   vec2 timeOffset = vec2(0.1, 0.06);
   vec2 apos = viewPos.xz / -viewPos.y;
