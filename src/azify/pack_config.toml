@@ -1,25 +1,54 @@
-# Pack config
+name = "AziFy: Natural"
+version = [0, 1, 0]
+min_supported_mc_version = [1, 20, 80]
+url = "https://youtube.com/@aziangelo"
+authors = ["Azi Angelo"]
+materials = ["Sky", "SunMoon", "RenderChunk", "Actor"]
 
-# Materials to compile by default
-DEFAULT_MATERIALS="RenderChunk Sky Actor SunMoon"
+[description]
+# %w = patch warning, %v = version
+long = '''
+§c%w
+§7- A Dynamic MCBE Shader!
+%v
+§3https://youtube.com/@aziangelo
+'''
+short = "A Shader Made For Good Use"
 
-# Subpacks:
-#  OPTIONS   = Subpack options
-#  NAMES     = Names/descriptions for options
-#  MATERIALS = Materials to compile for options
-SUBPACK_OPTIONS=(
-  BETA_AURORA
-  VINTAGE_FILM_MODE
-  DEFAULT
-)
-SUBPACK_NAMES=(
-  "[Beta] Aurora"
-  "Vintage Film Mode"
-  "Default"
-)
-SUBPACK_MATERIALS=(
-  "Sky"
-  "RenderChunk Sky Actor"
-  ""
-)
+[uuid] # Use https://www.uuidgenerator.net/version4
+header = "b4af2498-a96e-413a-874a-86b5828b0f2a"
+module = "2eafc23f-7367-477f-8306-8b4992ae5fe0"
 
+[info]
+# %a = authors
+copyright = '''
+Copyright (c) %a
+
+**Important Note:** Redistribution of this resource pack with links other than the official ones provided by the creator is strictly prohibited.
+'''
+credits = '''
+'''
+
+# subpacks are arranged in left to right order
+# right-most subpack is enabled by default
+
+[[subpack]]
+define = "BETA_AURORA"
+materials = ["Clouds"]
+description = '''
+[Beta] Aurora
+'''
+
+[[subpack]]
+define = "VINTAGE_FILM_MODE"
+materials = ["RenderChunk"]
+description = '''
+Vintage Film Mode
+'''
+
+[[subpack]]
+define = "DEFAULT"
+materials = []
+description = '''
+Default
+'''
