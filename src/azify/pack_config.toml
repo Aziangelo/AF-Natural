@@ -1,7 +1,7 @@
 # Pack config
 
 # Materials to compile by default
-DEFAULT_MATERIALS="RenderChunk Sky Actor ItemInHandColor SunMoon"
+DEFAULT_MATERIALS="RenderChunk Sky Actor SunMoon"
 
 # Subpacks:
 #  OPTIONS   = Subpack options
@@ -9,7 +9,7 @@ DEFAULT_MATERIALS="RenderChunk Sky Actor ItemInHandColor SunMoon"
 #  MATERIALS = Materials to compile for options
 SUBPACK_OPTIONS=(
   BETA_AURORA
-	VINTAGE_FILM_MODE
+  VINTAGE_FILM_MODE
   DEFAULT
 )
 SUBPACK_NAMES=(
@@ -19,7 +19,7 @@ SUBPACK_NAMES=(
 )
 SUBPACK_MATERIALS=(
   "Sky"
-  "RenderChunk Sky Actor ItemInHandColor"
+  "RenderChunk Sky Actor"
   ""
 )
 

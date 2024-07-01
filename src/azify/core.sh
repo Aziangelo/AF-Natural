@@ -3,7 +3,7 @@
 
 #include "uniforms.sh"
 
-#include "shader_inputs.h"
+#include "modify.sh"
 #include "utils/time.glsl"
 #include "utils/components.glsl"
 #include "utils/functions.glsl"
