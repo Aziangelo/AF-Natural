@@ -1,26 +1,97 @@
 name: build
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      subversion:
+        description: 'Sub-version (eg: 46)'
+        required: true
+        type: string
 
 jobs:
   windows:
-    runs-on: windows-2019
+    runs-on: windows-2022
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/cache@v4
+      with:
+        key: env-files-win-laz
+        path: |
+          ${{ github.workspace }}/tool/data
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.11' 
+        cache: 'pip'
+    - run: pip install -r requirements.txt
+    - run: |
+        .\build.bat setup
+        .\build.bat pack -p windows -v ${{ inputs.subversion }} --no-zip
+    - uses: actions/upload-artifact@v4
+      with:
+        name: AFN-Wimdows
+        path: ./build/pack-windows
+  android:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/cache@v4
+      with:
+        key: env-files-linux-laz
+        path: |
+          ${{ github.workspace }}/tool/data
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.11' 
+        cache: 'pip'
+    - run: pip install -r requirements.txt
+    - run: |
+        ./build.sh setup
+        ./build.sh pack -p android -v ${{ inputs.subversion }} --no-zip
+    - uses: actions/upload-artifact@v4
+      with:
+        name: AFN-android
+        path: ./build/pack-android
+  ios:
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
     - uses: actions/cache@v4
       with:
-        key: env-files-win
+        key: env-files-linux-laz
         path: |
-          ${{ github.workspace }}/env
-          ${{ github.workspace }}/data
-    - run: .\setup.bat
-    - run: .\build.bat -m RenderChunk Sky SunMoon Actor ItemInHandColor -p Windows
+          ${{ github.workspace }}/tool/data
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.11' 
+        cache: 'pip'
+    - run: pip install -r requirements.txt
+    - run: |
+        ./build.sh setup
+        ./build.sh pack -p ios -v ${{ inputs.subversion }} --no-zip
     - uses: actions/upload-artifact@v4
       with:
-        name: Windows
-        path: ./build/Windows
+        name: AFN-ios
+        path: ./build/pack-ios
+  merged:
+    runs-on: windows-2022
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/cache@v4
+      with:
+        key: env-files-win-laz
+        path: |
+          ${{ github.workspace }}/tool/data
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.11' 
+        cache: 'pip'
+    - run: pip install -r requirements.txt
+    - run: |
+        .\build.bat setup
+        .\build.bat pack -p merged -v ${{ inputs.subversion }} --no-zip
+    - uses: actions/upload-artifact@v4
+      with:
+        name: AFN-Merged
+        path: ./build/pack-merged

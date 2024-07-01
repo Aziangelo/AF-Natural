@@ -1,0 +1,17 @@
+{
+  "macro_overwrite": {
+    "flags": {
+      "Instancing": {
+        "On": "INSTANCING",
+        "Off": []
+      }
+    }
+  },
+  "file_overwrite": {
+    "default": {
+      "fragment": "sun.fragment.glsl",
+      "vertex": "sun.vertex.glsl",
+      "varying": "sun.varying.glsl"
+    }
+  }
+}

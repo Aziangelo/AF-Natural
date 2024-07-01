@@ -1,0 +1,17 @@
+{
+  "macro_overwrite": {
+    "flags": {
+      "Instancing": {
+        "On": "OPAQUE",
+        "Off": []
+      }
+    }
+  },
+  "file_overwrite": {
+    "default": {
+      "fragment": "sky.fragment.glsl",
+      "vertex": "sky.vertex.glsl",
+      "varying": "sky.varying.glsl"
+    }
+  }
+}

@@ -1,18 +1,20 @@
 # ingnore dirs
-build/
-cores/lib/
-cores/jar/
-cores/bin/
-cores/datas/
-
+build/android/
+build/ios/
+build/windows/
+build/merge/
+.bak/
+tool/data/
+tool/lib/
+tool/__pycache__/
 
 # ignore files
 copy.sh
 commit.sh
 pull.sh
-chmod.sh
-mbt0.9.jar
 merge.sh
+*.bin
+*.py[cod]
 
 # eol
 * text=lf
