@@ -114,9 +114,9 @@ def run(args):
 
     lp.print = _lp_print_override
 
-    console.print(" [bold green]Newb Pack Builder[/] \n [dim]build tool: Lazurite\n", style="")
+    console.print(" [bold green]AziFy Pack Builder[/] \n [dim]build tool: Lazurite\n", style="")
 
-    with open('src/newb/pack_config.toml', 'rb') as f:
+    with open('src/azify/pack_config.toml', 'rb') as f:
         pack_config = tomllib.load(f)
 
     if args.v:

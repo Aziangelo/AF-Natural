@@ -8,7 +8,7 @@ import setup
 def main():
     parser = argparse.ArgumentParser(
         prog='build',
-        description="Newb Shader Builder: Wrapper for lazurite, to build NXL RenderDragon",
+        description="AziFy Shader Builder: Wrapper for lazurite, to build NXL RenderDragon. BY: Deven",
         epilog="GitHub: https://github.com/devendrn/newb-x-mcbe"
     )
 
@@ -41,7 +41,7 @@ def main():
     mats_parser.add_argument(
         '-s',
         default="",
-        help="subpack config to use (eg: NO_WAVE)"
+        help="subpack config to use (eg: NO_FOG)"
     )
 
     setup_parser.add_argument(
