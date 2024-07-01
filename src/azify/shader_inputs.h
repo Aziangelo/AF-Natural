@@ -30,6 +30,7 @@
 #define WATERGRAD_SMOOTHNESS 0.38
 #define WATERLINE_INTENSITY  0.68
 #define WATERLINE_OPACITY    0.55
+#define GLOW_BRIGHTNESS      0.8
 /* NormalMaps */
 #define METALLIC_BEVEL 0.00065
 #define METALLIC_STREN 5.0
@@ -45,13 +46,15 @@
 #define D_RAINc  vec3(0.58,0.58,0.58)* 1.0
 #define N_RAINc  vec3(0.35,0.38,0.4)* 1.0
 #define CAVEc    vec3(0.1,0.15,0.2)* 1.0
+#define CAVEOUTc vec3(0.8,0.93,1.0)* 0.7
 #define UNWATERc vec3(0.7,0.8,0.9)* 1.0
 /* Entity Colors
  * seperated color for more control! */
 #define EDAYc   vec3(0.76,0.84,0.88)* 1.0
 #define EDUSKc  vec3(0.74,0.765,0.8)* 0.55
 #define ENIGHTc vec3(0.2,0.25,0.4)* 1.0
-#define ERAINc  vec3(0.58,0.58,0.58)* 1.0
+#define D_ERAINc  vec3(0.58,0.58,0.58)* 1.0
+#define N_ERAINc  vec3(0.35,0.38,0.4)* 1.0
 #define ECAVEc  vec3(0.1,0.15,0.2)* 1.0
 
 /* DirLight Colors: 
@@ -66,12 +69,7 @@
 #define mDS_DUSKc  vec3(0.8,0.81,0.85)* 1.0
 #define mDS_NIGHTc vec3(0.77,0.75,0.8)* 1.0
 #define mDS_RAINc  vec3(0.7,0.7,0.7)* 1.0  
-/* Nether Dirlight Color */
-#define nDL_NETHc  vec3(0.74,0.78,0.79)* 1.0
-#define nDS_NETHc  vec3(0.74,0.78,0.79)* 1.0
-/* End Dirlight Color */
-#define nDL_ENDc vec3(0.74,0.78,0.79)* 1.0 
-#define nDS_ENDc vec3(0.74,0.78,0.79)* 1.0
+
 
 /* Water Lines Colors */
 #define wLINE_DAYc vec3(1.0,0.99,0.97)* 1.5

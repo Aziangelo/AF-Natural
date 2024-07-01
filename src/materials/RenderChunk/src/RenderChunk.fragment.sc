@@ -13,13 +13,14 @@ void main() {
   vec4 diffuse;
   vec4 u_texture =
   texture2DLod(s_MatTexture, v_texcoord0, 0.0);
+  bool getGLOW = GLOW_PIXEL(u_texture);
 
   #if defined(DEPTH_ONLY_OPAQUE) || defined(DEPTH_ONLY)
   diffuse.rgb = vec3(1.0, 1.0, 1.0);
   #else
   diffuse = texture2D(s_MatTexture, v_texcoord0);
-  if (GLOW_PIXEL(u_texture)) {
-    diffuse.rgb += vec3(1.0, 1.0, 1.0)+sin(time);
+  if (getGLOW) {
+    diffuse.rgb *= float3(GLOW_BRIGHTNESS);
   }
 
   #if defined(ALPHA_TEST)
@@ -96,7 +97,7 @@ void main() {
   float powLight = pow(v_lightmapUV.x, 3.5);
 
   /* Main World Coloring */
-  diffuse.rgb *= v_worldColors.rgb;
+  if (getGLOW) {}else{ diffuse.rgb *= v_worldColors.rgb;}
   if (getUnWater) {
   	diffuse.rgb *= 
   	  mix(float3(1.0), vec3(0.7,0.8,0.9), powCave);
@@ -126,7 +127,7 @@ void main() {
   vec3 getDHpos = mix(vec3(1.0,1.0,1.0), DirHi, powCave * DHposition);
   vec3 getDirectLight = mix(vec3(1.0,1.0,1.0), (getDSpos * getDHpos), 1.0 - powLight);
   
-  diffuse.rgb *= getDirectLight;
+  if (getGLOW) {}else{ diffuse.rgb *= getDirectLight;}
     #endif
   #endif /* DIRECT_LIGHT */
   

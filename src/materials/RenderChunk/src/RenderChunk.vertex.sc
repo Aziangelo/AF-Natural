@@ -53,7 +53,7 @@ void main() {
   float outerCave = smoothstep(0.91,0.9,a_texcoord1.y);
   float middlCave = smoothstep(0.68,0.05,a_texcoord1.y);
 
-  vec3 getShadowColor = vec3(0.8, 0.93, 1.0)*0.85;
+  vec3 getShadowColor = CAVEOUTc;
   vec3 getShadow = mix(mix(vec3(1.0, 1.0, 1.0), getShadowColor, outerCave*(1.0-middlCave)), vec3(1.0, 0.93, 0.9), pow(a_texcoord1.x, 3.5));
   
   float invPowCave = pow(1.0-a_texcoord1.y, 1.2);

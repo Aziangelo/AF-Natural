@@ -19,7 +19,7 @@ jobs:
           ${{ github.workspace }}/env
           ${{ github.workspace }}/data
     - run: .\setup.bat
-    - run: .\build.bat -m RenderChunk Sky SunMoon -p Windows
+    - run: .\build.bat -m RenderChunk Sky SunMoon Actor ItemInHandColor -p Windows
     - uses: actions/upload-artifact@v4
       with:
         name: Windows

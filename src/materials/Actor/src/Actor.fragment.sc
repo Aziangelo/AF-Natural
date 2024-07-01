@@ -47,68 +47,15 @@ void main() {
 	bool getWaterTex;
 	getWorldDetections(getUnWater, getNether, FogColor, FogAndDistanceControl);
 	getWaterTex = v_color0.b > 0.3 && v_color0.a < 0.95;
-
-	bool isDaytime = false;
-  bool isDusk = false;
-  bool isNighttime = false;
-  bool isInCave = false;
-  float dayThreshold = 0.9;
-  float duskThreshold = 0.6;
-  float nightThreshold = 0.34;
-  float caveThreshold = 0.34;
-  
-  if (v_light.x >= dayThreshold) {
-      isDaytime = true;
-  } else if (v_light.x >= duskThreshold && v_light.x < dayThreshold) {
-      isDusk = true;
-  } else if (v_light.x >= nightThreshold && v_light.x < duskThreshold) {
-      isNighttime = true;
-  } else if (v_light.x < caveThreshold) {
-      isInCave = true;
-  }
-  
-  if (v_light.x < caveThreshold) {
-      isInCave = true;
-      isDaytime = false;
-      isDusk = false;
-      isNighttime = false;
-  }
-
+	float isCaveX = smoothstep(0.65, 0.1, v_light.b);
 
 	if (getNether) {
-		albedo.rgb *= vec3(0.9, 0.9, 0.9);
-	} else if (!isInCave) {
-		albedo.rgb *= v_colors.rgb;
-	} else if (isInCave) {
-		albedo.rgb *= ECAVEc+0.863;
+  albedo.rgb *= vec3(0.9, 0.9, 0.9);
+	} else {
+	albedo.rgb *= v_colors.rgb;
 	}
 
-	vec3 norml = normalize(cross(dFdx(v_cpos), dFdy(v_cpos)));
-	vec3 dirlitCC;
-	float dp1 = max(abs(norml.z), norml.y);
-	float dp2 = abs(norml.x);
-	float isTorch = smoothstep(0.5, 1.0, v_light.r);
-	isTorch = (pow(isTorch, 2.0)*0.5+isTorch*0.5);
-
-
-	if (getNether) {} else if (!isInCave) {
-		// Shadows
-		vec3 ccmix1 = mix(mDS_DAYc, mDS_NIGHTc-1.0, AFnight);
-		ccmix1 = mix(ccmix1, mDS_DUSKc, AFdusk);
-		ccmix1 = mix(ccmix1, mix(mDS_RAINc, mDS_RAINc, AFnight), AFrain);
-		// Highlights
-		vec3 ccmix2 = mix(mDL_DAYc, mDL_NIGHTc-1.5, AFnight);
-		ccmix2 = mix(ccmix2, mDL_DUSKc, AFdusk);
-		ccmix2 = mix(ccmix2, mix(mDL_RAINc, mDL_RAINc, AFnight), AFrain);
-
-		vec3 colorFactor1 = mix(vec3(1.0, 1.0, 1.0), ccmix1, dp1);
-		vec3 colorFactor2 = mix(vec3(1.0, 1.0, 1.0), ccmix2, dp2);
-
-		dirlitCC = (colorFactor1 * colorFactor2);
-		albedo.rgb *= dirlitCC;
-	}
-
-  albedo.rgb = AzifyColors(albedo.rgb);
+	albedo.rgb = AzifyColors(albedo.rgb);
 	/* Vintage Tonemap */
 	#ifdef VINTAGE_TONE
 	albedo.rgb = VintageCinematic(albedo.rgb);

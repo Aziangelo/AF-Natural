@@ -54,11 +54,14 @@ void main() {
 	v_color0 = a_color0;
 	#endif
 
-	vec3 raincc = mix(ERAINc, ERAINc+0.553, AFnight);
+
+  float getCave = smoothstep(0.65, 0.1, light.b);
+	vec3 raincc = mix(D_ERAINc, N_ERAINc+0.553, AFnight);
 	vec3 mainCC;
-	mainCC = mix(EDAYc-0.15, EDUSKc+0.337, AFdusk);
+	mainCC = mix(EDAYc, EDUSKc+0.337, AFdusk);
 	mainCC = mix(mainCC, ENIGHTc+0.553, AFnight);
 	mainCC = mix(mainCC, raincc, AFrain);
+	mainCC = mix(mainCC, ECAVEc+0.863, getCave);
 	vec4 Azify;
 	Azify.rgb = (mainCC.rgb);
 
