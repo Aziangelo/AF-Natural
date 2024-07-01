@@ -34,7 +34,7 @@ credits = '''
 
 [[subpack]]
 define = "BETA_AURORA"
-materials = ["Clouds"]
+materials = ["Sky"]
 description = '''
 [Beta] Aurora
 '''
