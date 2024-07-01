@@ -3,7 +3,7 @@ name: build
 on:
   workflow_dispatch:
     inputs:
-      subversion: 1
+      subversion: '1'
         description: 'Sub-version (eg: 46)'
         required: true
         type: string
