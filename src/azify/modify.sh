@@ -14,12 +14,12 @@
 #define WATER_SUN_REFL     // [ TOGGLE ]
 #define UNDERWATER_RAYS    // [ TOGGLE ]
 //#define AMBIENT_OCCLUSION  // [ TOGGLE ] * add ao
-//#define CHUNK_ANIMATION    // [ TOGGLE ]
+#define CHUNK_ANIMATION    // [ TOGGLE ]
 #define DIRECT_LIGHT       // [ TOGGLE ]
-//#define CAUSTICS           // [ TOGGLE ]
+#define CAUSTICS           // [ TOGGLE ]
 #define BLOCK_REFLECTION   // [ TOGGLE ]
-#define FLOOR_REFLECTION   // [ TOGGLE ] * rain wet
-//#define NORMALMAPS		  	 // [ TOGGLE ]
+#define FLOOR_REFLECTION   // [ TOGGLE ]
+#define NORMALMAPS		  	 // [ TOGGLE ]
 #define FOG                // [ TOGGLE ]
 
 /* Adjustable Variables */
@@ -82,7 +82,7 @@
 
 
 //  ||█▓▒▒░░░ SKY FUNCTIONS ░░░▒▒▓█||
-//#define CLOUDS             // [ TOGGLE ]
+#define CLOUDS             // [ TOGGLE ]
 //#define AURORA_BOREALIS  // [ TOGGLE ] [ BETA ]
 
 /* Sky Colors 
