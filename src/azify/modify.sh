@@ -48,6 +48,7 @@
 #define CAVEc    vec3(0.1,0.15,0.2)* 1.0
 #define CAVEOUTc vec3(0.8,0.93,1.0)* 0.7
 #define UNWATERc vec3(0.7,0.8,0.9)* 1.0
+#define NETHERc vec3(0.5,0.45,0.4)* 0.6
 /* Entity Colors
  * seperated color for more control! */
 #define EDAYc   vec3(0.76,0.84,0.88)* 1.0

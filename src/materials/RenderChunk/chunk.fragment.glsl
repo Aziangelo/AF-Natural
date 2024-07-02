@@ -97,11 +97,14 @@ void main() {
   float powLight = pow(v_lightmapUV.x, 3.5);
 
   /* Main World Coloring */
-  if (getGLOW) {}else{ diffuse.rgb *= v_worldColors.rgb;}
-  if (getUnWater) {
+  if (getGLOW) {
+  } else if (getUnWater) {
   	diffuse.rgb *= 
   	  mix(float3(1.0), vec3(0.7,0.8,0.9), powCave);
-  }
+  } else {
+  	diffuse.rgb *= v_worldColors.rgb;
+  } 
+  
 
   #ifdef AMBIENT_OCCLUSION
   float AOposition = max(abs(norml.x), -norml.y);
@@ -119,6 +122,7 @@ void main() {
   vec3 DirSh = mix(mDS_DAYc, mDS_NIGHTc, AFnight);
   DirSh = mix(DirSh, mDS_DUSKc, AFdusk);
   DirSh = mix(DirSh, mDS_RAINc, AFrain);
+  DirSh = mix(DirSh, NETHERc-0.3, float(getNether));
   vec3 DirHi = mix(mDL_DAYc, mDL_NIGHTc, AFnight);
   DirHi = mix(DirHi, mDL_DUSKc, AFdusk);
   DirHi = mix(DirHi, mDL_RAINc, AFrain);

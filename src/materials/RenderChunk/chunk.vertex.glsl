@@ -40,6 +40,10 @@ void main() {
   };
   #endif
 
+  bool getUnWater;
+  bool getNether;
+  getWorldDetections(getUnWater, getNether, FogColor, FogAndDistanceControl);
+
   vec4 ambientOcclusion;
   vec3 ncol_1 = normalize(a_color0.rgb);
   float minColor = min(a_color0.r, a_color0.b);
@@ -63,6 +67,7 @@ void main() {
   getMainColor = mix(getMainColor, NIGHTc, AFnight);
   getMainColor = mix(getMainColor, RainC, AFrain);
   getMainColor = mix(getMainColor, CAVEc, invPowCave);
+  getMainColor = mix(getMainColor, NETHERc, float(getNether));
   getMainColor = mix(getMainColor, vec3(1.0, 1.0, 1.0), pow(a_texcoord1.x, 3.5));
 
   vec3 getLightColor = mix(vec3(0.1, 0.1, 0.1), vec3(0.6, 0.6, 0.6), AFdusk * AFnight);
