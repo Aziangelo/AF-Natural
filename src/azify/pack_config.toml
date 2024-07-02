@@ -1,4 +1,4 @@
-name = "AziFy: Natural"
+name = "§lAziFy: Natural §3Ultra §r"
 version = [0, 1, 0]
 min_supported_mc_version = [1, 20, 80]
 url = "https://youtube.com/@aziangelo"
@@ -16,8 +16,8 @@ long = '''
 short = "A Shader Made For Good Use"
 
 [uuid] # Use https://www.uuidgenerator.net/version4
-header = "f594619e-71bb-4cf4-8e5a-6b31ca2bbb26"
-module = "e54f2b6f-9a4d-4ab0-b446-11da6bf9a1f1"
+header = "e54f2b6f-9a4d-4ab0-b446-11da6bf9a1f1"
+module = "926192e4-15dd-420d-8563-37ef4402c7d4"
 
 [info]
 # %a = authors
@@ -41,7 +41,7 @@ description = '''
 
 [[subpack]]
 define = "VINTAGE_FILM_MODE"
-materials = ["RenderChunk"]
+materials = ["RenderChunk", "Sky", "Actor"]
 description = '''
 Vintage Film Mode
 '''
