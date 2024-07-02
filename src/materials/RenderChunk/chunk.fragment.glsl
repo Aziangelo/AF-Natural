@@ -30,14 +30,10 @@ void main() {
   #endif
 
   #if defined(SEASONS) && (defined(OPAQUE) || defined(ALPHA_TEST))
-  diffuse.rgb *=
-  mix(vec3(1.0, 1.0, 1.0),
-    texture2D(s_SeasonsTexture, v_color0.xy).rgb * 2.0, v_color0.b);
-  diffuse.rgb *= v_color0.aaa;
+  diffuse.rgb *= mix(vec3(1.0,1.0,1.0), texture2D(s_SeasonsTexture, v_color0.xy).rgb * 2.0, v_color0.z);
   #else
   vec3 n_color = normalize(v_color0.rgb);
-  bool mix_color = abs(n_color.r - n_color.g) > 0.001 || abs(n_color.g - n_color.b) > 0.001;
-  if (mix_color) {
+  if (abs(n_color.r - n_color.g) > 0.001 || abs(n_color.g - n_color.b) > 0.001) {
     diffuse = vec4(diffuse.rgb * mix(n_color.rgb, v_color0.rgb, 0.45), v_color0.a);
   }
   #endif
