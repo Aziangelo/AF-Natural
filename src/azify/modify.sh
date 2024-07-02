@@ -123,3 +123,11 @@ SC - Below */
 
 #endif
 
+
+#ifdef BETA_AURORA
+  #define AURORA_BOREALIS
+#endif
+
+#ifdef VINTAGE_FILM_MODE
+ #define VINTAGE_TONE
+#endif
