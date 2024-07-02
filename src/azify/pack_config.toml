@@ -1,4 +1,4 @@
-name = "§lAziFy: Natural §3Ultra §r"
+name = "§lAziFy: Natural §3Lite §r"
 version = [0, 1, 0]
 min_supported_mc_version = [1, 20, 80]
 url = "https://youtube.com/@aziangelo"
@@ -16,8 +16,8 @@ long = '''
 short = "A Shader Made For Good Use"
 
 [uuid] # Use https://www.uuidgenerator.net/version4
-header = "c3a27f79-6bd8-42e9-8d6b-14f8c4dcdc7e"
-module = "a0b469d3-4d6f-45bb-9638-d1e7b1c8ee6b"
+header = "e54f2b6f-9a4d-4ab0-b446-11da6bf9a1f1"
+module = "926192e4-15dd-420d-8563-37ef4402c7d4"
 
 [info]
 # %a = authors
