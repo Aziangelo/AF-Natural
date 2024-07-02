@@ -5,7 +5,7 @@ on:
     inputs:
       subversion: 
         description: 'Sub-version (eg: 46)'
-        required: false
+        required: true
         type: string
 
 jobs:
@@ -25,7 +25,7 @@ jobs:
     - run: pip install -r requirements.txt
     - run: |
         .\build.bat setup
-        .\build.bat mats -m RenderChunk -p windows -v ${{ inputs.subversion }} --no-zip
+        .\build.bat pack -p windows -v ${{ inputs.subversion }} --no-zip
     - uses: actions/upload-artifact@v4
       with:
         name: AFN-Lite-Windows
@@ -46,7 +46,7 @@ jobs:
     - run: pip install -r requirements.txt
     - run: |
         ./build.sh setup
-       # ./build.sh pack -p android -v ${{ inputs.subversion }} --no-zip
+        ./build.sh pack -p android -v ${{ inputs.subversion }} --no-zip
     - uses: actions/upload-artifact@v4
       with:
         name: AFN-Lite-android
@@ -69,7 +69,7 @@ jobs:
     - run: pip install -r requirements.txt
     - run: |
         ./build.sh setup
-       # ./build.sh pack -p ios -v ${{ inputs.subversion }} --no-zip
+        ./build.sh pack -p ios -v ${{ inputs.subversion }} --no-zip
     - uses: actions/upload-artifact@v4
       with:
         name: AFN-Lite-ios
@@ -90,7 +90,7 @@ jobs:
     - run: pip install -r requirements.txt
     - run: |
         .\build.bat setup
-       # .\build.bat pack -p merged -v ${{ inputs.subversion }} --no-zip
+        .\build.bat pack -p merged -v ${{ inputs.subversion }} --no-zip
     - uses: actions/upload-artifact@v4
       with:
         name: AFN-Lite-Merged
