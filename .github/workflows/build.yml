@@ -1,4 +1,4 @@
-name: build ultra
+name: build lite
 
 on:
   workflow_dispatch:
