@@ -16,8 +16,8 @@ long = '''
 short = "A Shader Made For Good Use"
 
 [uuid] # Use https://www.uuidgenerator.net/version4
-header = "b4af2498-a96e-413a-874a-86b5828b0f2a"
-module = "2eafc23f-7367-477f-8306-8b4992ae5fe0"
+header = "f594619e-71bb-4cf4-8e5a-6b31ca2bbb26"
+module = "e54f2b6f-9a4d-4ab0-b446-11da6bf9a1f1"
 
 [info]
 # %a = authors
