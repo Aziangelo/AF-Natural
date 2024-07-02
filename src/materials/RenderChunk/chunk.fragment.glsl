@@ -100,7 +100,7 @@ void main() {
   if (getGLOW) {
   } else if (getUnWater) {
   	diffuse.rgb *= 
-  	  mix(float3(1.0), vec3(0.7,0.8,0.9), powCave);
+  	  mix(UNWATERc+0.15, UNWATERc, 1.0-powCave);
   } else {
   	diffuse.rgb *= v_worldColors.rgb;
   } 
