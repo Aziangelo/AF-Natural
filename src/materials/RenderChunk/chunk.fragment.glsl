@@ -36,7 +36,9 @@ void main() {
     diffuse.a = 1.0;
 #endif
 
+    vec3 lift = vec3(1.0,1.0,1.3);
     diffuse.rgb *= texture2D(s_LightMapTexture, v_lightmapUV).rgb;
+    diffuse.rgb *= lift;
 
     diffuse.rgb = mix(diffuse.rgb, FogColor.rgb, v_fog.a);
     gl_FragColor = diffuse;
