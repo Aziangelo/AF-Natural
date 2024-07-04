@@ -36,7 +36,7 @@ void main() {
     diffuse.a = 1.0;
 #endif
 
-    vec3 lift = vec3(1.0,1.0,1.3);
+    vec3 lift = vec3(1.0,1.1,1.3);
     diffuse.rgb *= texture2D(s_LightMapTexture, v_lightmapUV).rgb;
     diffuse.rgb *= lift;
 
