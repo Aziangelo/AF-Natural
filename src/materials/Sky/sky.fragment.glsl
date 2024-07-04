@@ -1,13 +1,16 @@
-$input v_color0
+$input v_color0, v_texcoord0
 $input v_skypos
 
 #include <bgfx_shader.sh>
 #include <azify/core.sh>
 
+SAMPLER2D(s_MatTexture, 0);
+
 void main() {
 #ifndef OPAQUE
   //Opaque
   vec3 albedo0;
+  albedo0 = texture2D(s_MatTexture, v_texcoord0).rgb;
   bool getUnWater;
   bool getNether;
   getWorldDetections(getUnWater, getNether, FogColor, FogAndDistanceControl);
@@ -28,7 +31,7 @@ void main() {
 #endif
 
 #ifdef STARS
-getStars(albedo0, viewPos, Wtime);
+  getStars(albedo0, viewPos, Wtime);
 #endif 
 
 #ifdef CLOUDS

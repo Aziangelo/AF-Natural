@@ -1,6 +1,6 @@
-$input a_color0, a_position
+$input a_color0, a_position, a_texcoord0
 
-$output v_color0
+$output v_color0, v_texcoord0
 $output v_skypos
 
 #include <bgfx_shader.sh>
@@ -21,6 +21,7 @@ void main() {
   //v_skypos = pos.xyz + vec3(0.0, 0.128, 0.0);
   v_skypos = mul(u_model[0], vec4(pos, 1.0)).xyz;
   v_color0 = vec4(calculateSky(a_color0.rgb,viewPos,minPos),1.0);
+  v_texcoord0 = a_texcoord0;
   gl_Position = mul(u_modelViewProj, vec4(pos,1.0));
     
 #else
