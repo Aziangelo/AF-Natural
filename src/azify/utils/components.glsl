@@ -1,10 +1,23 @@
 #ifndef COMPONENTS
 #define COMPONENTS
 
+/*
+World detection of the shader
+- water
+- underwater 
+- nether 
+- end 
+
+NOTE: Dont Edit! as it breaks tge shaders calculations.
+*/
+
+/* Under Water Detection */
 bool detectUnderwater(vec3 fc, vec2 fadc) {
   return fadc.x==0.0 && fadc.y<0.8 && (fc.b>fc.r || fc.g>fc.r);
 }
 
+/* Nether Detection 
+-- Originally from (Newb Shader) by Deven */
 bool detectNether(vec3 fc, vec2 fadc) {
   float expectedFogX = 0.029 + (0.09*fadc.y*fadc.y);
   bool netherFogCtrl = (fadc.x<0.14  && abs(fadc.x-expectedFogX) < 0.02);
@@ -13,13 +26,15 @@ bool detectNether(vec3 fc, vec2 fadc) {
   return (netherFogCtrl && netherFogCol) || underLava;
 }
 
+/* Mixed Nether And Under Water detections */
 void getWorldDetections(inout bool getUnWater, inout bool getNether, in vec4 fc, in vec4 fadc) {
   getUnWater = detectUnderwater(fc.rgb, fadc.xy);
   getNether = detectNether(fc.rgb, fadc.xy);
 }
 
-void detectWaterLus(inout bool find_UV, in vec2 lightUV, in vec3 cpos) {
-  find_UV = lightUV.y < 0.92384 && abs((2.0 * cpos.y - 15.0) / 16.0 - lightUV.y) < 0.00002 && lightUV.y > 0.187;
+/* Undewater Occlusion Detection */
+void detectWaterLus(inout bool fuv, in vec2 luv, in vec3 cpos) {
+  fuv = luv.y < 0.92384 && abs((2.0 * cpos.y - 15.0) / 16.0 - luv.y) < 0.00002 && luv.y > 0.187;
 }
 
 #endif

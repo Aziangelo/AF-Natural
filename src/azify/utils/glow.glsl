@@ -2,9 +2,13 @@
 #define GLOW
 
 // c.a > max && c.a < min
-// 252 and 253
-#define GLOW_PIXEL(c)  c.a>0.988 && c.a<0.993
+// 98% Opacity 247 and 250
+bool GLOW_PIXEL(vec4 c) {
+  return c.a>0.968 && c.a<0.980;
+}
 // 85% Opacity 216 and 217
-#define METAL_PIXEL(c) c.a>0.846 && c.a<0.85
+bool METAL_PIXEL(vec4 c) {
+  return c.a>0.8469 && c.a<0.851;
+}
 
-#endif
+#endif // GLOW

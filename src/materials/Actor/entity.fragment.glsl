@@ -5,8 +5,8 @@ $input v_color0, v_fog, v_light, v_texcoord0, v_lightmapUV, v_colors, v_skyMie, 
 #include <MinecraftRenderer.Materials/FogUtil.dragonh>
 #include <azify/core.sh>
 
-SAMPLER2D(s_MatTexture, 0);
-SAMPLER2D(s_MatTexture1, 1);
+SAMPLER2D_AUTOREG(s_MatTexture);
+SAMPLER2D_AUTOREG(s_MatTexture1);
 
 void main() {
 	#if DEPTH_ONLY

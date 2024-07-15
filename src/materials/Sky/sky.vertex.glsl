@@ -20,7 +20,7 @@ void main() {
   
   //v_skypos = pos.xyz + vec3(0.0, 0.128, 0.0);
   v_skypos = mul(u_model[0], vec4(pos, 1.0)).xyz;
-  v_color0 = vec4(calculateSky(a_color0.rgb,viewPos,minPos),1.0);
+  v_color0 = vec4(a_color0);
   v_texcoord0 = a_texcoord0;
   gl_Position = mul(u_modelViewProj, vec4(pos,1.0));
     
