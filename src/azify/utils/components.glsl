@@ -8,7 +8,7 @@ World detection of the shader
 - nether 
 - end 
 
-NOTE: Dont Edit! as it breaks tge shaders calculations.
+NOTE: Dont Edit! as it breaks the shaders calculations.
 */
 
 /* Under Water Detection */
@@ -33,8 +33,8 @@ void getWorldDetections(inout bool getUnWater, inout bool getNether, in vec4 fc,
 }
 
 /* Undewater Occlusion Detection */
-void detectWaterLus(inout bool fuv, in vec2 luv, in vec3 cpos) {
-  fuv = luv.y < 0.92384 && abs((2.0 * cpos.y - 15.0) / 16.0 - luv.y) < 0.00002 && luv.y > 0.187;
+bool getWaterLus(vec2 uv, vec3 cpos) {
+  return (uv.y < 0.92384 && abs((2.0 * cpos.y - 15.0) / 16.0 - uv.y) < 0.00002 && uv.y > 0.187);
 }
 
 #endif

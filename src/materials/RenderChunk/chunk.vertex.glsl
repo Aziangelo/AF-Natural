@@ -2,100 +2,118 @@ $input a_color0, a_position, a_texcoord0, a_texcoord1
 #ifdef INSTANCING
 $input i_data0, i_data1, i_data2
 #endif
-$output v_color0, v_fog, v_texcoord0, v_lightmapUV
-$output v_worldColors, v_skyMie, v_AO, v_color2, v_color3, v_color4, v_RainFloorReflect
-$output v_cpos, v_wpos
+$output v_color0, v_fog, v_texcoord0, v_lightmapUV, v_worldColors, v_skyMie, v_ao, v_color2, v_color3, v_color4, v_nfog, v_newcolor, v_dhcol, v_dscol, v_cpos, v_wpos
+$output v_wlus, v_unwater, v_nether, v_water, v_wtime, v_ocave
 
 #include <bgfx_shader.sh>
 #include <azify/core.sh>
 
 void main() {
-  /* Time Detection */
-  vec4 wtime = getTime(FogColor);
+	/* Time Detection */
+	vec4 wtime = getTime();
 
-  mat4 model;
-  #ifdef INSTANCING
-  model = mtxFromCols(i_data0, i_data1, i_data2, vec4(0, 0, 0, 1));
-  #else
-  model = u_model[0];
-  #endif
+	mat4 model;
+	#ifdef INSTANCING
+	model = mtxFromCols(i_data0, i_data1, i_data2, vec4(0, 0, 0, 1));
+	#else
+	model = u_model[0];
+	#endif
 
-  vec3 worldPos = mul(model, vec4(a_position, 1.0)).xyz;
-  vec4 color;
-  #ifdef CHUNK_ANIMATION
-  float bI = 7.5;
-  float bS = 1.2;
-  float bX = abs(sin(RenderChunkFogAlpha.x * bS * 3.14159));
-  float fogEffect = 600.0 * pow(RenderChunkFogAlpha.x, 3.0);
-  worldPos.y += bI * bX - fogEffect;
-  #endif // CHUNK_ANIMATION
+	vec3 worldPos = mul(model, vec4(a_position, 1.0)).xyz;
+	vec4 color;
+	#ifdef CHUNK_ANIMATION
+	worldPos.y += chunkAni();
+	#endif // CHUNK_ANIMATION
 
-  color = a_color0;
-  vec3 modelCamPos = (ViewPositionAndTime.xyz - worldPos);
-  float camDis = length(modelCamPos);
-  vec4 fogColor;
-  fogColor.rgb = FogColor.rgb;
-  fogColor.a = clamp(((((camDis / FogAndDistanceControl.z) + RenderChunkFogAlpha.x) - FogAndDistanceControl.x) / (FogAndDistanceControl.y - FogAndDistanceControl.x)), 0.0, 1.0);
+	color = a_color0;
+	vec3 modelCamPos = (ViewPositionAndTime.xyz - worldPos);
+	float camDis = length(modelCamPos);
+	vec4 fogColor;
+	fogColor.rgb = FogColor.rgb;
+	fogColor.a = clamp(((((camDis / FogAndDistanceControl.z) + RenderChunkFogAlpha.x) - FogAndDistanceControl.x) / (FogAndDistanceControl.y - FogAndDistanceControl.x)), 0.0, 1.0);
 
-  #ifdef TRANSPARENT
-  if(a_color0.a < 0.95) {
-    color.a = mix(a_color0.a, 1.0, clamp((camDis / FogAndDistanceControl.w), 0.0, 1.0));
-  };
-  #endif
+	#ifdef TRANSPARENT
+	if (a_color0.a < 0.95) {
+		color.a = mix(a_color0.a, 1.0, clamp((camDis / FogAndDistanceControl.w), 0.0, 1.0));
+	};
+	#endif
 
-  bool getUnWater;
-  bool getNether;
-  getWorldDetections(getUnWater, getNether, FogColor, FogAndDistanceControl);
+	// world detections
+	float waterlus = float(getWaterLus(a_texcoord1, a_position));
+	float unwater = float(detectUnderwater(FogColor.rgb,
+		FogAndDistanceControl.xy));
+	float nether = float(detectNether(FogColor.rgb, FogAndDistanceControl.xy));
+	#if !defined(DEPTH_ONLY_OPAQUE) || !defined(DEPTH_ONLY)
+	bool getwtex = (a_color0.b > 0.3 && a_color0.a < 0.95);
+	float watertex = float(getwtex);
+	#endif
 
-  vec4 ambientOcclusion;
-  vec3 ncol_1 = normalize(a_color0.rgb);
-  float minColor = min(a_color0.r, a_color0.b);
-  float FactorAO = a_color0.g * 2.0 - minColor;
-  float negative = 1.0 - FactorAO * 1.4;
-  float adjustAO = clamp(negative * 0.9, 0.0, 1.0);
-  ambientOcclusion.rgb = mix(vec3(1.0, 1.0, 1.0), vec3(0.3, 0.3, 0.3), adjustAO);
-  ambientOcclusion.a = 1.0;
+	// ambient occlusion
+	vec4 getAO;
+	float mincol = min(a_color0.r, a_color0.b),
+	ncolor = (1.0-a_color0.g*1.0-mincol)*2.5,
+	ao = str(ncolor*0.9);
+	getAO.rgb = vec3(0.67, 0.69, 0.7);
+	getAO.a = ao;
 
+	vec3 newcolor = normalize(a_color0.rgb);
+	newcolor /= mix(vect3(1.0), newcolor, (lights(newcolor) > 0.575)?1.0: 0.0);
 
-  float outerCave = smoothstep(0.91,0.9,a_texcoord1.y);
-  float middlCave = smoothstep(0.68,0.05,a_texcoord1.y);
+	// cave detections
+	float ocave = step(a_texcoord1.y, 0.935);
+	float mcave = smoothstep(0.68, 0.05, a_texcoord1.y);
+	//float powCave = pw2x(a_texcoord1.y);
+	float powLight = pw3x(a_texcoord1.x);
 
-  vec3 getShadowColor = CAVEOUTc;
-  vec3 getShadow = shadowColor(middlCave,outerCave,pow(a_texcoord1.x, 3.5));
-  
-  float invPowCave = pow(1.0-a_texcoord1.y, 1.2);
-  vec3 getMainColor = worldColor(wtime,pow(a_texcoord1.x, 3.5),invPowCave,float(getNether));
+	// Main World Color
+	float icave = pow(1.0-a_texcoord1.y, 1.2);
+	vec3 getMainColor = worldColor(wtime, a_texcoord1.x, icave, float(nether), mcave, ocave);
+	// Torch Light
+	vec3 getLights = lightColor(wtime, ocave, a_texcoord1.x);
+	// World overall lighting
+	vec4 Azify;
+	Azify.rgb = (getMainColor)+getLights;
+	Azify.a = 1.0;
+	// End of world colors
 
-  vec3 getLightColor = mix(vec3(0.1, 0.1, 0.1), vec3(0.6, 0.6, 0.6), wtime.y * wtime.z);
-  getLightColor = mix(getLightColor, vec3(0.46, 0.46, 0.46), smoothstep(0.88, 0.35, a_texcoord1.y));
-  vec3 getLights = getLightColor*pow(a_texcoord1.x, 3.5);
-  vec4 Azify;
-  Azify.rgb = (getMainColor*getShadow+getLights);
-  Azify.a = 1.0;
-  
-  vec3 viewPos = normalize(worldPos);
-  float minPos = min(viewPos.y, 0.005);
-  viewPos.y = max(viewPos.y, 0.0);
-  vec4 getSky;
-  getSky.rgb = calculateSky(SkyColor.rgb, viewPos, minPos);
-  getSky.a = 1.0;
+	// Dirlight colors
+	vec3 dirhi = dirHighlightColor(wtime, float(nether), powLight, inv(ocave));
+	vec3 dirsh = dirShadowColor(wtime, float(nether), powLight, inv(ocave));
+	vec3 getDSpos = mix(vect3(1.0), dirsh, inv2( powLight,mcave)); //x
+	vec3 getDHpos = mix(vect3(1.0), dirhi, inv2( powLight,ocave)); //y
 
-  vec3 n_wpos = normalize(-worldPos);
-  float fogPosition = mix(0.0, 
-    mix(0.0, 0.65, smoothstep(0.5, 0.0, n_wpos.y)), abs(a_texcoord1.y) * wtime.w);
-  vec4 azifyFog;
-  azifyFog.rgb = getSky.rgb;
-  azifyFog.a = fogPosition*0.7;
-  
-  v_texcoord0 = a_texcoord0;
-  v_lightmapUV = a_texcoord1;
-  v_color0 = a_color0;
-  v_fog = fogColor;
-  v_cpos = a_position;
-  v_wpos = worldPos;
-  v_AO = ambientOcclusion;
-  v_worldColors = Azify;
-  v_skyMie = getSky;
-  v_RainFloorReflect = azifyFog;
-  gl_Position = mul(u_viewProj, vec4(worldPos, 1.0));
+	// skycol
+	vec3 viewPos = normalize(worldPos);
+	float minPos = min(viewPos.y, 0.005);
+	vec3 getSky;
+	getSky = calculateSky(SkyColor.rgb, viewPos, minPos, wtime);
+
+	// rain reflection 
+	vec3 n_wpos = normalize(-worldPos);
+	float fogPosition = mix(0.0,
+		mix(0.0, 0.65, smoothstep(0.5, 0.0, n_wpos.y)), abs(a_texcoord1.y) * wtime.w);
+	vec4 sfog;
+	sfog.rgb = getSky;
+	sfog.a = fogPosition*0.7;
+
+	v_texcoord0 = a_texcoord0;
+	v_lightmapUV = a_texcoord1;
+	v_color0 = a_color0;
+	v_fog = fogColor;
+	v_ao = getAO;
+	v_worldColors = Azify;
+	v_skyMie = getSky;
+	v_nfog = sfog;
+	v_newcolor = newcolor;
+	v_dscol = getDSpos;
+	v_dhcol = getDHpos;
+	v_cpos = a_position;
+	v_wpos = worldPos;
+	v_wlus = waterlus;
+	v_unwater = unwater;
+	v_nether = nether;
+	v_water = watertex;
+	v_wtime = wtime;
+	v_ocave = ocave;
+	gl_Position = mul(u_viewProj, vec4(worldPos, 1.0));
 }

@@ -1,0 +1,14 @@
+{
+  "macro_overwrite": {
+    "passes": {
+      "Transparent": "TRANSPARENT"
+    }
+  },
+  "file_overwrite": {
+    "default": {
+      "fragment": "cubemap.fragment.glsl",
+      "vertex": "cubemap.vertex.glsl",
+      "varying": "cubemap.varying.glsl"
+    }
+  }
+}

@@ -22,6 +22,7 @@ uniform vec4 LightDiffuseColorAndIntensity;
 uniform vec4 HudOpacity;
 uniform vec4 UVAnimation;
 uniform vec4 TextureDimensions;
+uniform mat4 CubemapRotation;
 uniform mat4 Bones[8];
 
 #endif

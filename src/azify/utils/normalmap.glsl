@@ -1,18 +1,20 @@
 #ifndef NORMALS
 #define NORMALS
 
-float alphaD(bool m, bool w) {
-  float alp = mix(METALLIC_BEVEL, WATER_BEVEL, float(w));
-  return alp;
+float bevel(bool m, float w) {
+  return mix(METALLIC_BEVEL, WATER_BEVEL, w);
+}
+float strength(bool m, float w) {
+  return mix(METALLIC_STREN, WATER_STREN, w);
 }
 
 /* Integrated Normal Mapping 
 By: Robobo1221 */
-vec3 getNormals(sampler2D mt, vec2 uv, bool mtex, bool wtex) {
+vec3 getNormals(sampler2D mt, vec2 uv, bool mtex, float wtex) {
 	float
-	epsil = alphaD(mtex,wtex),
+	epsil = bevel(mtex,wtex),
 	ipsil= 1.0/epsil,
-  strn = METALLIC_STREN,
+  strn = strength(mtex,wtex),
   
   e = epsil,
 	g = gray(texture2D(mt,uv+vec2(e,0.0)).rgb),
@@ -26,17 +28,9 @@ vec3 getNormals(sampler2D mt, vec2 uv, bool mtex, bool wtex) {
 }
 
 /* Water Surface */
-vec3 getFresnel(float valA, vec3 valB) {
-  vec3 base = valB;
-  float complement = 1.0 - valA;
-  float exponent = pow(complement, 5.0);
-
-  vec3 unitVec = vect3(1.0);
-  vec3 subtractedVec = unitVec - base;
-  vec3 scaledVec = subtractedVec * exponent;
-
-  vec3 resultVec = base + scaledVec;
-  return resultVec;
+vec3 getFresnel(float df, vec3 base) {
+    float comp = pow(1.0 - df, 3.0);
+    return base + (vec3(1.0) - base) * comp;
 }
 
 #endif // NORMALS

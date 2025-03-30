@@ -1,15 +1,19 @@
 $input a_position, a_texcoord0
 $output v_texcoord0, v_pos
 
+#ifndef INSTANCING
 #include <bgfx_shader.sh>
+#endif
 
 void main() {
-    vec4 tmpvar_1;
-    tmpvar_1.w = 1.0;
-    v_texcoord0 = a_texcoord0;
-    v_pos = a_position;
-    v_pos *= vec3(15.0,1.0,15.0);
-    tmpvar_1.xyz = v_pos;
-    v_texcoord0 = a_texcoord0;
-    gl_Position = mul(u_modelViewProj, vec4(tmpvar_1.xyz, 1.0));
+#ifndef INSTANCING
+  v_texcoord0 = a_texcoord0;
+  vec3 pos = a_position;
+  v_pos = pos * vec3(15.0,1.0,15.0);
+
+  pos.xz *= 14.5;
+  gl_Position = mul(u_modelViewProj, vec4(pos, 1.0));
+#else
+  gl_Position = vec4(0.0,0.0,0.0,0.0);
+#endif
 }

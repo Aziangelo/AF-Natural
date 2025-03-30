@@ -1,27 +1,30 @@
 #ifndef CLOUD
  #define CLOUD
 
-float dit(highp vec2 a){
+float dit(vec2 a){
 a = floor(a);
 return fract(a.x / 2.0 + a.y * a.y * 0.75);
 }
+#define jitter Bayer2(uv*960.0)*0.42
 
 float fbm(vec2 p) {
     float value = 0.0;
-    float amplitude = 0.5;
-    for (int i = 0; i < 5; i++) { // Increased octaves for more detail
-        value += amplitude * noise(p);
-        p.xy *= 3.5; // Stretch each octave
-        amplitude *= 0.5;
+    float amplitude = 1.0;
+    p = vec2(-p.x, -p.y * 5.0);
+    p += vec2(-1.0, 16.0) * time * 0.2 * 0.01;
+    for (int i = 0; i < 2; i++) {
+       value += noise(p) / amplitude;
+       amplitude *= 2.0;
+       p = p * 2.5;
     }
-    return value;
+    return inv(str(pow(value, 1.0)));
 }
 
 float getCirrusClouds(vec2 p) {
-  p *= 0.788; // Scale
-  vec2 clP = p + time * 0.1;
-  float cNoise = fbm(clP * 5.0) * 0.6 + fbm(clP * 10.0) * 0.3 + fbm(clP * 20.0) * 0.1; // Adjusted weights for more natural variation
-  return smoothstep(0.4, 0.6, cNoise); 
+    p *= 0.588; // Scale
+    vec2 clP = p + time * C_MOVE1 + 0.003;
+    float cNoise = fbm(clP*(0.98+dit(v_texcoord0*1024.0)*0.02) * 0.5);
+    return smoothstep(0.2, 0.6, cNoise);
 }
 
 /* 
@@ -31,21 +34,21 @@ float getFbm(vec2 pos) {
   float 
   sum = 0.0, 
   amp = 1.0;
-  vec2 ajp = pos+time*0.1;
+  vec2 ajp = pos+time*C_MOVE2;
   for (int i=0;i<=CLOUD_STEPS;i++) {
-    sum += noise(ajp*(0.98+dit(v_texcoord0*1024.0)*0.02))/amp;
+    sum += noise(ajp)/amp;
     amp *= 2.5;
-    ajp = ajp*3.0+time*0.3;
+    ajp = ajp*3.0-time*C_MOVE2;
   }
   return 1.0-pow(0.1,max(1.0-sum,0.0));
 }
-float getClouds(vec2 p) {
-    vec2 clP = p+time*0.15;
-    float cNoise = noise(clP*(0.98+dit(v_texcoord0*1024.0)*0.02));
-    float nDensity = mix(smoothstep(0.4,0.9,cNoise),smoothstep(0.0,0.7,cNoise),AFrain); // Compute noise density
+float getClouds(vec2 p, vec4 wtime) {
+    vec2 clP = p+time*C_MOVE1;
+    float cNoise = noise(clP);
+    float nDensity = mix(smoothstep(0.4,1.0,cNoise),smoothstep(0.0,0.7,cNoise),wtime.w); // Compute noise density
 
-    float cFbm = getFbm(-time*0.35+p);
-    float fDensity = mix(smoothstep(0.0,2.5,cFbm),smoothstep(0.0,2.0,cFbm),AFrain); // Compute FBM density
+    float cFbm = getFbm((-time*C_MOVE2+p));
+    float fDensity = mix(smoothstep(0.0,2.5,cFbm),smoothstep(0.0,2.0,cFbm),wtime.w); // Compute FBM density
     p *= mix(1.0,1.3,fDensity); // Adjust position with FBM density
     
     float alpha = cNoise-(0.3-nDensity)-cFbm-(0.3-fDensity); // Compute alpha
@@ -57,21 +60,22 @@ float getClouds(vec2 p) {
     float mainClouds = cFbm-cNoise*cNoise-cNoise*0.01*cFbm*2.0-cFbm*0.006*cFbm;
     // Integrate cirrus
     float cirrus;
-    //cirrus = getCirrusClouds(p);
+    cirrus = getCirrusClouds(p);
     // final cloud value
-    return max(cirrus*0.,mainClouds);
+    return max(cirrus*0.68,mainClouds);
 }
 
 vec3 finalClouds(vec3 col, vec3 vpos, vec4 wtime) {
-  vpos *= 0.888; // Scale position
+	vpos.y = max(vpos.y, 0.0);
+  vec3 pos = vpos;
+  pos *= 0.877; // Scale position
   vec2 
-  uv = (vpos.xz/vpos.y)*2.5,
-  clPos = uv+time*0.15;
+  uv = (pos.xz/pos.y)*2.5,
+  clPos = uv+time*C_MOVE1;
   float 
-  dit = (0.98+dit(v_texcoord0*1024.0)*0.02),
-  c1 = getClouds(uv*dit),
-  cnoise = noise(clPos*dit),
-  c2 = smoothstep(0.3,1.3,cnoise),
+  c1 = getClouds(uv, wtime),
+  cnoise = noise(clPos),
+  c2 = smoothstep(0.6,1.3,cnoise),
   x1 = str(smoothstep(0.5,1.8,length(-vpos.y*5.0))),
   mc1 = c1*0.5*x1;
   col = mix(col, cloudsColor(wtime), mc1);
@@ -186,7 +190,7 @@ float generateCloud(vec2 position, float time, int detail) {
         cloudFbm += fbm(-time * 0.13 + (position), time) / float(i + 1);
     }
 
-    float alpha = cloudNoise - (mix(0.3, 0.16, AFrain) - smoothNoise) - cloudFbm - (0.3 - smoothFbm);
+    float alpha = cloudNoise - (mix(0.3, 0.16, wtime.w) - smoothNoise) - cloudFbm - (0.3 - smoothFbm);
     if (alpha < 0.0) alpha = 0.0;
     cloudNoise = 1.0 - pow(0.51, alpha);
     cloudFbm = 1.2 - pow(0.01, alpha);
